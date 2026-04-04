@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>小耳 AI视频 作品集</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FBF9F4;--surface:#F5F3EE;
+  --primary:#96472D;--tertiary:#5F5E5E;
+  --text:#1B1C19;--text-dim:#464742;
+  --outline:rgba(95,94,94,0.15);--outline2:rgba(95,94,94,0.08);
+  --serif:"Noto Serif",Georgia,serif;
+  --sans:"Manrope",system-ui,sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(251,249,244,0.82);backdrop-filter:blur(20px);border-bottom:0.5px solid var(--outline);display:flex;justify-content:space-between;align-items:center;padding:20px 48px}
+.nav-brand{font-family:var(--serif);font-size:1.25rem;font-style:italic;color:var(--tertiary);cursor:pointer}
+.nav-brand em{color:var(--primary)}
+.nav-links{display:flex;gap:40px}
+.nav-links a{font-family:var(--serif);font-size:0.9rem;color:var(--tertiary);text-decoration:none;transition:color 0.3s;cursor:pointer;background:none;border:none}
+.nav-links a.active{color:var(--primary);border-bottom:0.5px solid rgba(150,71,45,0.4);padding-bottom:2px}
+.nav-links a:hover{color:var(--primary)}
+
+/* PAGE SYSTEM */
+.page{opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity 0.45s,transform 0.45s;position:absolute;top:0;left:0;width:100%}
+.page.active{opacity:1;pointer-events:all;transform:translateY(0);position:relative}
+
+/* HERO */
+.portfolio-header{padding:160px 48px 72px;max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:0.5px solid var(--outline)}
+.hero-eyebrow{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.28em;color:var(--primary);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';display:inline-block;width:24px;height:0.5px;background:var(--primary)}
+.portfolio-header h1{font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,5rem);font-weight:400;line-height:1.1;letter-spacing:-0.02em;color:var(--text-dim);margin-bottom:20px}
+.portfolio-header h1 em{font-style:italic;color:var(--primary)}
+.hero-cats{font-size:0.68rem;letter-spacing:0.18em;color:var(--tertiary);opacity:0.55;margin-bottom:22px;font-weight:400}
+.hero-philosophy{font-family:var(--serif);font-size:1.05rem;font-style:italic;font-weight:400;color:var(--tertiary);line-height:2;max-width:360px}
+.hero-stat{text-align:right}
+.hero-stat-n{font-family:var(--serif);font-size:3.5rem;font-style:italic;color:rgba(150,71,45,0.12);line-height:1;display:block}
+.hero-stat-l{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.25em;color:var(--tertiary);opacity:0.6}
+
+/* FILTER BAR */
+.filter-wrap{position:sticky;top:61px;z-index:90;background:rgba(251,249,244,0.94);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--outline);padding:12px 40px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.filter-wrap::-webkit-scrollbar{display:none}
+.filter{background:none;border:0.5px solid rgba(70,71,66,0.18);border-radius:20px;cursor:pointer;font-family:var(--sans);font-size:0.68rem;letter-spacing:0.08em;color:var(--text-dim);padding:6px 16px;transition:background 0.2s,color 0.2s,border-color 0.2s;white-space:nowrap;margin-right:6px}
+.filter span{font-size:0.9em;opacity:0.6}
+.filter:hover{background:rgba(150,71,45,0.06);border-color:rgba(150,71,45,0.3);color:var(--primary)}
+.filter.active{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
+.filter.active span{opacity:0.75}
+
+/* ═══ PINTEREST MASONRY ═══ */
+.grid{
+  columns:4;
+  column-gap:12px;
+  padding:20px 40px 60px;
+  max-width:1440px;
+  margin:0 auto;
+}
+
+/* BASE CARD */
+.card{
+  break-inside:avoid;
+  display:inline-block;
+  width:100%;
+  margin-bottom:12px;
+  vertical-align:top;
+  position:relative;
+  background:#fff;
+  cursor:pointer;overflow:hidden;
+  border-radius:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08),0 0 0 0.5px rgba(0,0,0,0.05);
+  transition:box-shadow 0.3s,transform 0.3s;
+}
+.card:hover{box-shadow:0 10px 28px rgba(0,0,0,0.16);transform:translateY(-4px)}
+.card.hidden{display:none}
+
+/* MEDIA DEFAULTS */
+.card-media{position:relative;overflow:hidden;background:#ECE8E0}
+.card-media video{
+  width:100%;height:100%;display:block;
+  object-fit:cover;
+  transition:transform 0.5s ease;
+}
+.card:hover .card-media video{transform:scale(1.04)}
+.card-media::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(0,0,0,0.08);
+  opacity:0;transition:opacity 0.3s;pointer-events:none;
+}
+.card:hover .card-media::after{opacity:1}
+
+.cat-badge{position:absolute;top:10px;left:10px;font-size:0.54rem;text-transform:uppercase;letter-spacing:0.14em;color:#fff;background:rgba(0,0,0,0.42);backdrop-filter:blur(8px);padding:3px 9px;border-radius:20px;z-index:2}
+
+.card-info{padding:10px 12px 13px}
+.card-meta{display:none}
+.card-title{font-family:var(--sans);font-size:0.88rem;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:2px;transition:color 0.3s}
+.card:hover .card-title{color:var(--primary)}
+.card-tools{font-size:0.6rem;color:var(--tertiary);opacity:0.45;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ── ASPECT RATIOS (Pinterest: portrait-heavy) ── */
+.layout-feature .card-media{aspect-ratio:3/4}
+.layout-tall .card-media{aspect-ratio:9/16}
+.layout-normal .card-media{aspect-ratio:4/3}
+.layout-panoramic .card-media{aspect-ratio:1/1}
+
+/* Panoramic overlay info */
+.pan-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(0deg,rgba(27,28,25,0.85) 0%,transparent 65%);
+  padding:36px 14px 14px;
+  opacity:0;
+  transition:opacity 0.35s;
+  pointer-events:none;
+}
+.card:hover .pan-overlay{opacity:1}
+.pan-meta{display:none}
+.pan-title{font-family:var(--sans);font-size:0.88rem;font-weight:700;color:#fff;line-height:1.35;margin-bottom:2px}
+.pan-tools{font-size:0.6rem;color:rgba(255,255,255,0.5)}
+
+/* Decorative section break */
+.grid-break{
+  grid-column:1/-1;
+  height:0.5px;background:var(--outline);
+  position:relative;margin:8px 0;
+}
+.grid-break svg{position:absolute;top:-8px;left:24px;color:var(--primary);opacity:0.2}
+
+/* DIVIDER */
+.divider{max-width:1440px;margin:48px auto 0;padding:0 48px}
+.divider-line{height:0.5px;background:var(--outline);position:relative;overflow:visible}
+.divider-line svg{position:absolute;top:-8px;left:0;color:var(--primary);opacity:0.22}
+
+/* ═══ ABOUT PAGE ═══ */
+.about-page{padding-top:80px;min-height:100vh}
+.about-hero{padding:80px 48px 72px;max-width:1440px;margin:0 auto;border-bottom:0.5px solid var(--outline);display:grid;grid-template-columns:7fr 5fr;gap:80px;align-items:end}
+.about-eyebrow{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.28em;color:var(--primary);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.about-eyebrow::before{content:'';display:inline-block;width:24px;height:0.5px;background:var(--primary)}
+.about-hero h1{font-family:var(--serif);font-size:clamp(2.5rem,4.5vw,4.5rem);font-weight:400;line-height:1.1;letter-spacing:-0.02em;color:var(--text-dim);margin-bottom:28px}
+.about-hero h1 em{font-style:italic;color:var(--primary)}
+.about-intro{font-size:1rem;font-weight:300;font-style:italic;color:var(--tertiary);line-height:1.8;margin-bottom:24px;font-family:var(--serif)}
+.about-tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.16em;color:var(--primary);border:0.5px solid rgba(150,71,45,0.3);padding:4px 12px;background:rgba(150,71,45,0.04)}
+.about-quote{border-left:1.5px solid rgba(150,71,45,0.3);padding-left:28px}
+.about-quote blockquote{font-family:var(--serif);font-size:1.4rem;font-style:italic;font-weight:400;color:var(--text-dim);line-height:1.5;margin-bottom:16px}
+.about-quote cite{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--tertiary);opacity:0.6;font-style:normal}
+.credentials{max-width:1440px;margin:0 auto;padding:64px 48px;border-bottom:0.5px solid var(--outline)}
+.section-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.28em;color:var(--primary);margin-bottom:40px;display:flex;align-items:center;gap:12px}
+.section-label::after{content:'';flex:1;height:0.5px;background:var(--outline)}
+.cred-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--outline2)}
+.cred-item{background:var(--bg);padding:28px 24px;outline:0.5px solid var(--outline2);transition:background 0.3s}
+.cred-item:hover{background:var(--surface)}
+.cred-n{font-family:var(--serif);font-size:2rem;font-style:italic;color:rgba(150,71,45,0.18);line-height:1;margin-bottom:4px}
+.cred-title{font-family:var(--serif);font-size:0.9rem;color:var(--text-dim);margin-bottom:4px}
+.cred-sub{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--tertiary);opacity:0.55}
+.capabilities{max-width:1440px;margin:0 auto;padding:64px 48px;border-bottom:0.5px solid var(--outline)}
+.cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--outline2)}
+.cap-item{background:var(--bg);padding:32px 28px;outline:0.5px solid var(--outline2);transition:background 0.3s}
+.cap-item:hover{background:var(--surface)}
+.cap-icon{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--primary);margin-bottom:12px}
+.cap-title{font-family:var(--serif);font-size:1.1rem;color:var(--text-dim);margin-bottom:8px}
+.cap-desc{font-size:0.8rem;color:var(--tertiary);line-height:1.7;font-weight:300}
+.contact-section{max-width:1440px;margin:0 auto;padding:64px 48px 100px;display:grid;grid-template-columns:5fr 7fr;gap:80px}
+.contact-left h2{font-family:var(--serif);font-size:clamp(2rem,3.5vw,3rem);font-weight:400;font-style:italic;color:var(--text-dim);line-height:1.2;margin-bottom:20px}
+.contact-left p{font-size:0.85rem;color:var(--tertiary);line-height:1.8;font-weight:300}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--outline2);align-content:start}
+.contact-item{background:var(--bg);padding:20px;outline:0.5px solid var(--outline2);transition:background 0.3s;text-decoration:none;display:block}
+.contact-item:hover{background:var(--surface)}
+.contact-platform{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.22em;color:var(--primary);margin-bottom:6px}
+.contact-value{font-family:var(--serif);font-size:0.88rem;color:var(--text-dim);word-break:break-all;line-height:1.4}
+.contact-note{font-size:0.62rem;color:var(--tertiary);opacity:0.55;margin-top:3px}
+footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 48px;display:flex;justify-content:space-between;align-items:center}
+.footer-brand{font-family:var(--serif);font-style:italic;font-size:0.68rem;color:var(--tertiary);opacity:0.45}
+.footer-note{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.2em;color:var(--tertiary);opacity:0.35}
+
+@media(max-width:900px){
+  nav{padding:16px 20px}
+  .portfolio-header,.about-hero{padding:120px 20px 48px;grid-template-columns:1fr}
+  .hero-stat,.about-quote{display:none}
+  .filter-wrap{padding:10px 16px}
+  .grid{columns:3;column-gap:8px;padding:12px 16px 40px}
+  .card{margin-bottom:8px;border-radius:12px}
+  .cred-grid{grid-template-columns:1fr 1fr}
+  .cap-grid,.contact-section{grid-template-columns:1fr}
+  .contact-section{padding:40px 20px 60px;gap:40px}
+  .credentials,.capabilities{padding:40px 20px}
+  footer{flex-direction:column;gap:8px;text-align:center;padding:20px}
+}
+@media(max-width:560px){
+  .grid{columns:2;column-gap:6px;padding:8px 10px 28px}
+  .card{margin-bottom:6px;border-radius:10px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand" onclick="showPage('portfolio')"><em>小耳</em> Studio</div>
+  <div class="nav-links">
+    <a id="nav-portfolio" class="active" onclick="showPage('portfolio')">作品集</a>
+    <a id="nav-about" onclick="showPage('about')">关于</a>
+  </div>
+</nav>
+
+<!-- PORTFOLIO PAGE -->
+<div class="page active" id="page-portfolio">
+  <div class="portfolio-header">
+    <div>
+      <div class="hero-eyebrow">AI Creative Portfolio · 2024–2025</div>
+      <h1>小耳 <em>AI视频</em><br>作品集</h1>
+      <p class="hero-cats">广告片，故事片，创意动画，艺术视觉</p>
+      <p class="hero-philosophy">审美不是天赋，是立场。<br>你站在哪里看这个世界，<br>决定了你能拍出什么。</p>
+    </div>
+    <div class="hero-stat">
+      <span class="hero-stat-n">46</span>
+      <span class="hero-stat-l">件作品</span>
+    </div>
+  </div>
+  <div class="filter-wrap">
+    <button class="filter active" data-filter="all">全部 <span>(46)</span></button>
+  <button class="filter" data-filter="广告">广告 <span>(17)</span></button>
+  <button class="filter" data-filter="宣传片">宣传片 <span>(3)</span></button>
+  <button class="filter" data-filter="故事">故事 <span>(4)</span></button>
+  <button class="filter" data-filter="艺术片">艺术片 <span>(9)</span></button>
+  <button class="filter" data-filter="创意动画">创意动画 <span>(13)</span></button>
+  </div>
+
+  <div class="grid" id="grid">
+  <div class="card layout-feature" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWUzMmIwNDM4YjZlMTY0ZTRkMWIwNjhjYzIwNWY2MzJfMTljZGM3MDIzOGU5ZDdiZmQ2YzNhYzFlOGQ5ODAxNzBfSUQ6NzYyNDQ3MDYzNDA5NDA1NDU4MF8xNzc1MzA3NzA3OjE3NzUzOTQxMDdfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 30秒</div>
+      <h3 class="card-title">Ears产品广告</h3>
+      <p class="card-tools">GPT，runway，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDYzY2I4NTViZGZmNWVmMWU0OTAwMDJlODEyNGJlZjZfYzE5NjlmZjk3NmU1OWQ1YjljMmFhN2NhY2ZhNWUxNTVfSUQ6NzYyNDQ3MTQ0NDQzNzI5MDE2Ml8xNzc1MzA3NzA3OjE3NzUzOTQxMDdfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 1分51秒</div>
+      <h3 class="card-title">夏日炎炎</h3>
+      <p class="card-tools">MJ，keling，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWE3MGM3ZWUxYmNkNmM4NTc1Mzk4MDU4MzU3YTZjNjJfZGVlZmEyMDU2ZDc0MGU1ZTRkZjQzNWQyMmY5ZDQ4NjNfSUQ6NzYyNDQ3MjMyMTE1NTc0NzAzNl8xNzc1MzA3NzA3OjE3NzUzOTQxMDdfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 23秒</div>
+      <h3 class="card-title">偷月亮的猫咪</h3>
+      <p class="card-tools">sora，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTNlZTA0MzY0MDIyNjJjNzM3ZWViZjJhMmUzY2E0MWZfMjA4YTQ3MTM4N2UyN2VkMjYwOGYwM2QwNDE4OTk3YzBfSUQ6NzYyNDQ3Mjc0MDcxNTg5MTY1OV8xNzc1MzA3NzA4OjE3NzUzOTQxMDhfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 11秒</div>
+      <h3 class="card-title">毛线织天坛</h3>
+      <p class="card-tools">Veo3，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-panoramic" data-cat="故事">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2MzZjE5ZWQ5MWUwNjVhMGUyNDM0NTIwZmI5OTFmNGFfMmZhZjE4ZDNjMjJlOGJjMGI4NmJmZTFmMjc4OWE4NDJfSUQ6NzYyNDQ4MjI0MTgyMTQ3Nzg0N18xNzc1MzA3NzA4OjE3NzUzOTQxMDhfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">STORY</span>
+      <div class="pan-overlay">
+        <div class="pan-meta">故事 · 2分零7秒</div>
+        <div class="pan-title">个人故事片</div>
+        <div class="pan-tools">MJ，即梦，剪映</div>
+      </div>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="艺术片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODM5MWMyMzVhNmIxYWM5ZmE1OTRlZDBjNjY0NTNjYWRfOGVlYWQ4YjdiZDRiNjVjYTRiNDNiOGFhMjUzZDg4YmRfSUQ6NzYyNDQ4NzMzNjQ3MDI2OTEyOF8xNzc1MzA3NzA4OjE3NzUzOTQxMDhfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">艺术片 · 2分零7秒</div>
+      <h3 class="card-title">耳畔有风系列</h3>
+      <p class="card-tools">MJ，即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="艺术片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjMzNjY3YzlhZGI4MzA0ZTg3YTNmOTViZWRkNzk0NTNfZDAwMmY4NjRjMGVkYjMxZDI3MWE0MzhlNTVhYThhNzVfSUQ6NzYyNDQ4NzYzMDI1MzQ3NzA4OV8xNzc1MzA3NzA5OjE3NzUzOTQxMDlfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">艺术片 · 2分零6秒</div>
+      <h3 class="card-title">大地荒舞系列</h3>
+      <p class="card-tools">MJ，即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODkyYmI2M2UyZDA5OWFhNzgyZjIxMTg0ZTY0MmVkNDFfNGJiNmNlMjA0MDA0OTgxMjJmODg2NGIwMTdhMWM5OWNfSUQ6NzYyNDQ4Nzk5MDgxNDk1MjY3M18xNzc1MzA3NzA5OjE3NzUzOTQxMDlfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 35秒</div>
+      <h3 class="card-title">香薰广告</h3>
+      <p class="card-tools">Skill工作流</p>
+    </div>
+  </div>
+  <div class="card layout-feature" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MGY3ZmEzNDYwNDhiYWI3NGQ3ZWExNjI0ZWFlNzQ4ZGNfYjk4YjllZDE0ZGIyYTcxM2FmZTVkMDJhYzljOTJhMTZfSUQ6NzYyNDQ4ODU4NDcwMzY0MjU2OV8xNzc1MzA3NzEwOjE3NzUzOTQxMTBfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 1分零2秒</div>
+      <h3 class="card-title">金鹏企业定制</h3>
+      <p class="card-tools">即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2Y1YTI3MGJjYTZlMGEyODhkZmVmYzc4ODk1OTQzOTFfZTAxYWVkMzRjNGU5NjFkZGFkMzcwYmI5OTRiZjU0MzdfSUQ6NzYyNDQ5MDExMjg1NTI2NDQ1MV8xNzc1MzA3NzEwOjE3NzUzOTQxMTBfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 31秒</div>
+      <h3 class="card-title">国风产品广告</h3>
+      <p class="card-tools">GPT，即梦</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2UxYTA1ZDc2ZTgwODg2YzRhZjlkYTY1OWQ3OWFlYjVfZTQ1N2MzNTE4NDVlOThkMGRjMmE5ODBhNzcyZjU5YTZfSUQ6NzYyNDQ5MDk3NDkzMjQ4NzM4N18xNzc1MzA3NzExOjE3NzUzOTQxMTFfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 10秒</div>
+      <h3 class="card-title">香水广告</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Njk4MDcwYjBmYTBiOWI3NDU3Njg1OGE5YzU3Mjc0YmNfMmMxNDIzZDkyZTI0NGRmNWNiMjYzZjcyN2JhMDQwODRfSUQ6NzYyNDQ5MTUxODMwODc2NDYzOF8xNzc1MzA3NzExOjE3NzUzOTQxMTFfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 10秒</div>
+      <h3 class="card-title">猫咪</h3>
+      <p class="card-tools">veo3</p>
+    </div>
+  </div>
+  <div class="card layout-panoramic" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MjE3NzMzODlhMmNhNDc5Y2M4OWI0NjFkMWJhNWE0Y2VfYjliN2E3MmZhNzRmNTc0NTAxNjM2OTJkZTQyODdkYzRfSUQ6NzYyNDQ5MjgyMDk3NTM0MDQ5NV8xNzc1MzA3NzEyOjE3NzUzOTQxMTJfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+      <div class="pan-overlay">
+        <div class="pan-meta">广告 · 30秒</div>
+        <div class="pan-title">香皂广告</div>
+        <div class="pan-tools">Skill 工作流</div>
+      </div>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="宣传片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2MzMDJmYTg1NjJmMDc4OTI5ZmQ1NDViYzg2MjVkZmRfZTI0MWM4ZTk2MGJkMDQwOGRiZWEzNzllN2U2ODNlMjZfSUQ6NzYyNDQ5NDEyMDYwNTg3OTUxN18xNzc1MzA3NzEyOjE3NzUzOTQxMTJfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">PROMO</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">宣传片 · 28秒</div>
+      <h3 class="card-title">花会节宣传片1</h3>
+      <p class="card-tools">GPT，即梦，tapnow，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="宣传片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NzZkMmNiZGNhM2QxMTJmYjdhNzQyZDRhMWJmNjAzZDlfMThmNDBmZGZiYzMzNTMxZjRkZjQwZjYwN2IzOWJmMWVfSUQ6NzYyNDg3NTQ4NDA3NzE5ODUzMV8xNzc1MzA3NzEyOjE3NzUzOTQxMTJfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">PROMO</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">宣传片 · 20秒</div>
+      <h3 class="card-title">花会节宣传片2</h3>
+      <p class="card-tools">即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="宣传片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NzBhNzM4M2RmZDQ2YjAyNmE1YjJlMjA0NDhkZjA5ZDFfYjM2MGRlMjU1NWNlYjhiZGE0M2Q5YmNiNmY4OWZlNWZfSUQ6NzYyNDQ5NDc2NzQ5MDY5ODQzMV8xNzc1MzA3NzEzOjE3NzUzOTQxMTNfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">PROMO</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">宣传片 · 20秒</div>
+      <h3 class="card-title">花会节宣传片3</h3>
+      <p class="card-tools">即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-feature" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NWRjNjhhZWRlMjM5NjMwM2UwODNkNzYwN2VlNjBjNmJfYjIwZmU5YmJlNjcwNDc4OTNhM2ZhMzM0YjdlNmNiYTJfSUQ6NzYyNDQ5NTI1MDg5MTAwMDc2NF8xNzc1MzA3NzEzOjE3NzUzOTQxMTNfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 10秒</div>
+      <h3 class="card-title">惬意的时光</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="故事">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjNiZmY2MmU4MjMyOGI1NzY4MTcyMTdiZjNjZmIwMGNfNGFhZWY3MWE1ZTdmNDA2ZTFjNDM2OTRjYWU0OThmYTBfSUQ6NzYyNDQ5NTQ2MDI3NTA4MDE1M18xNzc1MzA3NzE0OjE3NzUzOTQxMTRfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">STORY</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">故事 · 1分钟</div>
+      <h3 class="card-title">龙虾员工的糗事</h3>
+      <p class="card-tools">tapnow，可灵</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="故事">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmI3YWMwN2ZjYTE0NWJlYTE5NTVmZDBiMDY5ZGQzYjRfMGQwMTI3ZWI4MjkxZGY5MDI1OWYxNjgzYjY1Nzg0ZTFfSUQ6NzYyNDQ5NTc3NjQ4MzM2NDA0NV8xNzc1MzA3NzE0OjE3NzUzOTQxMTRfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">STORY</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">故事 · 1分钟零9秒</div>
+      <h3 class="card-title">哲学家泰勒斯的故事</h3>
+      <p class="card-tools">MJ，可灵，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="艺术片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjQxMTNkYWIyN2UwNTY2N2M1OWUzNTdkNGM1NDdjMTBfZjE4NDI3ZGFiYzJkNTM5MzdlYjIyNjNjMTU0Yzg5YTZfSUQ6NzYyNDQ5NjU4MzQ5MjYzNTg0Nl8xNzc1MzA3NzE0OjE3NzUzOTQxMTRfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">艺术片 · 1分钟56秒</div>
+      <h3 class="card-title">创世纪</h3>
+      <p class="card-tools">SD，可灵，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-panoramic" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWY4YWNmNDY2ZjRlMTVjNjAzMWFiOWJiNzViMjAxYjRfYzNkOTQ0NTI1NDBjZjNiOGIzYjZmOTAxMzliOTkzODZfSUQ6NzYyNDQ5NzQ3MzYwNzczMjQ0NV8xNzc1MzA3NzE1OjE3NzUzOTQxMTVfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+      <div class="pan-overlay">
+        <div class="pan-meta">创意动画 · 15秒</div>
+        <div class="pan-title">神奇的画1</div>
+        <div class="pan-tools">GPT，即梦</div>
+      </div>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YWFiMzVmNDlkODExZGVkYTMwZDU5ZTcxMjJiNjIyNzFfZjdlNjNmMDllZTI2MGI1MDFhNDAxY2RhNWNiNTAxYWRfSUQ6NzYyNDQ5NzUwOTMyNjUzOTk4Nl8xNzc1MzA3NzE1OjE3NzUzOTQxMTVfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 15秒</div>
+      <h3 class="card-title">神奇的画2</h3>
+      <p class="card-tools">GPT，即梦</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZmFmZjgyZDUzZjUwZjRjOWNhNjUyNDA0MjBlZGNiOTRfMWZlODk3OGM1NGI5MTQzMzcwNTdhYzYwYWI1N2Y0ZmFfSUQ6NzYyNDczNjE0MzEwNzY4OTQxMl8xNzc1MzA3NzE2OjE3NzUzOTQxMTZfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 29秒</div>
+      <h3 class="card-title">小产品大广告</h3>
+      <p class="card-tools">GPT，Grok，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2U0OTJhYmRhYTM3ZjlmZDUxZmQ3MDJiYWIxOWRiYTdfNmM2MzM1OTlkMGI0MTgxM2U5MTQ2MDVkNTE0ODI3YzFfSUQ6NzYyNDg3NTc4OTYwODczMzY2MV8xNzc1MzA3NzE2OjE3NzUzOTQxMTZfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 21秒</div>
+      <h3 class="card-title">凌宝BOX大片</h3>
+      <p class="card-tools">sora，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-feature" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZTRjY2U0ZTcwMzIwNmExOGFhMWU0ZTZkMjIwYjhjNmNfYWE4MjI5MjU3YjA1Mjc0MDMzZTMxYTVkNmJhYmVkNzRfSUQ6NzYyNDg3NzA5NzE1MTkwODgwOV8xNzc1MzA3NzE3OjE3NzUzOTQxMTdfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 15秒</div>
+      <h3 class="card-title">香薰广告</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="艺术片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDY1M2RiMGNkZmRjMTE1NTMyNGE1YjViM2VkNDU0NjdfZTlkZmM1OTZjMzg3ZTc0NjIzMWY4OTBjNGYxMjMyYjhfSUQ6NzYyNDg3NzUwNjQ0OTA1MDU3N18xNzc1MzA3NzE3OjE3NzUzOTQxMTdfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">艺术片 · 40秒</div>
+      <h3 class="card-title">生物幽灵</h3>
+      <p class="card-tools">P5js，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NDZjZDJkOGZhNmU2MDIwY2ZiMWFkYzBhODZhMzAwYzRfMmNmM2NlMjMxZWNjMzJjMmJiMzk3NjUwNTZhNjYxYmNfSUQ6NzYyNDg3NzY1NjMwNzIwNzA5OF8xNzc1MzA3NzE4OjE3NzUzOTQxMThfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 10秒</div>
+      <h3 class="card-title">奇幻人类大赏</h3>
+      <p class="card-tools">Sora</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGE0OTg3NDFjMmFjNDNmZjVmYzUzODNjZTY3YjJlMzFfMDJkZDA4NWRiNjIyYWJjOWE5YTliYzdiNjlkY2E2MWRfSUQ6NzYyNDg3NzY4NzI2NTM5NzY5Ml8xNzc1MzA3NzE4OjE3NzUzOTQxMThfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 10秒</div>
+      <h3 class="card-title">奇幻人类大赏2</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-panoramic" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=N2ZkYjI0MTZjZTc4YTZjYjlmYjI4ODMzYWYyYmZjMDBfNzM0ZGE0ZjA5NDY1MjE2M2JmOGUzNTljNzQ3MTI3OTVfSUQ6NzYyNDg3NzgzNjA1NDI2OTExOV8xNzc1MzA3NzE5OjE3NzUzOTQxMTlfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+      <div class="pan-overlay">
+        <div class="pan-meta">创意动画 · 10秒</div>
+        <div class="pan-title">罗小黑不溜秋</div>
+        <div class="pan-tools">sora</div>
+      </div>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmIwZGJkNGQ5NjllODQ1MDM2MzRiMDVjNTYyZjRhMmFfZmY2NjNhNTNlZmYzMGU5NjZjMjBjNmNmMTIwZDBjN2FfSUQ6NzYyNDg3ODI0MjMyNjk5MDAwNF8xNzc1MzA3NzE5OjE3NzUzOTQxMTlfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 24秒</div>
+      <h3 class="card-title">古乐绵绵</h3>
+      <p class="card-tools">nano banana，可灵，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjM1OWU3YjZlZjFhOTExYWVkNjZmZWQyNWQyYzY4MmFfOWZjMjY3YjQwYzVjODI5NjhiY2I2YTE3ODkxMzM5MjJfSUQ6NzYyNDg3ODc1ODI4NTExODQxMV8xNzc1MzA3NzE5OjE3NzUzOTQxMTlfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 13秒</div>
+      <h3 class="card-title">项链广告</h3>
+      <p class="card-tools">Sora</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjA1MjM3ZDJiZDk1NzIwNTBiZTMxMTI0MTRlMDk3NDVfZTk1YjFhY2JkODI0NWY1OTEwMTJlMGNmMjc5ZmI2YzVfSUQ6NzYyNDg3OTkwNzIwNTU2NTQwNF8xNzc1MzA3NzIwOjE3NzUzOTQxMjBfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 17秒</div>
+      <h3 class="card-title">粉饼广告</h3>
+      <p class="card-tools">Sora ，可灵 ，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-feature" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmU4Mzg4N2NmMWNkNmQ3YjVhNDgzNjM4OWYwNThjZGVfOWIxYjEyZmQ1ZTZiOGVjYzhmNDM0NmI4MTA3NjU5MzlfSUQ6NzYyNDg4MDI5MDE1ODIzNDU5Ml8xNzc1MzA3NzIwOjE3NzUzOTQxMjBfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 17秒</div>
+      <h3 class="card-title">香水广告</h3>
+      <p class="card-tools">Sora ，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzdmYmY1M2ZlNmFkNTUzNTM4Zjg0YTBhZDBlMzdmOTFfMzQ5MjA4OWYxMjMxZThlN2RhY2U3YjEyZGFlN2QxYWNfSUQ6NzYyNDg4MDY5ODgxMzM4NTkyNl8xNzc1MzA3NzIxOjE3NzUzOTQxMjFfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 20秒</div>
+      <h3 class="card-title">香薰广告</h3>
+      <p class="card-tools">sora，可灵，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YWM5MDUzNTQwZGVjNWJlNTRhZWVlMDc4OGU0NTJkZjZfMTgwYmRlNWRmZWRjYjZkY2Q4YTM1Y2U3MWM2MWUyZDJfSUQ6NzYyNDg4MTIwNzg1NTE0MDA0MF8xNzc1MzA3NzIxOjE3NzUzOTQxMjFfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 13秒</div>
+      <h3 class="card-title">方程式服装秀场</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjY1MmE5ODliODc2ZWRkMjc5YWM5ZGQzMDJjNjRhMGZfN2U0YjQwNDhhNjg1YTYwNGU2MjgzMDM5OTUwMmY5MWRfSUQ6NzYyNDg4MTcxOTk2NzA5MTY3OF8xNzc1MzA3NzIxOjE3NzUzOTQxMjFfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">广告 · 10秒</div>
+      <h3 class="card-title">方程式服装秀场2</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-panoramic" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjVlZjc5NGYwNjg5ODdjODk3ZTgyNTc5MTA4ZGE4OGNfODJhNTY5MWQ4MTE5YzNlZjdkMjQ3YzgzZWVjYWU1MTNfSUQ6NzYyNDg4MTgzMzQ5NTk3MzA4OV8xNzc1MzA3NzIyOjE3NzUzOTQxMjJfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+      <div class="pan-overlay">
+        <div class="pan-meta">广告 · 10秒</div>
+        <div class="pan-title">方程式服装秀场3</div>
+        <div class="pan-tools">sora</div>
+      </div>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="艺术片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2RmMGRjOWQwNmY2ZGUzMzE4NWZiMDZiZjc1ZDllNTJfZjk5YTgzOTAwOTM5ODQxMzE2NzZlMGQ5MDQ4Y2NiMjNfSUQ6NzYyNDg4MjM1NzA0NDEzNjkyNV8xNzc1MzA3NzIyOjE3NzUzOTQxMjJfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">艺术片 · 1分零9秒</div>
+      <h3 class="card-title">耳畔有风系列-苹果少女</h3>
+      <p class="card-tools">MJ，可灵，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="艺术片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDQxYzVmYjI0ZDViYWRiMjNiZjAwYmRkZjhmMjExOThfMTZkZTYyOTZmM2JjMWNjZDM2OGQwNDQyYjI5NzQ5ODlfSUQ6NzYyNDg4MzA5MDc4Mjk4MTM0Ml8xNzc1MzA3NzIyOjE3NzUzOTQxMjJfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">艺术片 · 32</div>
+      <h3 class="card-title">耳畔有风系列-人马</h3>
+      <p class="card-tools">MJ</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="艺术片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2VmMmIwYjQ1YjgwMTBlNzAwMDBiOTA4MDFmYzNmMDFfM2U5NTkyNTU5MmY4ZGI0ZmU4NWFkMTI5MDVjNmE5YzdfSUQ6NzYyNDg4MzUwNDkyNDM2MzcwN18xNzc1MzA3NzIzOjE3NzUzOTQxMjNfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">艺术片 · 36</div>
+      <h3 class="card-title">大地荒舞系列-小舞蹈家</h3>
+      <p class="card-tools">MJ ，Grok</p>
+    </div>
+  </div>
+  <div class="card layout-feature" data-cat="艺术片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzUzZjRkOTU0OWI5ZmZmZDcxZTNlZDc5YmNmZGI2MWZfYzJlMWE2YTg2YjllMGYwOGI5YjA0OWZjMWU5ZDViZmZfSUQ6NzYyNDg4Mzk3MjcyMzUxMDQ5Nl8xNzc1MzA3NzI0OjE3NzUzOTQxMjRfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">艺术片 · 2分11秒</div>
+      <h3 class="card-title">大地荒舞系列之-念</h3>
+      <p class="card-tools">MJ，即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="艺术片">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGRjODcxMjU2YzY5Y2RhYWY1NDViZGEwMGI0NWM5ZmZfNzVlYjMyODRlNWUyZmU3OWMyYTcwZTI0N2E1ZGQ4YmZfSUQ6NzYyNDg4NDI2OTU0NjIxMjI4MV8xNzc1MzA3NzI0OjE3NzUzOTQxMjRfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">艺术片 · 2分零4秒</div>
+      <h3 class="card-title">大地荒舞系列-鱼的告别</h3>
+      <p class="card-tools">MJ，Grok，即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWIwNzk2NzJlNDEyYTMyZTgwNWU5NjUwNjlmNTQwY2VfMGMzNGI4ODJlZDEzZTcyNDU2YWZhYjZhNTFmYWEyZWJfSUQ6NzYyNDg4NTY5NzUwMTEzODA5OV8xNzc1MzA3NzI0OjE3NzUzOTQxMjRfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 58秒</div>
+      <h3 class="card-title">葱葱蓉蓉</h3>
+      <p class="card-tools">MJ，Grok</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODU4YzNiNTg5YTg0M2MyMDZmNTQxOWRmYzYwYTY3ODBfOWFkYjkwZDVmYTc2OGVkZDY2ZmQ0OWQ4NjRmNDk3NDJfSUQ6NzYyNDg4NjIxNjE3MjgwMDk2Ml8xNzc1MzA3NzI1OjE3NzUzOTQxMjVfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">创意动画 · 46秒</div>
+      <h3 class="card-title">阿布拉</h3>
+      <p class="card-tools">MJ，Grok</p>
+    </div>
+  </div>
+  <div class="card layout-panoramic" data-cat="广告">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjFhOGI3N2EzMjIzMDQ1ZWJkYmRkM2E3M2M5N2VmYTFfYzUwMDZiMjEyNzNlZGJlYzUxNGI4YmMyZDAzMjk0NjJfSUQ6NzYyNDg4Njc2Mjg2Mjc3NTI0MV8xNzc1MzA3NzI1OjE3NzUzOTQxMjVfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">AD</span>
+      <div class="pan-overlay">
+        <div class="pan-meta">广告 · 33秒</div>
+        <div class="pan-title">水果成分分析</div>
+        <div class="pan-tools">nano banana</div>
+      </div>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="故事">
+    <div class="card-media">
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDlhNDQ2ZjJmOWFmYTY0NWE1ODA2ZmRkZTZmYTQxMDlfZTlmN2ZkZmQ0OWJkM2IzYzQzMGQyN2Y5OTY0ZDRlMjdfSUQ6NzYyNDg4NjgzNTQ1NzY3NDQ1Ml8xNzc1MzA3NzI2OjE3NzUzOTQxMjZfVjM" controls preload="metadata" playsinline></video>
+      <span class="cat-badge">STORY</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta">故事 · 51秒</div>
+      <h3 class="card-title">光落到的窗台</h3>
+      <p class="card-tools">skll Claude code</p>
+    </div>
+  </div>
+  </div>
+  <footer>
+    <span class="footer-brand">小耳 Studio · AI Video Works</span>
+    <span class="footer-note">视频链接有效期约 24 小时 · 由飞书多维表格导出</span>
+  </footer>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="page" id="page-about">
+<div class="about-page">
+  <div class="about-hero">
+    <div>
+      <div class="about-eyebrow">About · 关于创作者</div>
+      <h1>横跨艺术与<em>AI</em><br>的实战创作者</h1>
+      <p class="about-intro">"工具不是目的，成片才是答案。"</p>
+      <div class="about-tags">
+        <span class="tag">同济大学 MBA</span>
+        <span class="tag">生成式艺术家</span>
+        <span class="tag">前懒坝美术馆艺术总监</span>
+        <span class="tag">国家艺术基金项目成员</span>
+        <span class="tag">企业 AIGC 培训师</span>
+        <span class="tag">AI 视频创作者</span>
+      </div>
+    </div>
+    <div class="about-quote">
+      <blockquote>"在这个超速消费的时代，<br>我们选择慢下来——<br>把每一帧当作颜料，<br>把每条时间线当作画布。"</blockquote>
+      <cite>— 小耳 Xiaoer</cite>
+    </div>
+  </div>
+  <div class="credentials">
+    <div class="section-label">履历 · Credentials</div>
+    <div class="cred-grid">
+      <div class="cred-item"><div class="cred-n">MBA</div><div class="cred-title">同济大学工商管理硕士</div><div class="cred-sub">2022 – 2024</div></div>
+      <div class="cred-item"><div class="cred-n">6000+</div><div class="cred-title">微信公众号粉丝</div><div class="cred-sub">AI 艺术创作方向</div></div>
+      <div class="cred-item"><div class="cred-n">5000+</div><div class="cred-title">X / Twitter 粉丝</div><div class="cred-sub">AI 创作 · 出海内容</div></div>
+      <div class="cred-item"><div class="cred-n">Art</div><div class="cred-title">前懒坝美术馆艺术总监</div><div class="cred-sub">武隆懒坝国际大地艺术节 总负责</div></div>
+      <div class="cred-item"><div class="cred-n">46</div><div class="cred-title">AI 视频作品</div><div class="cred-sub">广告 · 故事 · 艺术 · 创意动画</div></div>
+      <div class="cred-item"><div class="cred-n">500+</div><div class="cred-title">GitHub Stars</div><div class="cred-sub">AI 工具开源项目</div></div>
+    </div>
+  </div>
+  <div class="capabilities">
+    <div class="section-label">能力 · Capabilities</div>
+    <div class="cap-grid">
+      <div class="cap-item"><div class="cap-icon">01 · AI 视频制作</div><div class="cap-title">从脚本到成片的完整闭环</div><div class="cap-desc">即梦、Seedance、可灵、Sora 全流程实操。电商广告、品牌视频从创意到可商用成片，形成可复用 SOP。</div></div>
+      <div class="cap-item"><div class="cap-icon">02 · AI 出图</div><div class="cap-title">品牌级视觉素材生产</div><div class="cap-desc">提示词工程，产品图、分镜图、场景图定向生成，适配广告投放与品牌内容需求。Aesop 级审美锚点。</div></div>
+      <div class="cap-item"><div class="cap-icon">03 · 工作流设计</div><div class="cap-title">将 AI 工具链封装为可复用 SOP</div><div class="cap-desc">把复杂的多工具协作拆解为团队可执行的标准流程，降低复制成本，提升团队 AI 内容产出效率。</div></div>
+      <div class="cap-item"><div class="cap-icon">04 · 企业培训</div><div class="cap-title">AIGC 实战工作坊</div><div class="cap-desc">服务品牌方、电商团队、广告公司。成果导向——学员当天产出一条可用的 15–30 秒 AI 广告视频。</div></div>
+    </div>
+  </div>
+  <div class="contact-section">
+    <div class="contact-left">
+      <h2>合作<br>与联系</h2>
+      <p>欢迎商业合作、品牌定制、培训邀约。<br>微信备注来意，邮件随时可达。</p>
+    </div>
+    <div class="contact-grid">
+      <a class="contact-item" href="https://xiaoer-art.com" target="_blank"><div class="contact-platform">个人网站</div><div class="contact-value">xiaoer-art.com</div></a>
+      <div class="contact-item"><div class="contact-platform">微信</div><div class="contact-value">xiaoer-zhan</div><div class="contact-note">请备注来意</div></div>
+      <a class="contact-item" href="mailto:1075152691@qq.com"><div class="contact-platform">邮箱</div><div class="contact-value">1075152691@qq.com</div></a>
+      <a class="contact-item" href="https://x.com/xiaoerzhan" target="_blank"><div class="contact-platform">X · Twitter</div><div class="contact-value">@xiaoerzhan</div></a>
+      <div class="contact-item"><div class="contact-platform">微信公众号</div><div class="contact-value">Ears</div></div>
+      <div class="contact-item"><div class="contact-platform">视频号</div><div class="contact-value">小耳Art</div></div>
+      <div class="contact-item" style="grid-column:1/-1"><div class="contact-platform">小红书</div><div class="contact-value">621994608</div></div>
+    </div>
+  </div>
+  <footer>
+    <span class="footer-brand">小耳 Studio · xiaoer-art.com</span>
+    <span class="footer-note">© 2025 Xiaoer · All Rights Reserved</span>
+  </footer>
+</div>
+</div>
+
+<script>
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.querySelectorAll('video').forEach(v=>v.pause());
+}
+
+document.querySelectorAll('.filter').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.card').forEach(c=>{
+      const hide=f!=='all'&&c.dataset.cat!==f;
+      c.classList.toggle('hidden',hide);
+      if(hide) c.querySelector('video')?.pause();
+    });
+  });
+});
+</script>
+</body>
+</html>
