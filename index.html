@@ -193,6 +193,43 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   .card{margin-bottom:6px;border-radius:10px}
 }
 
+/* ═══ LIGHTBOX ═══ */
+#lightbox{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(10,10,10,0.94);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.3s;
+}
+#lightbox.open{opacity:1;pointer-events:all}
+#lightbox-inner{
+  position:relative;
+  max-width:92vw;max-height:90vh;
+  display:flex;align-items:center;justify-content:center;
+}
+#lightbox-video{
+  max-width:92vw;max-height:88vh;
+  border-radius:10px;
+  background:#000;
+  box-shadow:0 24px 80px rgba(0,0,0,0.6);
+  display:block;
+}
+#lightbox-close{
+  position:fixed;top:20px;right:24px;
+  color:rgba(255,255,255,0.6);font-size:32px;
+  cursor:pointer;background:none;border:none;
+  padding:4px 10px;line-height:1;
+  transition:color 0.2s;
+}
+#lightbox-close:hover{color:#fff}
+#lightbox-title{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  font-family:var(--serif);font-size:0.85rem;
+  color:rgba(255,255,255,0.5);
+  white-space:nowrap;letter-spacing:0.05em;
+  pointer-events:none;
+}
+
 /* Custom play button */
 .play-btn{
   position:absolute;top:50%;left:50%;
@@ -228,7 +265,7 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
       <div class="hero-eyebrow">AI Creative Portfolio · 2024–2025</div>
       <h1>小耳 <em>AI视频</em><br>作品集</h1>
       <p class="hero-cats">广告片，故事片，创意动画，艺术视觉</p>
-      <p class="hero-philosophy">审美不是天赋，是立场。<br>你站在哪里看这个世界，<br>决定了你能拍出什么。</p>
+      <p class="hero-philosophy">审美不是天赋，是立场。<br>你站在哪里看这个世界，<br>决定了你能创造出什么。</p>
     </div>
     <div class="hero-stat">
       <span class="hero-stat-n">46</span>
@@ -713,7 +750,7 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
       <p class="card-tools">MJ</p>
     </div>
   </div>
-  <div class="card layout-normal" data-cat="艺术片">
+  <div class="card layout-tall" data-cat="艺术片">
     <div class="card-media">
       <video data-token="Wh4ZbUqTPo9uwqxq0nycLvTdnIe" preload="metadata" playsinline>
       <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
@@ -868,6 +905,15 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
 </div>
 </div>
 
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lightbox-close">✕</button>
+  <div id="lightbox-inner">
+    <video id="lightbox-video" controls playsinline></video>
+  </div>
+  <div id="lightbox-title"></div>
+</div>
+
 <script>
 // Load fresh video URLs from api/videos.json (refreshed every ~20h by local cron)
 (async function loadVideoUrls() {
@@ -905,23 +951,35 @@ document.querySelectorAll('.filter').forEach(btn=>{
   });
 });
 
-// Click to play/pause
+// Lightbox
+const lightbox = document.getElementById('lightbox');
+const lbVideo = document.getElementById('lightbox-video');
+const lbTitle = document.getElementById('lightbox-title');
+
+function openLightbox(src, title) {
+  lbVideo.src = src;
+  lbTitle.textContent = title || '';
+  lbVideo.play();
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lbVideo.pause();
+  lbVideo.src = '';
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// Click card → open lightbox
 document.querySelectorAll('.card-media').forEach(media => {
   media.addEventListener('click', () => {
     const video = media.querySelector('video');
-    const card = media.closest('.card');
-    if (!video) return;
-    if (video.paused) {
-      // Pause all others
-      document.querySelectorAll('.card-media video').forEach(v => {
-        if (v !== video) { v.pause(); v.closest('.card')?.classList.remove('playing'); }
-      });
-      video.play();
-      card?.classList.add('playing');
-    } else {
-      video.pause();
-      card?.classList.remove('playing');
-    }
+    if (!video || !video.src) return;
+    const title = media.closest('.card')?.querySelector('.card-title, .pan-title')?.textContent || '';
+    openLightbox(video.src, title);
   });
 });
 
