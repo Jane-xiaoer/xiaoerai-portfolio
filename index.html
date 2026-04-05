@@ -192,6 +192,23 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   .grid{columns:2;column-gap:6px;padding:8px 10px 28px}
   .card{margin-bottom:6px;border-radius:10px}
 }
+
+/* Custom play button */
+.play-btn{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:44px;height:44px;
+  background:rgba(255,255,255,0.88);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  transition:opacity 0.3s,transform 0.3s;
+  z-index:3;
+}
+.play-btn svg{width:16px;height:16px;fill:var(--primary);margin-left:3px}
+.card.playing .play-btn{opacity:0}
+.card-media:hover .play-btn{transform:translate(-50%,-50%) scale(1.1)}
+
 </style>
 </head>
 <body>
@@ -230,7 +247,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   <div class="grid" id="grid">
   <div class="card layout-feature" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWUzMmIwNDM4YjZlMTY0ZTRkMWIwNjhjYzIwNWY2MzJfMTljZGM3MDIzOGU5ZDdiZmQ2YzNhYzFlOGQ5ODAxNzBfSUQ6NzYyNDQ3MDYzNDA5NDA1NDU4MF8xNzc1MzA3NzA3OjE3NzUzOTQxMDdfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZWUzMmIwNDM4YjZlMTY0ZTRkMWIwNjhjYzIwNWY2MzJfMTljZGM3MDIzOGU5ZDdiZmQ2YzNhYzFlOGQ5ODAxNzBfSUQ6NzYyNDQ3MDYzNDA5NDA1NDU4MF8xNzc1MzA3NzA3OjE3NzUzOTQxMDdfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -241,7 +259,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-tall" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDYzY2I4NTViZGZmNWVmMWU0OTAwMDJlODEyNGJlZjZfYzE5NjlmZjk3NmU1OWQ1YjljMmFhN2NhY2ZhNWUxNTVfSUQ6NzYyNDQ3MTQ0NDQzNzI5MDE2Ml8xNzc1MzA3NzA3OjE3NzUzOTQxMDdfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDYzY2I4NTViZGZmNWVmMWU0OTAwMDJlODEyNGJlZjZfYzE5NjlmZjk3NmU1OWQ1YjljMmFhN2NhY2ZhNWUxNTVfSUQ6NzYyNDQ3MTQ0NDQzNzI5MDE2Ml8xNzc1MzA3NzA3OjE3NzUzOTQxMDdfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -252,7 +271,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWE3MGM3ZWUxYmNkNmM4NTc1Mzk4MDU4MzU3YTZjNjJfZGVlZmEyMDU2ZDc0MGU1ZTRkZjQzNWQyMmY5ZDQ4NjNfSUQ6NzYyNDQ3MjMyMTE1NTc0NzAzNl8xNzc1MzA3NzA3OjE3NzUzOTQxMDdfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWE3MGM3ZWUxYmNkNmM4NTc1Mzk4MDU4MzU3YTZjNjJfZGVlZmEyMDU2ZDc0MGU1ZTRkZjQzNWQyMmY5ZDQ4NjNfSUQ6NzYyNDQ3MjMyMTE1NTc0NzAzNl8xNzc1MzA3NzA3OjE3NzUzOTQxMDdfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -263,7 +283,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTNlZTA0MzY0MDIyNjJjNzM3ZWViZjJhMmUzY2E0MWZfMjA4YTQ3MTM4N2UyN2VkMjYwOGYwM2QwNDE4OTk3YzBfSUQ6NzYyNDQ3Mjc0MDcxNTg5MTY1OV8xNzc1MzA3NzA4OjE3NzUzOTQxMDhfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NTNlZTA0MzY0MDIyNjJjNzM3ZWViZjJhMmUzY2E0MWZfMjA4YTQ3MTM4N2UyN2VkMjYwOGYwM2QwNDE4OTk3YzBfSUQ6NzYyNDQ3Mjc0MDcxNTg5MTY1OV8xNzc1MzA3NzA4OjE3NzUzOTQxMDhfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -274,7 +295,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-panoramic" data-cat="故事">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2MzZjE5ZWQ5MWUwNjVhMGUyNDM0NTIwZmI5OTFmNGFfMmZhZjE4ZDNjMjJlOGJjMGI4NmJmZTFmMjc4OWE4NDJfSUQ6NzYyNDQ4MjI0MTgyMTQ3Nzg0N18xNzc1MzA3NzA4OjE3NzUzOTQxMDhfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2MzZjE5ZWQ5MWUwNjVhMGUyNDM0NTIwZmI5OTFmNGFfMmZhZjE4ZDNjMjJlOGJjMGI4NmJmZTFmMjc4OWE4NDJfSUQ6NzYyNDQ4MjI0MTgyMTQ3Nzg0N18xNzc1MzA3NzA4OjE3NzUzOTQxMDhfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">STORY</span>
       <div class="pan-overlay">
         <div class="pan-meta">故事 · 2分零7秒</div>
@@ -285,7 +307,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="艺术片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODM5MWMyMzVhNmIxYWM5ZmE1OTRlZDBjNjY0NTNjYWRfOGVlYWQ4YjdiZDRiNjVjYTRiNDNiOGFhMjUzZDg4YmRfSUQ6NzYyNDQ4NzMzNjQ3MDI2OTEyOF8xNzc1MzA3NzA4OjE3NzUzOTQxMDhfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODM5MWMyMzVhNmIxYWM5ZmE1OTRlZDBjNjY0NTNjYWRfOGVlYWQ4YjdiZDRiNjVjYTRiNDNiOGFhMjUzZDg4YmRfSUQ6NzYyNDQ4NzMzNjQ3MDI2OTEyOF8xNzc1MzA3NzA4OjE3NzUzOTQxMDhfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
@@ -296,7 +319,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="艺术片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjMzNjY3YzlhZGI4MzA0ZTg3YTNmOTViZWRkNzk0NTNfZDAwMmY4NjRjMGVkYjMxZDI3MWE0MzhlNTVhYThhNzVfSUQ6NzYyNDQ4NzYzMDI1MzQ3NzA4OV8xNzc1MzA3NzA5OjE3NzUzOTQxMDlfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjMzNjY3YzlhZGI4MzA0ZTg3YTNmOTViZWRkNzk0NTNfZDAwMmY4NjRjMGVkYjMxZDI3MWE0MzhlNTVhYThhNzVfSUQ6NzYyNDQ4NzYzMDI1MzQ3NzA4OV8xNzc1MzA3NzA5OjE3NzUzOTQxMDlfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
@@ -307,7 +331,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODkyYmI2M2UyZDA5OWFhNzgyZjIxMTg0ZTY0MmVkNDFfNGJiNmNlMjA0MDA0OTgxMjJmODg2NGIwMTdhMWM5OWNfSUQ6NzYyNDQ4Nzk5MDgxNDk1MjY3M18xNzc1MzA3NzA5OjE3NzUzOTQxMDlfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODkyYmI2M2UyZDA5OWFhNzgyZjIxMTg0ZTY0MmVkNDFfNGJiNmNlMjA0MDA0OTgxMjJmODg2NGIwMTdhMWM5OWNfSUQ6NzYyNDQ4Nzk5MDgxNDk1MjY3M18xNzc1MzA3NzA5OjE3NzUzOTQxMDlfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -318,7 +343,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-feature" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MGY3ZmEzNDYwNDhiYWI3NGQ3ZWExNjI0ZWFlNzQ4ZGNfYjk4YjllZDE0ZGIyYTcxM2FmZTVkMDJhYzljOTJhMTZfSUQ6NzYyNDQ4ODU4NDcwMzY0MjU2OV8xNzc1MzA3NzEwOjE3NzUzOTQxMTBfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MGY3ZmEzNDYwNDhiYWI3NGQ3ZWExNjI0ZWFlNzQ4ZGNfYjk4YjllZDE0ZGIyYTcxM2FmZTVkMDJhYzljOTJhMTZfSUQ6NzYyNDQ4ODU4NDcwMzY0MjU2OV8xNzc1MzA3NzEwOjE3NzUzOTQxMTBfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -329,7 +355,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-tall" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2Y1YTI3MGJjYTZlMGEyODhkZmVmYzc4ODk1OTQzOTFfZTAxYWVkMzRjNGU5NjFkZGFkMzcwYmI5OTRiZjU0MzdfSUQ6NzYyNDQ5MDExMjg1NTI2NDQ1MV8xNzc1MzA3NzEwOjE3NzUzOTQxMTBfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2Y1YTI3MGJjYTZlMGEyODhkZmVmYzc4ODk1OTQzOTFfZTAxYWVkMzRjNGU5NjFkZGFkMzcwYmI5OTRiZjU0MzdfSUQ6NzYyNDQ5MDExMjg1NTI2NDQ1MV8xNzc1MzA3NzEwOjE3NzUzOTQxMTBfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -340,7 +367,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2UxYTA1ZDc2ZTgwODg2YzRhZjlkYTY1OWQ3OWFlYjVfZTQ1N2MzNTE4NDVlOThkMGRjMmE5ODBhNzcyZjU5YTZfSUQ6NzYyNDQ5MDk3NDkzMjQ4NzM4N18xNzc1MzA3NzExOjE3NzUzOTQxMTFfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2UxYTA1ZDc2ZTgwODg2YzRhZjlkYTY1OWQ3OWFlYjVfZTQ1N2MzNTE4NDVlOThkMGRjMmE5ODBhNzcyZjU5YTZfSUQ6NzYyNDQ5MDk3NDkzMjQ4NzM4N18xNzc1MzA3NzExOjE3NzUzOTQxMTFfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -351,7 +379,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Njk4MDcwYjBmYTBiOWI3NDU3Njg1OGE5YzU3Mjc0YmNfMmMxNDIzZDkyZTI0NGRmNWNiMjYzZjcyN2JhMDQwODRfSUQ6NzYyNDQ5MTUxODMwODc2NDYzOF8xNzc1MzA3NzExOjE3NzUzOTQxMTFfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Njk4MDcwYjBmYTBiOWI3NDU3Njg1OGE5YzU3Mjc0YmNfMmMxNDIzZDkyZTI0NGRmNWNiMjYzZjcyN2JhMDQwODRfSUQ6NzYyNDQ5MTUxODMwODc2NDYzOF8xNzc1MzA3NzExOjE3NzUzOTQxMTFfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -362,7 +391,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-panoramic" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MjE3NzMzODlhMmNhNDc5Y2M4OWI0NjFkMWJhNWE0Y2VfYjliN2E3MmZhNzRmNTc0NTAxNjM2OTJkZTQyODdkYzRfSUQ6NzYyNDQ5MjgyMDk3NTM0MDQ5NV8xNzc1MzA3NzEyOjE3NzUzOTQxMTJfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MjE3NzMzODlhMmNhNDc5Y2M4OWI0NjFkMWJhNWE0Y2VfYjliN2E3MmZhNzRmNTc0NTAxNjM2OTJkZTQyODdkYzRfSUQ6NzYyNDQ5MjgyMDk3NTM0MDQ5NV8xNzc1MzA3NzEyOjE3NzUzOTQxMTJfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
       <div class="pan-overlay">
         <div class="pan-meta">广告 · 30秒</div>
@@ -373,7 +403,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="宣传片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2MzMDJmYTg1NjJmMDc4OTI5ZmQ1NDViYzg2MjVkZmRfZTI0MWM4ZTk2MGJkMDQwOGRiZWEzNzllN2U2ODNlMjZfSUQ6NzYyNDQ5NDEyMDYwNTg3OTUxN18xNzc1MzA3NzEyOjE3NzUzOTQxMTJfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2MzMDJmYTg1NjJmMDc4OTI5ZmQ1NDViYzg2MjVkZmRfZTI0MWM4ZTk2MGJkMDQwOGRiZWEzNzllN2U2ODNlMjZfSUQ6NzYyNDQ5NDEyMDYwNTg3OTUxN18xNzc1MzA3NzEyOjE3NzUzOTQxMTJfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">PROMO</span>
     </div>
     <div class="card-info">
@@ -384,7 +415,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="宣传片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NzZkMmNiZGNhM2QxMTJmYjdhNzQyZDRhMWJmNjAzZDlfMThmNDBmZGZiYzMzNTMxZjRkZjQwZjYwN2IzOWJmMWVfSUQ6NzYyNDg3NTQ4NDA3NzE5ODUzMV8xNzc1MzA3NzEyOjE3NzUzOTQxMTJfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NzZkMmNiZGNhM2QxMTJmYjdhNzQyZDRhMWJmNjAzZDlfMThmNDBmZGZiYzMzNTMxZjRkZjQwZjYwN2IzOWJmMWVfSUQ6NzYyNDg3NTQ4NDA3NzE5ODUzMV8xNzc1MzA3NzEyOjE3NzUzOTQxMTJfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">PROMO</span>
     </div>
     <div class="card-info">
@@ -395,7 +427,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="宣传片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NzBhNzM4M2RmZDQ2YjAyNmE1YjJlMjA0NDhkZjA5ZDFfYjM2MGRlMjU1NWNlYjhiZGE0M2Q5YmNiNmY4OWZlNWZfSUQ6NzYyNDQ5NDc2NzQ5MDY5ODQzMV8xNzc1MzA3NzEzOjE3NzUzOTQxMTNfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NzBhNzM4M2RmZDQ2YjAyNmE1YjJlMjA0NDhkZjA5ZDFfYjM2MGRlMjU1NWNlYjhiZGE0M2Q5YmNiNmY4OWZlNWZfSUQ6NzYyNDQ5NDc2NzQ5MDY5ODQzMV8xNzc1MzA3NzEzOjE3NzUzOTQxMTNfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">PROMO</span>
     </div>
     <div class="card-info">
@@ -406,7 +439,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-feature" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NWRjNjhhZWRlMjM5NjMwM2UwODNkNzYwN2VlNjBjNmJfYjIwZmU5YmJlNjcwNDc4OTNhM2ZhMzM0YjdlNmNiYTJfSUQ6NzYyNDQ5NTI1MDg5MTAwMDc2NF8xNzc1MzA3NzEzOjE3NzUzOTQxMTNfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NWRjNjhhZWRlMjM5NjMwM2UwODNkNzYwN2VlNjBjNmJfYjIwZmU5YmJlNjcwNDc4OTNhM2ZhMzM0YjdlNmNiYTJfSUQ6NzYyNDQ5NTI1MDg5MTAwMDc2NF8xNzc1MzA3NzEzOjE3NzUzOTQxMTNfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -417,7 +451,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-tall" data-cat="故事">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjNiZmY2MmU4MjMyOGI1NzY4MTcyMTdiZjNjZmIwMGNfNGFhZWY3MWE1ZTdmNDA2ZTFjNDM2OTRjYWU0OThmYTBfSUQ6NzYyNDQ5NTQ2MDI3NTA4MDE1M18xNzc1MzA3NzE0OjE3NzUzOTQxMTRfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjNiZmY2MmU4MjMyOGI1NzY4MTcyMTdiZjNjZmIwMGNfNGFhZWY3MWE1ZTdmNDA2ZTFjNDM2OTRjYWU0OThmYTBfSUQ6NzYyNDQ5NTQ2MDI3NTA4MDE1M18xNzc1MzA3NzE0OjE3NzUzOTQxMTRfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">STORY</span>
     </div>
     <div class="card-info">
@@ -428,7 +463,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="故事">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmI3YWMwN2ZjYTE0NWJlYTE5NTVmZDBiMDY5ZGQzYjRfMGQwMTI3ZWI4MjkxZGY5MDI1OWYxNjgzYjY1Nzg0ZTFfSUQ6NzYyNDQ5NTc3NjQ4MzM2NDA0NV8xNzc1MzA3NzE0OjE3NzUzOTQxMTRfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MmI3YWMwN2ZjYTE0NWJlYTE5NTVmZDBiMDY5ZGQzYjRfMGQwMTI3ZWI4MjkxZGY5MDI1OWYxNjgzYjY1Nzg0ZTFfSUQ6NzYyNDQ5NTc3NjQ4MzM2NDA0NV8xNzc1MzA3NzE0OjE3NzUzOTQxMTRfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">STORY</span>
     </div>
     <div class="card-info">
@@ -439,7 +475,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="艺术片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjQxMTNkYWIyN2UwNTY2N2M1OWUzNTdkNGM1NDdjMTBfZjE4NDI3ZGFiYzJkNTM5MzdlYjIyNjNjMTU0Yzg5YTZfSUQ6NzYyNDQ5NjU4MzQ5MjYzNTg0Nl8xNzc1MzA3NzE0OjE3NzUzOTQxMTRfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjQxMTNkYWIyN2UwNTY2N2M1OWUzNTdkNGM1NDdjMTBfZjE4NDI3ZGFiYzJkNTM5MzdlYjIyNjNjMTU0Yzg5YTZfSUQ6NzYyNDQ5NjU4MzQ5MjYzNTg0Nl8xNzc1MzA3NzE0OjE3NzUzOTQxMTRfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
@@ -450,7 +487,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-panoramic" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWY4YWNmNDY2ZjRlMTVjNjAzMWFiOWJiNzViMjAxYjRfYzNkOTQ0NTI1NDBjZjNiOGIzYjZmOTAxMzliOTkzODZfSUQ6NzYyNDQ5NzQ3MzYwNzczMjQ0NV8xNzc1MzA3NzE1OjE3NzUzOTQxMTVfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OWY4YWNmNDY2ZjRlMTVjNjAzMWFiOWJiNzViMjAxYjRfYzNkOTQ0NTI1NDBjZjNiOGIzYjZmOTAxMzliOTkzODZfSUQ6NzYyNDQ5NzQ3MzYwNzczMjQ0NV8xNzc1MzA3NzE1OjE3NzUzOTQxMTVfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
       <div class="pan-overlay">
         <div class="pan-meta">创意动画 · 15秒</div>
@@ -461,7 +499,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YWFiMzVmNDlkODExZGVkYTMwZDU5ZTcxMjJiNjIyNzFfZjdlNjNmMDllZTI2MGI1MDFhNDAxY2RhNWNiNTAxYWRfSUQ6NzYyNDQ5NzUwOTMyNjUzOTk4Nl8xNzc1MzA3NzE1OjE3NzUzOTQxMTVfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YWFiMzVmNDlkODExZGVkYTMwZDU5ZTcxMjJiNjIyNzFfZjdlNjNmMDllZTI2MGI1MDFhNDAxY2RhNWNiNTAxYWRfSUQ6NzYyNDQ5NzUwOTMyNjUzOTk4Nl8xNzc1MzA3NzE1OjE3NzUzOTQxMTVfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -472,7 +511,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZmFmZjgyZDUzZjUwZjRjOWNhNjUyNDA0MjBlZGNiOTRfMWZlODk3OGM1NGI5MTQzMzcwNTdhYzYwYWI1N2Y0ZmFfSUQ6NzYyNDczNjE0MzEwNzY4OTQxMl8xNzc1MzA3NzE2OjE3NzUzOTQxMTZfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZmFmZjgyZDUzZjUwZjRjOWNhNjUyNDA0MjBlZGNiOTRfMWZlODk3OGM1NGI5MTQzMzcwNTdhYzYwYWI1N2Y0ZmFfSUQ6NzYyNDczNjE0MzEwNzY4OTQxMl8xNzc1MzA3NzE2OjE3NzUzOTQxMTZfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -483,7 +523,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2U0OTJhYmRhYTM3ZjlmZDUxZmQ3MDJiYWIxOWRiYTdfNmM2MzM1OTlkMGI0MTgxM2U5MTQ2MDVkNTE0ODI3YzFfSUQ6NzYyNDg3NTc4OTYwODczMzY2MV8xNzc1MzA3NzE2OjE3NzUzOTQxMTZfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=Y2U0OTJhYmRhYTM3ZjlmZDUxZmQ3MDJiYWIxOWRiYTdfNmM2MzM1OTlkMGI0MTgxM2U5MTQ2MDVkNTE0ODI3YzFfSUQ6NzYyNDg3NTc4OTYwODczMzY2MV8xNzc1MzA3NzE2OjE3NzUzOTQxMTZfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -494,7 +535,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-feature" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZTRjY2U0ZTcwMzIwNmExOGFhMWU0ZTZkMjIwYjhjNmNfYWE4MjI5MjU3YjA1Mjc0MDMzZTMxYTVkNmJhYmVkNzRfSUQ6NzYyNDg3NzA5NzE1MTkwODgwOV8xNzc1MzA3NzE3OjE3NzUzOTQxMTdfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZTRjY2U0ZTcwMzIwNmExOGFhMWU0ZTZkMjIwYjhjNmNfYWE4MjI5MjU3YjA1Mjc0MDMzZTMxYTVkNmJhYmVkNzRfSUQ6NzYyNDg3NzA5NzE1MTkwODgwOV8xNzc1MzA3NzE3OjE3NzUzOTQxMTdfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -505,7 +547,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-tall" data-cat="艺术片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDY1M2RiMGNkZmRjMTE1NTMyNGE1YjViM2VkNDU0NjdfZTlkZmM1OTZjMzg3ZTc0NjIzMWY4OTBjNGYxMjMyYjhfSUQ6NzYyNDg3NzUwNjQ0OTA1MDU3N18xNzc1MzA3NzE3OjE3NzUzOTQxMTdfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDY1M2RiMGNkZmRjMTE1NTMyNGE1YjViM2VkNDU0NjdfZTlkZmM1OTZjMzg3ZTc0NjIzMWY4OTBjNGYxMjMyYjhfSUQ6NzYyNDg3NzUwNjQ0OTA1MDU3N18xNzc1MzA3NzE3OjE3NzUzOTQxMTdfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
@@ -516,7 +559,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NDZjZDJkOGZhNmU2MDIwY2ZiMWFkYzBhODZhMzAwYzRfMmNmM2NlMjMxZWNjMzJjMmJiMzk3NjUwNTZhNjYxYmNfSUQ6NzYyNDg3NzY1NjMwNzIwNzA5OF8xNzc1MzA3NzE4OjE3NzUzOTQxMThfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NDZjZDJkOGZhNmU2MDIwY2ZiMWFkYzBhODZhMzAwYzRfMmNmM2NlMjMxZWNjMzJjMmJiMzk3NjUwNTZhNjYxYmNfSUQ6NzYyNDg3NzY1NjMwNzIwNzA5OF8xNzc1MzA3NzE4OjE3NzUzOTQxMThfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -527,7 +571,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGE0OTg3NDFjMmFjNDNmZjVmYzUzODNjZTY3YjJlMzFfMDJkZDA4NWRiNjIyYWJjOWE5YTliYzdiNjlkY2E2MWRfSUQ6NzYyNDg3NzY4NzI2NTM5NzY5Ml8xNzc1MzA3NzE4OjE3NzUzOTQxMThfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGE0OTg3NDFjMmFjNDNmZjVmYzUzODNjZTY3YjJlMzFfMDJkZDA4NWRiNjIyYWJjOWE5YTliYzdiNjlkY2E2MWRfSUQ6NzYyNDg3NzY4NzI2NTM5NzY5Ml8xNzc1MzA3NzE4OjE3NzUzOTQxMThfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -538,7 +583,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-panoramic" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=N2ZkYjI0MTZjZTc4YTZjYjlmYjI4ODMzYWYyYmZjMDBfNzM0ZGE0ZjA5NDY1MjE2M2JmOGUzNTljNzQ3MTI3OTVfSUQ6NzYyNDg3NzgzNjA1NDI2OTExOV8xNzc1MzA3NzE5OjE3NzUzOTQxMTlfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=N2ZkYjI0MTZjZTc4YTZjYjlmYjI4ODMzYWYyYmZjMDBfNzM0ZGE0ZjA5NDY1MjE2M2JmOGUzNTljNzQ3MTI3OTVfSUQ6NzYyNDg3NzgzNjA1NDI2OTExOV8xNzc1MzA3NzE5OjE3NzUzOTQxMTlfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
       <div class="pan-overlay">
         <div class="pan-meta">创意动画 · 10秒</div>
@@ -549,7 +595,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmIwZGJkNGQ5NjllODQ1MDM2MzRiMDVjNTYyZjRhMmFfZmY2NjNhNTNlZmYzMGU5NjZjMjBjNmNmMTIwZDBjN2FfSUQ6NzYyNDg3ODI0MjMyNjk5MDAwNF8xNzc1MzA3NzE5OjE3NzUzOTQxMTlfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmIwZGJkNGQ5NjllODQ1MDM2MzRiMDVjNTYyZjRhMmFfZmY2NjNhNTNlZmYzMGU5NjZjMjBjNmNmMTIwZDBjN2FfSUQ6NzYyNDg3ODI0MjMyNjk5MDAwNF8xNzc1MzA3NzE5OjE3NzUzOTQxMTlfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -560,7 +607,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjM1OWU3YjZlZjFhOTExYWVkNjZmZWQyNWQyYzY4MmFfOWZjMjY3YjQwYzVjODI5NjhiY2I2YTE3ODkxMzM5MjJfSUQ6NzYyNDg3ODc1ODI4NTExODQxMV8xNzc1MzA3NzE5OjE3NzUzOTQxMTlfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZjM1OWU3YjZlZjFhOTExYWVkNjZmZWQyNWQyYzY4MmFfOWZjMjY3YjQwYzVjODI5NjhiY2I2YTE3ODkxMzM5MjJfSUQ6NzYyNDg3ODc1ODI4NTExODQxMV8xNzc1MzA3NzE5OjE3NzUzOTQxMTlfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -571,7 +619,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjA1MjM3ZDJiZDk1NzIwNTBiZTMxMTI0MTRlMDk3NDVfZTk1YjFhY2JkODI0NWY1OTEwMTJlMGNmMjc5ZmI2YzVfSUQ6NzYyNDg3OTkwNzIwNTU2NTQwNF8xNzc1MzA3NzIwOjE3NzUzOTQxMjBfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YjA1MjM3ZDJiZDk1NzIwNTBiZTMxMTI0MTRlMDk3NDVfZTk1YjFhY2JkODI0NWY1OTEwMTJlMGNmMjc5ZmI2YzVfSUQ6NzYyNDg3OTkwNzIwNTU2NTQwNF8xNzc1MzA3NzIwOjE3NzUzOTQxMjBfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -582,7 +631,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-feature" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmU4Mzg4N2NmMWNkNmQ3YjVhNDgzNjM4OWYwNThjZGVfOWIxYjEyZmQ1ZTZiOGVjYzhmNDM0NmI4MTA3NjU5MzlfSUQ6NzYyNDg4MDI5MDE1ODIzNDU5Ml8xNzc1MzA3NzIwOjE3NzUzOTQxMjBfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NmU4Mzg4N2NmMWNkNmQ3YjVhNDgzNjM4OWYwNThjZGVfOWIxYjEyZmQ1ZTZiOGVjYzhmNDM0NmI4MTA3NjU5MzlfSUQ6NzYyNDg4MDI5MDE1ODIzNDU5Ml8xNzc1MzA3NzIwOjE3NzUzOTQxMjBfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -593,7 +643,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-tall" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzdmYmY1M2ZlNmFkNTUzNTM4Zjg0YTBhZDBlMzdmOTFfMzQ5MjA4OWYxMjMxZThlN2RhY2U3YjEyZGFlN2QxYWNfSUQ6NzYyNDg4MDY5ODgxMzM4NTkyNl8xNzc1MzA3NzIxOjE3NzUzOTQxMjFfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzdmYmY1M2ZlNmFkNTUzNTM4Zjg0YTBhZDBlMzdmOTFfMzQ5MjA4OWYxMjMxZThlN2RhY2U3YjEyZGFlN2QxYWNfSUQ6NzYyNDg4MDY5ODgxMzM4NTkyNl8xNzc1MzA3NzIxOjE3NzUzOTQxMjFfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -604,7 +655,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YWM5MDUzNTQwZGVjNWJlNTRhZWVlMDc4OGU0NTJkZjZfMTgwYmRlNWRmZWRjYjZkY2Q4YTM1Y2U3MWM2MWUyZDJfSUQ6NzYyNDg4MTIwNzg1NTE0MDA0MF8xNzc1MzA3NzIxOjE3NzUzOTQxMjFfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=YWM5MDUzNTQwZGVjNWJlNTRhZWVlMDc4OGU0NTJkZjZfMTgwYmRlNWRmZWRjYjZkY2Q4YTM1Y2U3MWM2MWUyZDJfSUQ6NzYyNDg4MTIwNzg1NTE0MDA0MF8xNzc1MzA3NzIxOjE3NzUzOTQxMjFfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -615,7 +667,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjY1MmE5ODliODc2ZWRkMjc5YWM5ZGQzMDJjNjRhMGZfN2U0YjQwNDhhNjg1YTYwNGU2MjgzMDM5OTUwMmY5MWRfSUQ6NzYyNDg4MTcxOTk2NzA5MTY3OF8xNzc1MzA3NzIxOjE3NzUzOTQxMjFfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjY1MmE5ODliODc2ZWRkMjc5YWM5ZGQzMDJjNjRhMGZfN2U0YjQwNDhhNjg1YTYwNGU2MjgzMDM5OTUwMmY5MWRfSUQ6NzYyNDg4MTcxOTk2NzA5MTY3OF8xNzc1MzA3NzIxOjE3NzUzOTQxMjFfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
@@ -626,7 +679,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-panoramic" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjVlZjc5NGYwNjg5ODdjODk3ZTgyNTc5MTA4ZGE4OGNfODJhNTY5MWQ4MTE5YzNlZjdkMjQ3YzgzZWVjYWU1MTNfSUQ6NzYyNDg4MTgzMzQ5NTk3MzA4OV8xNzc1MzA3NzIyOjE3NzUzOTQxMjJfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjVlZjc5NGYwNjg5ODdjODk3ZTgyNTc5MTA4ZGE4OGNfODJhNTY5MWQ4MTE5YzNlZjdkMjQ3YzgzZWVjYWU1MTNfSUQ6NzYyNDg4MTgzMzQ5NTk3MzA4OV8xNzc1MzA3NzIyOjE3NzUzOTQxMjJfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
       <div class="pan-overlay">
         <div class="pan-meta">广告 · 10秒</div>
@@ -637,7 +691,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="艺术片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2RmMGRjOWQwNmY2ZGUzMzE4NWZiMDZiZjc1ZDllNTJfZjk5YTgzOTAwOTM5ODQxMzE2NzZlMGQ5MDQ4Y2NiMjNfSUQ6NzYyNDg4MjM1NzA0NDEzNjkyNV8xNzc1MzA3NzIyOjE3NzUzOTQxMjJfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2RmMGRjOWQwNmY2ZGUzMzE4NWZiMDZiZjc1ZDllNTJfZjk5YTgzOTAwOTM5ODQxMzE2NzZlMGQ5MDQ4Y2NiMjNfSUQ6NzYyNDg4MjM1NzA0NDEzNjkyNV8xNzc1MzA3NzIyOjE3NzUzOTQxMjJfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
@@ -648,7 +703,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="艺术片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDQxYzVmYjI0ZDViYWRiMjNiZjAwYmRkZjhmMjExOThfMTZkZTYyOTZmM2JjMWNjZDM2OGQwNDQyYjI5NzQ5ODlfSUQ6NzYyNDg4MzA5MDc4Mjk4MTM0Ml8xNzc1MzA3NzIyOjE3NzUzOTQxMjJfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ZDQxYzVmYjI0ZDViYWRiMjNiZjAwYmRkZjhmMjExOThfMTZkZTYyOTZmM2JjMWNjZDM2OGQwNDQyYjI5NzQ5ODlfSUQ6NzYyNDg4MzA5MDc4Mjk4MTM0Ml8xNzc1MzA3NzIyOjE3NzUzOTQxMjJfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
@@ -659,7 +715,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="艺术片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2VmMmIwYjQ1YjgwMTBlNzAwMDBiOTA4MDFmYzNmMDFfM2U5NTkyNTU5MmY4ZGI0ZmU4NWFkMTI5MDVjNmE5YzdfSUQ6NzYyNDg4MzUwNDkyNDM2MzcwN18xNzc1MzA3NzIzOjE3NzUzOTQxMjNfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=M2VmMmIwYjQ1YjgwMTBlNzAwMDBiOTA4MDFmYzNmMDFfM2U5NTkyNTU5MmY4ZGI0ZmU4NWFkMTI5MDVjNmE5YzdfSUQ6NzYyNDg4MzUwNDkyNDM2MzcwN18xNzc1MzA3NzIzOjE3NzUzOTQxMjNfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
@@ -670,7 +727,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-feature" data-cat="艺术片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzUzZjRkOTU0OWI5ZmZmZDcxZTNlZDc5YmNmZGI2MWZfYzJlMWE2YTg2YjllMGYwOGI5YjA0OWZjMWU5ZDViZmZfSUQ6NzYyNDg4Mzk3MjcyMzUxMDQ5Nl8xNzc1MzA3NzI0OjE3NzUzOTQxMjRfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MzUzZjRkOTU0OWI5ZmZmZDcxZTNlZDc5YmNmZGI2MWZfYzJlMWE2YTg2YjllMGYwOGI5YjA0OWZjMWU5ZDViZmZfSUQ6NzYyNDg4Mzk3MjcyMzUxMDQ5Nl8xNzc1MzA3NzI0OjE3NzUzOTQxMjRfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
@@ -681,7 +739,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-tall" data-cat="艺术片">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGRjODcxMjU2YzY5Y2RhYWY1NDViZGEwMGI0NWM5ZmZfNzVlYjMyODRlNWUyZmU3OWMyYTcwZTI0N2E1ZGQ4YmZfSUQ6NzYyNDg4NDI2OTU0NjIxMjI4MV8xNzc1MzA3NzI0OjE3NzUzOTQxMjRfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=OGRjODcxMjU2YzY5Y2RhYWY1NDViZGEwMGI0NWM5ZmZfNzVlYjMyODRlNWUyZmU3OWMyYTcwZTI0N2E1ZGQ4YmZfSUQ6NzYyNDg4NDI2OTU0NjIxMjI4MV8xNzc1MzA3NzI0OjE3NzUzOTQxMjRfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
@@ -692,7 +751,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWIwNzk2NzJlNDEyYTMyZTgwNWU5NjUwNjlmNTQwY2VfMGMzNGI4ODJlZDEzZTcyNDU2YWZhYjZhNTFmYWEyZWJfSUQ6NzYyNDg4NTY5NzUwMTEzODA5OV8xNzc1MzA3NzI0OjE3NzUzOTQxMjRfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MWIwNzk2NzJlNDEyYTMyZTgwNWU5NjUwNjlmNTQwY2VfMGMzNGI4ODJlZDEzZTcyNDU2YWZhYjZhNTFmYWEyZWJfSUQ6NzYyNDg4NTY5NzUwMTEzODA5OV8xNzc1MzA3NzI0OjE3NzUzOTQxMjRfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -703,7 +763,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="创意动画">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODU4YzNiNTg5YTg0M2MyMDZmNTQxOWRmYzYwYTY3ODBfOWFkYjkwZDVmYTc2OGVkZDY2ZmQ0OWQ4NjRmNDk3NDJfSUQ6NzYyNDg4NjIxNjE3MjgwMDk2Ml8xNzc1MzA3NzI1OjE3NzUzOTQxMjVfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=ODU4YzNiNTg5YTg0M2MyMDZmNTQxOWRmYzYwYTY3ODBfOWFkYjkwZDVmYTc2OGVkZDY2ZmQ0OWQ4NjRmNDk3NDJfSUQ6NzYyNDg4NjIxNjE3MjgwMDk2Ml8xNzc1MzA3NzI1OjE3NzUzOTQxMjVfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
@@ -714,7 +775,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-panoramic" data-cat="广告">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjFhOGI3N2EzMjIzMDQ1ZWJkYmRkM2E3M2M5N2VmYTFfYzUwMDZiMjEyNzNlZGJlYzUxNGI4YmMyZDAzMjk0NjJfSUQ6NzYyNDg4Njc2Mjg2Mjc3NTI0MV8xNzc1MzA3NzI1OjE3NzUzOTQxMjVfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=NjFhOGI3N2EzMjIzMDQ1ZWJkYmRkM2E3M2M5N2VmYTFfYzUwMDZiMjEyNzNlZGJlYzUxNGI4YmMyZDAzMjk0NjJfSUQ6NzYyNDg4Njc2Mjg2Mjc3NTI0MV8xNzc1MzA3NzI1OjE3NzUzOTQxMjVfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">AD</span>
       <div class="pan-overlay">
         <div class="pan-meta">广告 · 33秒</div>
@@ -725,7 +787,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   </div>
   <div class="card layout-normal" data-cat="故事">
     <div class="card-media">
-      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDlhNDQ2ZjJmOWFmYTY0NWE1ODA2ZmRkZTZmYTQxMDlfZTlmN2ZkZmQ0OWJkM2IzYzQzMGQyN2Y5OTY0ZDRlMjdfSUQ6NzYyNDg4NjgzNTQ1NzY3NDQ1Ml8xNzc1MzA3NzI2OjE3NzUzOTQxMjZfVjM" controls preload="metadata" playsinline></video>
+      <video src="https://internal-api-drive-stream.feishu.cn/space/api/box/stream/download/authcode/?code=MDlhNDQ2ZjJmOWFmYTY0NWE1ODA2ZmRkZTZmYTQxMDlfZTlmN2ZkZmQ0OWJkM2IzYzQzMGQyN2Y5OTY0ZDRlMjdfSUQ6NzYyNDg4NjgzNTQ1NzY3NDQ1Ml8xNzc1MzA3NzI2OjE3NzUzOTQxMjZfVjM" preload="metadata" playsinline>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></video>
       <span class="cat-badge">STORY</span>
     </div>
     <div class="card-info">
@@ -827,6 +890,27 @@ document.querySelectorAll('.filter').forEach(btn=>{
     });
   });
 });
+
+// Click to play/pause
+document.querySelectorAll('.card-media').forEach(media => {
+  media.addEventListener('click', () => {
+    const video = media.querySelector('video');
+    const card = media.closest('.card');
+    if (!video) return;
+    if (video.paused) {
+      // Pause all others
+      document.querySelectorAll('.card-media video').forEach(v => {
+        if (v !== video) { v.pause(); v.closest('.card')?.classList.remove('playing'); }
+      });
+      video.play();
+      card?.classList.add('playing');
+    } else {
+      video.pause();
+      card?.classList.remove('playing');
+    }
+  });
+});
+
 </script>
 </body>
-</html><!-- Sun Apr  5 11:07:08 CST 2026 -->
+</html>
