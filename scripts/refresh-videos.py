@@ -17,58 +17,56 @@ OUTPUT_FILE = REPO_DIR / "api" / "videos.json"
 COVERS_FILE = REPO_DIR / "api" / "covers.json"
 LOG_FILE = Path.home() / ".logs" / "refresh-videos.log"
 
-# All 46 video tokens from Feishu Bitable
+# All 44 video tokens from Feishu Bitable (ordered by 序号)
 ALL_TOKENS = [
-    "Al0Xbi5PioKbckxy6NscTgR0n2g", "YXcZbP4LgomNinxtm6KcccapnVc",
-    "HjembEj07oSwa9xMUtncND1anDi", "FTQTbyKSKot76Pxb56GcmRlJnzf",
-    "JWIbbCJRaoU4pfxdRIycnjOfnve", "PnHDbmIrhogyzlxYt6WcJTz9nVd",
-    "NCP9bVUaxoufMXxGeWlcJI7XnSe", "DhdgbiP8lofMpqxOwRrcOOlFnQf",
-    "BMXLbLqH1obvRTxsycicd20Sneh", "LCw3bLV73opArEx74eocbexon9b",
-    "Xg6mbcSxpoDjAlxsadkcOC9rn8b", "SXUzbn5QSorwYSxYFa5cOqNrn4b",
-    "WDSEbIhK2owK8hxwMcCc9ITenmb", "ESTyb8ZDooXq20xhr7Bc31lanff",
+    "Al0Xbi5PioKbckxy6NscTgR0n2g", "PnHDbmIrhogyzlxYt6WcJTz9nVd",
+    "WDSEbIhK2owK8hxwMcCc9ITenmb", "U0v4bGhGzoZkbXxfEwYceGqrnsb",
+    "YXcZbP4LgomNinxtm6KcccapnVc", "JWIbbCJRaoU4pfxdRIycnjOfnve",
+    "NCP9bVUaxoufMXxGeWlcJI7XnSe", "IGa4br37boMyS2xBFmmc24WvnVb",
+    "FopYbCSvAoguvQxUzx7cRhBTneh", "DhdgbiP8lofMpqxOwRrcOOlFnQf",
+    "GQVibPzRfoPs0VxIee2cE7AZnch", "LAZ5b2QBOoSm6XxsesHcepCJn7e",
+    "LCw3bLV73opArEx74eocbexon9b", "Ge3gbJYPnoMODMxKN5lct2Gbn1g",
+    "VfI9bCdAcoK5owxEp04chcacn3e", "Xg6mbcSxpoDjAlxsadkcOC9rn8b",
+    "HjembEj07oSwa9xMUtncND1anDi", "HnlGb4yTloTSIPx1vNuc95BknQe",
+    "XYXybsYSUouWH5xO8Yxc6lwTnIj", "DRWAb5TsVoIt1vxIvvScUe0SnDd",
+    "CtAbbt87QoojmwxP4CPc80A8nzd", "HG1jblXQPolaxExQdwXclJjwnJe",
+    "LIWMbxmoGou4p1xbObQc4nSrn1g", "FTQTbyKSKot76Pxb56GcmRlJnzf",
+    "NnsUbFwGioSLHLxzRp3c0n7mnxb", "AEV2bWIIxoEJaxxqEUocAlNinBh",
+    "LyU5bDlecoX5vzx7sThc7k3Oncf", "PBOMbcO21o3LuCxVBfuctuSsnje",
+    "RqUibvkSHoC1ZZxTODVcu80jnKm", "LJBob0vVVoVlFtxk0iDcNprhnZf",
+    "TmrmbEa2ZoqSY4xzPXccAZt7n5f", "Wh4ZbUqTPo9uwqxq0nycLvTdnIe",
+    "IWIzbezWJo9W6Ix2B5McV64znch", "PNWob5owSo0K50xfschcVrKPnsu",
+    "SXUzbn5QSorwYSxYFa5cOqNrn4b", "KyK9bTN1zoBtPexCZJOcx6tlnqh",
+    "CFewbtjoboOQ4DxReoxcTiLYnmd", "BFpPbzmB7omxsXxcjTBcG9wqnCg",
+    "FbjIbwnk0osonPxYNhOc5eQWnFf", "OvoMbO0UaoPxJfxlBKLcWFspnHf",
     "Kc5Ybw24boj0ywxxf6ycIW7CnMb", "T1ivbgZ29o0mn0xr3KRceSwHn5f",
-    "VfI9bCdAcoK5owxEp04chcacn3e", "PBOMbcO21o3LuCxVBfuctuSsnje",
-    "XYXybsYSUouWH5xO8Yxc6lwTnIj", "IGa4br37boMyS2xBFmmc24WvnVb",
-    "GQVibPzRfoPs0VxIee2cE7AZnch", "DRWAb5TsVoIt1vxIvvScUe0SnDd",
-    "Ge3gbJYPnoMODMxKN5lct2Gbn1g", "CtAbbt87QoojmwxP4CPc80A8nzd",
-    "HnlGb4yTloTSIPx1vNuc95BknQe", "RFIUb7NPgovTj7xBtsWcfOUTnfd",
-    "LIWMbxmoGou4p1xbObQc4nSrn1g", "NnsUbFwGioSLHLxzRp3c0n7mnxb",
-    "AEV2bWIIxoEJaxxqEUocAlNinBh", "LyU5bDlecoX5vzx7sThc7k3Oncf",
-    "FopYbCSvAoguvQxUzx7cRhBTneh", "RqUibvkSHoC1ZZxTODVcu80jnKm",
-    "LAZ5b2QBOoSm6XxsesHcepCJn7e", "TmrmbEa2ZoqSY4xzPXccAZt7n5f",
-    "HG1jblXQPolaxExQdwXclJjwnJe", "PNWob5owSo0K50xfschcVrKPnsu",
-    "CFewbtjoboOQ4DxReoxcTiLYnmd", "U0v4bGhGzoZkbXxfEwYceGqrnsb",
-    "LJBob0vVVoVlFtxk0iDcNprhnZf", "Wh4ZbUqTPo9uwqxq0nycLvTdnIe",
-    "BFpPbzmB7omxsXxcjTBcG9wqnCg", "IWIzbezWJo9W6Ix2B5McV64znch",
-    "FbjIbwnk0osonPxYNhOc5eQWnFf", "KyK9bTN1zoBtPexCZJOcx6tlnqh",
-    "FArZbJbd8ow2EjxNq2jcbY8anrg", "OvoMbO0UaoPxJfxlBKLcWFspnHf",
+    "ESTyb8ZDooXq20xhr7Bc31lanff", "RFIUb7NPgovTj7xBtsWcfOUTnfd",
 ]
 
-# All 46 cover image tokens from Feishu Bitable
+# All 44 cover image tokens from Feishu Bitable (ordered by 序号)
 ALL_COVER_TOKENS = [
-    "XIi5bHICko2l20xpad3cNUQ3nqg", "JzgAbijXEoQxBfxCDlgcwR6VnbK",
-    "XH6RbxYNNoobSFx4a1UcWQsznHd", "KxpwbdxzWobMf6xQEOtcNdwDnbo",
-    "EKFUbk03aoVllsxqtqRcqUApn6e", "McI5b7NkyoOx4dxm6XCcIYOhn9e",
-    "X7Yrb6I55oqBI7x7sAocL7oIncg", "WU7ObY9laowtG4xxBH5c3o1znOg",
-    "PzqWbWmtXo6HTsxHZaAc59IvnUb", "GVn3byufPox0i6xcAfbcGd6cnHf",
-    "BDRubrdnDoOWRsxYCVfcSQQtnnf", "VwjcbOjX8oeJ8UxaGZqccPHtnOc",
-    "IaDrbeps2o0VcIxgnaXcoUBYnfb", "JmlMbL4Gfo3Cy7xYwTbczcP5nmg",
+    "XIi5bHICko2l20xpad3cNUQ3nqg", "BDKxbH9WVoXHRpxKB6WcqestnOb",
+    "IaDrbeps2o0VcIxgnaXcoUBYnfb", "QBqkb2IZOopj51x1cVyc2RONntf",
+    "DDd5bh64XoBEHoxuOjCcj7xInuh", "EKFUbk03aoVllsxqtqRcqUApn6e",
+    "X7Yrb6I55oqBI7x7sAocL7oIncg", "LmFvbWzrWoSDuNxThqVcS6Gonke",
+    "SW3IbyWc8oo15Bxx5K4cDSR6nWe", "WU7ObY9laowtG4xxBH5c3o1znOg",
+    "AZuZb8PQ3oYmgHxCSsNcgw0tn4e", "K9tDbmGQ6oE08txlCi3c1cmIn8f",
+    "GVn3byufPox0i6xcAfbcGd6cnHf", "QfsJbaVHlo14OIx1kSYcaQaZnOg",
+    "F0gtbyAFgo0w6gxflvVc19Wpn7c", "BDRubrdnDoOWRsxYCVfcSQQtnnf",
+    "XH6RbxYNNoobSFx4a1UcWQsznHd", "K4gIbjRnloUB61x23AMcPd5dnmi",
+    "SBmMbEBOdoQB7OxRQ41cDtEDnue", "CwkkbR3kto8Kf5xpm2ucOMRQntb",
+    "PshUbMbNroDsUVxWRlycgFOmnhe", "EwN8blijho8239xDGdrcPqBQnlg",
+    "AORYbfqr4ohUWLxY31bcBv7DnJe", "KxpwbdxzWobMf6xQEOtcNdwDnbo",
+    "TztBbWwPiotgqGxdHzmc6RInnte", "EoDfbJ08do26NJxFSJwcFmWonQg",
+    "T6U5bDNl2o06FIxZdEbc20iBnbf", "BASdb68ZuoaTFvxrlhGcqeLunfe",
+    "JWIjbJiMCopzh1x7vkxcFj8Yn2b", "UhpCb9jBgohZy1xs2CjcuwWwneb",
+    "DwhDbrHnDorPQfxWJlNct8s3nJh", "IG3SbpxaRofKRpxrONmcTqZen4g",
+    "IetKblvxyoxu4ZxYHjncu8udnBs", "H9L4b3ibXo5VoQxiZ25chOKHnRg",
+    "VwjcbOjX8oeJ8UxaGZqccPHtnOc", "YV03bApAfoueaLxY7HIcVjHGnYe",
+    "Okpjbqg4UorUIHxl1oYcNlBMnrb", "WdnmbAs8goWVQZxdqMgcFc54nuh",
+    "XogCb3Z5coiJfRxmFKicteksnnb", "U5MbbD5YRorXkNxLKJoc0V6Unyg",
     "MvIYb4iGVoHLdqxZgdfcfR1VnwT", "ZjaKbBLnjo2MmfxxwIFcW1NwnBh",
-    "F0gtbyAFgo0w6gxflvVc19Wpn7c", "BASdb68ZuoaTFvxrlhGcqeLunfe",
-    "SBmMbEBOdoQB7OxRQ41cDtEDnue", "LmFvbWzrWoSDuNxThqVcS6Gonke",
-    "AZuZb8PQ3oYmgHxCSsNcgw0tn4e", "CwkkbR3kto8Kf5xpm2ucOMRQntb",
-    "QfsJbaVHlo14OIx1kSYcaQaZnOg", "PshUbMbNroDsUVxWRlycgFOmnhe",
-    "K4gIbjRnloUB61x23AMcPd5dnmi", "HA6NbtpwtooewSx5Xurc4fvEnPf",
-    "AORYbfqr4ohUWLxY31bcBv7DnJe", "TztBbWwPiotgqGxdHzmc6RInnte",
-    "EoDfbJ08do26NJxFSJwcFmWonQg", "T6U5bDNl2o06FIxZdEbc20iBnbf",
-    "SW3IbyWc8oo15Bxx5K4cDSR6nWe", "JWIjbJiMCopzh1x7vkxcFj8Yn2b",
-    "K9tDbmGQ6oE08txlCi3c1cmIn8f", "DwhDbrHnDorPQfxWJlNct8s3nJh",
-    "EwN8blijho8239xDGdrcPqBQnlg", "H9L4b3ibXo5VoQxiZ25chOKHnRg",
-    "Okpjbqg4UorUIHxl1oYcNlBMnrb", "QBqkb2IZOopj51x1cVyc2RONntf",
-    "UhpCb9jBgohZy1xs2CjcuwWwneb", "IG3SbpxaRofKRpxrONmcTqZen4g",
-    "WdnmbAs8goWVQZxdqMgcFc54nuh", "IetKblvxyoxu4ZxYHjncu8udnBs",
-    "XogCb3Z5coiJfRxmFKicteksnnb", "YV03bApAfoueaLxY7HIcVjHGnYe",
-    "QaqxbBT0yozFI2xQJihcbdUvnUr", "U5MbbD5YRorXkNxLKJoc0V6Unyg",
+    "JmlMbL4Gfo3Cy7xYwTbczcP5nmg", "HA6NbtpwtooewSx5Xurc4fvEnPf",
 ]
 
 BATCH_SIZE = 5
@@ -115,7 +113,7 @@ def refresh_all(token_list, label):
 
 
 def main():
-    log(f"Starting refresh: {len(ALL_TOKENS)} videos + {len(ALL_COVER_TOKENS)} covers")
+    log(f"Starting refresh: 44 videos + {len(ALL_COVER_TOKENS)} covers")
 
     # Refresh video URLs
     url_map = refresh_all(ALL_TOKENS, "video")

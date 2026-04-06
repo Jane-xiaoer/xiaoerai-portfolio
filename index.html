@@ -53,9 +53,9 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(251,249,244,0.82
 
 /* ═══ PINTEREST MASONRY ═══ */
 .grid{
-  columns:3;
-  column-gap:20px;
-  padding:32px 48px 80px;
+  columns:4;
+  column-gap:16px;
+  padding:28px 40px 72px;
   max-width:1440px;
   margin:0 auto;
 }
@@ -102,8 +102,8 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(251,249,244,0.82
 
 /* ── ASPECT RATIOS — balanced crop, Pinterest magazine feel ── */
 .layout-feature .card-media{aspect-ratio:3/4}
-.layout-tall .card-media{aspect-ratio:2/3}
-.layout-normal .card-media{aspect-ratio:4/3}
+.layout-tall .card-media{aspect-ratio:3/5}
+.layout-normal .card-media{aspect-ratio:5/3}
 .layout-panoramic .card-media{aspect-ratio:1/1}
 
 /* Panoramic overlay info */
@@ -353,48 +353,61 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">广告 · 30秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">Ears产品广告</h3>
       <p class="card-tools">GPT，runway，剪映</p>
     </div>
   </div>
+  <div class="card layout-panoramic" data-cat="艺术片">
+    <div class="card-media">
+      <video data-token="PnHDbmIrhogyzlxYt6WcJTz9nVd" data-cover-token="BDKxbH9WVoXHRpxKB6WcqestnOb" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">耳畔有风系列</h3>
+      <p class="card-tools">MJ，即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video data-token="WDSEbIhK2owK8hxwMcCc9ITenmb" data-cover-token="IaDrbeps2o0VcIxgnaXcoUBYnfb" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">香皂广告</h3>
+      <p class="card-tools">Skill 工作流</p>
+    </div>
+  </div>
+  <div class="card layout-panoramic" data-cat="艺术片">
+    <div class="card-media">
+      <video data-token="U0v4bGhGzoZkbXxfEwYceGqrnsb" data-cover-token="QBqkb2IZOopj51x1cVyc2RONntf" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">耳畔有风系列-苹果少女</h3>
+      <p class="card-tools">MJ，可灵，剪映</p>
+    </div>
+  </div>
   <div class="card layout-panoramic" data-cat="创意动画">
     <div class="card-media">
-      <video data-token="YXcZbP4LgomNinxtm6KcccapnVc" data-cover-token="JzgAbijXEoQxBfxCDlgcwR6VnbK" preload="metadata" playsinline></video>
+      <video data-token="YXcZbP4LgomNinxtm6KcccapnVc" data-cover-token="DDd5bh64XoBEHoxuOjCcj7xInuh" preload="metadata" playsinline></video>
       <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">创意动画 · 1分51秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">夏日炎炎</h3>
       <p class="card-tools">MJ，keling，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="创意动画">
-    <div class="card-media">
-      <video data-token="HjembEj07oSwa9xMUtncND1anDi" data-cover-token="XH6RbxYNNoobSFx4a1UcWQsznHd" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">CREATIVE</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">创意动画 · 23秒</div>
-      <h3 class="card-title">偷月亮的猫咪</h3>
-      <p class="card-tools">sora，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-normal" data-cat="创意动画">
-    <div class="card-media">
-      <video data-token="FTQTbyKSKot76Pxb56GcmRlJnzf" data-cover-token="KxpwbdxzWobMf6xQEOtcNdwDnbo" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">CREATIVE</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">创意动画 · 11秒</div>
-      <h3 class="card-title">毛线织天坛</h3>
-      <p class="card-tools">Veo3，剪映</p>
     </div>
   </div>
   <div class="card layout-normal" data-cat="故事">
@@ -405,21 +418,8 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">STORY</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">故事 · 2分零7秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">个人故事片</h3>
-      <p class="card-tools">MJ，即梦，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-panoramic" data-cat="艺术片">
-    <div class="card-media">
-      <video data-token="PnHDbmIrhogyzlxYt6WcJTz9nVd" data-cover-token="McI5b7NkyoOx4dxm6XCcIYOhn9e" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">ART</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">艺术片 · 2分零7秒</div>
-      <h3 class="card-title">耳畔有风系列</h3>
       <p class="card-tools">MJ，即梦，剪映</p>
     </div>
   </div>
@@ -431,165 +431,9 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">艺术片 · 2分零6秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">大地荒舞系列</h3>
       <p class="card-tools">MJ，即梦，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-normal" data-cat="广告">
-    <div class="card-media">
-      <video data-token="DhdgbiP8lofMpqxOwRrcOOlFnQf" data-cover-token="WU7ObY9laowtG4xxBH5c3o1znOg" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 35秒</div>
-      <h3 class="card-title">香薰广告</h3>
-      <p class="card-tools">Skill工作流</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="广告">
-    <div class="card-media">
-      <video data-token="BMXLbLqH1obvRTxsycicd20Sneh" data-cover-token="PzqWbWmtXo6HTsxHZaAc59IvnUb" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 1分零2秒</div>
-      <h3 class="card-title">金鹏企业定制</h3>
-      <p class="card-tools">即梦，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-normal" data-cat="广告">
-    <div class="card-media">
-      <video data-token="LCw3bLV73opArEx74eocbexon9b" data-cover-token="GVn3byufPox0i6xcAfbcGd6cnHf" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 31秒</div>
-      <h3 class="card-title">国风产品广告</h3>
-      <p class="card-tools">GPT，即梦</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="广告">
-    <div class="card-media">
-      <video data-token="Xg6mbcSxpoDjAlxsadkcOC9rn8b" data-cover-token="BDRubrdnDoOWRsxYCVfcSQQtnnf" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 10秒</div>
-      <h3 class="card-title">香水广告</h3>
-      <p class="card-tools">sora</p>
-    </div>
-  </div>
-  <div class="card layout-normal" data-cat="创意动画">
-    <div class="card-media">
-      <video data-token="SXUzbn5QSorwYSxYFa5cOqNrn4b" data-cover-token="VwjcbOjX8oeJ8UxaGZqccPHtnOc" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">CREATIVE</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">创意动画 · 10秒</div>
-      <h3 class="card-title">猫咪</h3>
-      <p class="card-tools">veo3</p>
-    </div>
-  </div>
-  <div class="card layout-normal" data-cat="广告">
-    <div class="card-media">
-      <video data-token="WDSEbIhK2owK8hxwMcCc9ITenmb" data-cover-token="IaDrbeps2o0VcIxgnaXcoUBYnfb" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 30秒</div>
-      <h3 class="card-title">香皂广告</h3>
-      <p class="card-tools">Skill 工作流</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="宣传片">
-    <div class="card-media">
-      <video data-token="ESTyb8ZDooXq20xhr7Bc31lanff" data-cover-token="JmlMbL4Gfo3Cy7xYwTbczcP5nmg" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">PROMO</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">宣传片 · 28秒</div>
-      <h3 class="card-title">花会节宣传片1</h3>
-      <p class="card-tools">GPT，即梦，tapnow，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="宣传片">
-    <div class="card-media">
-      <video data-token="Kc5Ybw24boj0ywxxf6ycIW7CnMb" data-cover-token="MvIYb4iGVoHLdqxZgdfcfR1VnwT" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">PROMO</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">宣传片 · 20秒</div>
-      <h3 class="card-title">花会节宣传片2</h3>
-      <p class="card-tools">即梦，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="宣传片">
-    <div class="card-media">
-      <video data-token="T1ivbgZ29o0mn0xr3KRceSwHn5f" data-cover-token="ZjaKbBLnjo2MmfxxwIFcW1NwnBh" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">PROMO</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">宣传片 · 20秒</div>
-      <h3 class="card-title">花会节宣传片3</h3>
-      <p class="card-tools">即梦，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="创意动画">
-    <div class="card-media">
-      <video data-token="VfI9bCdAcoK5owxEp04chcacn3e" data-cover-token="F0gtbyAFgo0w6gxflvVc19Wpn7c" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">CREATIVE</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">创意动画 · 10秒</div>
-      <h3 class="card-title">惬意的时光</h3>
-      <p class="card-tools">sora</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="故事">
-    <div class="card-media">
-      <video data-token="PBOMbcO21o3LuCxVBfuctuSsnje" data-cover-token="BASdb68ZuoaTFvxrlhGcqeLunfe" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">STORY</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">故事 · 1分钟</div>
-      <h3 class="card-title">龙虾员工的糗事</h3>
-      <p class="card-tools">tapnow，可灵</p>
-    </div>
-  </div>
-  <div class="card layout-normal" data-cat="故事">
-    <div class="card-media">
-      <video data-token="XYXybsYSUouWH5xO8Yxc6lwTnIj" data-cover-token="SBmMbEBOdoQB7OxRQ41cDtEDnue" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">STORY</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">故事 · 1分钟零9秒</div>
-      <h3 class="card-title">哲学家泰勒斯的故事</h3>
-      <p class="card-tools">MJ，可灵，剪映</p>
     </div>
   </div>
   <div class="card layout-tall" data-cat="艺术片">
@@ -600,9 +444,35 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">艺术片 · 1分钟56秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">创世纪</h3>
       <p class="card-tools">SD，可灵，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="广告">
+    <div class="card-media">
+      <video data-token="FopYbCSvAoguvQxUzx7cRhBTneh" data-cover-token="SW3IbyWc8oo15Bxx5K4cDSR6nWe" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">项链广告</h3>
+      <p class="card-tools">Sora</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video data-token="DhdgbiP8lofMpqxOwRrcOOlFnQf" data-cover-token="WU7ObY9laowtG4xxBH5c3o1znOg" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">香薰广告</h3>
+      <p class="card-tools">Skill工作流</p>
     </div>
   </div>
   <div class="card layout-normal" data-cat="创意动画">
@@ -613,21 +483,34 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">创意动画 · 15秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">神奇的画1</h3>
       <p class="card-tools">GPT，即梦</p>
     </div>
   </div>
-  <div class="card layout-normal" data-cat="创意动画">
+  <div class="card layout-tall" data-cat="广告">
     <div class="card-media">
-      <video data-token="DRWAb5TsVoIt1vxIvvScUe0SnDd" data-cover-token="CwkkbR3kto8Kf5xpm2ucOMRQntb" preload="metadata" playsinline></video>
+      <video data-token="LAZ5b2QBOoSm6XxsesHcepCJn7e" data-cover-token="K9tDbmGQ6oE08txlCi3c1cmIn8f" preload="metadata" playsinline></video>
       <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">CREATIVE</span>
+      <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">创意动画 · 15秒</div>
-      <h3 class="card-title">神奇的画2</h3>
+      <div class="card-meta"></div>
+      <h3 class="card-title">香水广告</h3>
+      <p class="card-tools">Sora ，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video data-token="LCw3bLV73opArEx74eocbexon9b" data-cover-token="GVn3byufPox0i6xcAfbcGd6cnHf" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">国风产品广告</h3>
       <p class="card-tools">GPT，即梦</p>
     </div>
   </div>
@@ -639,21 +522,47 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">广告 · 29秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">小产品大广告</h3>
       <p class="card-tools">GPT，Grok，剪映</p>
     </div>
   </div>
-  <div class="card layout-normal" data-cat="广告">
+  <div class="card layout-tall" data-cat="创意动画">
     <div class="card-media">
-      <video data-token="CtAbbt87QoojmwxP4CPc80A8nzd" data-cover-token="PshUbMbNroDsUVxWRlycgFOmnhe" preload="metadata" playsinline></video>
+      <video data-token="VfI9bCdAcoK5owxEp04chcacn3e" data-cover-token="F0gtbyAFgo0w6gxflvVc19Wpn7c" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">惬意的时光</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="广告">
+    <div class="card-media">
+      <video data-token="Xg6mbcSxpoDjAlxsadkcOC9rn8b" data-cover-token="BDRubrdnDoOWRsxYCVfcSQQtnnf" preload="metadata" playsinline></video>
       <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">广告 · 21秒</div>
-      <h3 class="card-title">凌宝BOX大片</h3>
+      <div class="card-meta"></div>
+      <h3 class="card-title">香水广告</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="创意动画">
+    <div class="card-media">
+      <video data-token="HjembEj07oSwa9xMUtncND1anDi" data-cover-token="XH6RbxYNNoobSFx4a1UcWQsznHd" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">偷月亮的猫咪</h3>
       <p class="card-tools">sora，剪映</p>
     </div>
   </div>
@@ -665,22 +574,61 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">广告 · 15秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">香薰广告</h3>
       <p class="card-tools">sora</p>
     </div>
   </div>
-  <div class="card layout-tall" data-cat="艺术片">
+  <div class="card layout-normal" data-cat="故事">
     <div class="card-media">
-      <video data-token="RFIUb7NPgovTj7xBtsWcfOUTnfd" data-cover-token="HA6NbtpwtooewSx5Xurc4fvEnPf" preload="metadata" playsinline></video>
+      <video data-token="XYXybsYSUouWH5xO8Yxc6lwTnIj" data-cover-token="SBmMbEBOdoQB7OxRQ41cDtEDnue" preload="metadata" playsinline></video>
       <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">ART</span>
+      <span class="cat-badge">STORY</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">艺术片 · 40秒</div>
-      <h3 class="card-title">生物幽灵</h3>
-      <p class="card-tools">P5js，剪映</p>
+      <div class="card-meta"></div>
+      <h3 class="card-title">哲学家泰勒斯的故事</h3>
+      <p class="card-tools">MJ，可灵，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video data-token="DRWAb5TsVoIt1vxIvvScUe0SnDd" data-cover-token="CwkkbR3kto8Kf5xpm2ucOMRQntb" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">神奇的画2</h3>
+      <p class="card-tools">GPT，即梦</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="广告">
+    <div class="card-media">
+      <video data-token="CtAbbt87QoojmwxP4CPc80A8nzd" data-cover-token="PshUbMbNroDsUVxWRlycgFOmnhe" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">凌宝BOX大片</h3>
+      <p class="card-tools">sora，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="广告">
+    <div class="card-media">
+      <video data-token="HG1jblXQPolaxExQdwXclJjwnJe" data-cover-token="EwN8blijho8239xDGdrcPqBQnlg" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">方程式服装秀场</h3>
+      <p class="card-tools">sora</p>
     </div>
   </div>
   <div class="card layout-tall" data-cat="创意动画">
@@ -691,9 +639,22 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">创意动画 · 10秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">奇幻人类大赏</h3>
       <p class="card-tools">Sora</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video data-token="FTQTbyKSKot76Pxb56GcmRlJnzf" data-cover-token="KxpwbdxzWobMf6xQEOtcNdwDnbo" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">毛线织天坛</h3>
+      <p class="card-tools">Veo3，剪映</p>
     </div>
   </div>
   <div class="card layout-tall" data-cat="创意动画">
@@ -704,7 +665,7 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">创意动画 · 10秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">奇幻人类大赏2</h3>
       <p class="card-tools">sora</p>
     </div>
@@ -717,7 +678,7 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">创意动画 · 10秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">罗小黑不溜秋</h3>
       <p class="card-tools">sora</p>
     </div>
@@ -730,22 +691,22 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">创意动画 · 24秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">古乐绵绵</h3>
       <p class="card-tools">nano banana，可灵，剪映</p>
     </div>
   </div>
-  <div class="card layout-tall" data-cat="广告">
+  <div class="card layout-normal" data-cat="故事">
     <div class="card-media">
-      <video data-token="FopYbCSvAoguvQxUzx7cRhBTneh" data-cover-token="SW3IbyWc8oo15Bxx5K4cDSR6nWe" preload="metadata" playsinline></video>
+      <video data-token="PBOMbcO21o3LuCxVBfuctuSsnje" data-cover-token="BASdb68ZuoaTFvxrlhGcqeLunfe" preload="metadata" playsinline></video>
       <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
+      <span class="cat-badge">STORY</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">广告 · 13秒</div>
-      <h3 class="card-title">项链广告</h3>
-      <p class="card-tools">Sora</p>
+      <div class="card-meta"></div>
+      <h3 class="card-title">龙虾员工的糗事</h3>
+      <p class="card-tools">tapnow，可灵</p>
     </div>
   </div>
   <div class="card layout-tall" data-cat="广告">
@@ -756,87 +717,9 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">广告 · 17秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">粉饼广告</h3>
       <p class="card-tools">Sora ，可灵 ，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="广告">
-    <div class="card-media">
-      <video data-token="LAZ5b2QBOoSm6XxsesHcepCJn7e" data-cover-token="K9tDbmGQ6oE08txlCi3c1cmIn8f" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 17秒</div>
-      <h3 class="card-title">香水广告</h3>
-      <p class="card-tools">Sora ，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="广告">
-    <div class="card-media">
-      <video data-token="TmrmbEa2ZoqSY4xzPXccAZt7n5f" data-cover-token="DwhDbrHnDorPQfxWJlNct8s3nJh" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 20秒</div>
-      <h3 class="card-title">香薰广告</h3>
-      <p class="card-tools">sora，可灵，剪映</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="广告">
-    <div class="card-media">
-      <video data-token="HG1jblXQPolaxExQdwXclJjwnJe" data-cover-token="EwN8blijho8239xDGdrcPqBQnlg" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 13秒</div>
-      <h3 class="card-title">方程式服装秀场</h3>
-      <p class="card-tools">sora</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="广告">
-    <div class="card-media">
-      <video data-token="PNWob5owSo0K50xfschcVrKPnsu" data-cover-token="H9L4b3ibXo5VoQxiZ25chOKHnRg" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 10秒</div>
-      <h3 class="card-title">方程式服装秀场2</h3>
-      <p class="card-tools">sora</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="广告">
-    <div class="card-media">
-      <video data-token="CFewbtjoboOQ4DxReoxcTiLYnmd" data-cover-token="Okpjbqg4UorUIHxl1oYcNlBMnrb" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">AD</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">广告 · 10秒</div>
-      <h3 class="card-title">方程式服装秀场3</h3>
-      <p class="card-tools">sora</p>
-    </div>
-  </div>
-  <div class="card layout-panoramic" data-cat="艺术片">
-    <div class="card-media">
-      <video data-token="U0v4bGhGzoZkbXxfEwYceGqrnsb" data-cover-token="QBqkb2IZOopj51x1cVyc2RONntf" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">ART</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">艺术片 · 1分零9秒</div>
-      <h3 class="card-title">耳畔有风系列-苹果少女</h3>
-      <p class="card-tools">MJ，可灵，剪映</p>
     </div>
   </div>
   <div class="card layout-tall" data-cat="艺术片">
@@ -847,9 +730,22 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">艺术片 · 32</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">耳畔有风系列-人马</h3>
       <p class="card-tools">MJ</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="广告">
+    <div class="card-media">
+      <video data-token="TmrmbEa2ZoqSY4xzPXccAZt7n5f" data-cover-token="DwhDbrHnDorPQfxWJlNct8s3nJh" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">香薰广告</h3>
+      <p class="card-tools">sora，可灵，剪映</p>
     </div>
   </div>
   <div class="card layout-tall" data-cat="艺术片">
@@ -860,22 +756,9 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">艺术片 · 36</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">大地荒舞系列-小舞蹈家</h3>
       <p class="card-tools">MJ ，Grok</p>
-    </div>
-  </div>
-  <div class="card layout-tall" data-cat="艺术片">
-    <div class="card-media">
-      <video data-token="BFpPbzmB7omxsXxcjTBcG9wqnCg" data-cover-token="WdnmbAs8goWVQZxdqMgcFc54nuh" preload="metadata" playsinline></video>
-      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
-      <span class="cat-badge">ART</span>
-    </div>
-    <div class="card-info">
-      <div class="card-meta">艺术片 · 2分11秒</div>
-      <h3 class="card-title">大地荒舞系列之-念</h3>
-      <p class="card-tools">MJ，即梦，剪映</p>
     </div>
   </div>
   <div class="card layout-tall" data-cat="艺术片">
@@ -886,22 +769,35 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">ART</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">艺术片 · 2分零4秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">大地荒舞系列-鱼的告别</h3>
       <p class="card-tools">MJ，Grok，即梦，剪映</p>
     </div>
   </div>
-  <div class="card layout-tall" data-cat="创意动画">
+  <div class="card layout-tall" data-cat="广告">
     <div class="card-media">
-      <video data-token="FbjIbwnk0osonPxYNhOc5eQWnFf" data-cover-token="XogCb3Z5coiJfRxmFKicteksnnb" preload="metadata" playsinline></video>
+      <video data-token="PNWob5owSo0K50xfschcVrKPnsu" data-cover-token="H9L4b3ibXo5VoQxiZ25chOKHnRg" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">AD</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">方程式服装秀场2</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-normal" data-cat="创意动画">
+    <div class="card-media">
+      <video data-token="SXUzbn5QSorwYSxYFa5cOqNrn4b" data-cover-token="VwjcbOjX8oeJ8UxaGZqccPHtnOc" preload="metadata" playsinline></video>
       <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">创意动画 · 58秒</div>
-      <h3 class="card-title">葱葱蓉蓉</h3>
-      <p class="card-tools">MJ，Grok</p>
+      <div class="card-meta"></div>
+      <h3 class="card-title">猫咪</h3>
+      <p class="card-tools">veo3</p>
     </div>
   </div>
   <div class="card layout-tall" data-cat="创意动画">
@@ -912,22 +808,48 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">CREATIVE</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">创意动画 · 46秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">阿布拉</h3>
       <p class="card-tools">MJ，Grok</p>
     </div>
   </div>
-  <div class="card layout-normal" data-cat="广告">
+  <div class="card layout-tall" data-cat="广告">
     <div class="card-media">
-      <video data-token="FArZbJbd8ow2EjxNq2jcbY8anrg" data-cover-token="QaqxbBT0yozFI2xQJihcbdUvnUr" preload="metadata" playsinline></video>
+      <video data-token="CFewbtjoboOQ4DxReoxcTiLYnmd" data-cover-token="Okpjbqg4UorUIHxl1oYcNlBMnrb" preload="metadata" playsinline></video>
       <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
       <span class="cat-badge">AD</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">广告 · 33秒</div>
-      <h3 class="card-title">水果成分分析</h3>
-      <p class="card-tools">nano banana</p>
+      <div class="card-meta"></div>
+      <h3 class="card-title">方程式服装秀场3</h3>
+      <p class="card-tools">sora</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="艺术片">
+    <div class="card-media">
+      <video data-token="BFpPbzmB7omxsXxcjTBcG9wqnCg" data-cover-token="WdnmbAs8goWVQZxdqMgcFc54nuh" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">大地荒舞系列之-念</h3>
+      <p class="card-tools">MJ，即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="创意动画">
+    <div class="card-media">
+      <video data-token="FbjIbwnk0osonPxYNhOc5eQWnFf" data-cover-token="XogCb3Z5coiJfRxmFKicteksnnb" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">CREATIVE</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">葱葱蓉蓉</h3>
+      <p class="card-tools">MJ，Grok</p>
     </div>
   </div>
   <div class="card layout-normal" data-cat="故事">
@@ -938,11 +860,64 @@ em.char-reveal,em .char-reveal{
       <span class="cat-badge">STORY</span>
     </div>
     <div class="card-info">
-      <div class="card-meta">故事 · 51秒</div>
+      <div class="card-meta"></div>
       <h3 class="card-title">光落到的窗台</h3>
       <p class="card-tools">skll Claude code</p>
     </div>
   </div>
+  <div class="card layout-tall" data-cat="宣传片">
+    <div class="card-media">
+      <video data-token="Kc5Ybw24boj0ywxxf6ycIW7CnMb" data-cover-token="MvIYb4iGVoHLdqxZgdfcfR1VnwT" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">PROMO</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">花会节宣传片2</h3>
+      <p class="card-tools">即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="宣传片">
+    <div class="card-media">
+      <video data-token="T1ivbgZ29o0mn0xr3KRceSwHn5f" data-cover-token="ZjaKbBLnjo2MmfxxwIFcW1NwnBh" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">PROMO</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">花会节宣传片3</h3>
+      <p class="card-tools">即梦，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="宣传片">
+    <div class="card-media">
+      <video data-token="ESTyb8ZDooXq20xhr7Bc31lanff" data-cover-token="JmlMbL4Gfo3Cy7xYwTbczcP5nmg" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">PROMO</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">花会节宣传片1</h3>
+      <p class="card-tools">GPT，即梦，tapnow，剪映</p>
+    </div>
+  </div>
+  <div class="card layout-tall" data-cat="艺术片">
+    <div class="card-media">
+      <video data-token="RFIUb7NPgovTj7xBtsWcfOUTnfd" data-cover-token="HA6NbtpwtooewSx5Xurc4fvEnPf" preload="metadata" playsinline></video>
+      <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <span class="cat-badge">ART</span>
+    </div>
+    <div class="card-info">
+      <div class="card-meta"></div>
+      <h3 class="card-title">生物幽灵</h3>
+      <p class="card-tools">P5js，剪映</p>
+    </div>
+  </div>
+<!-- 44 cards -->
   </div>
   <footer>
     <span class="footer-brand">小耳 Studio · AI Video Works</span>
