@@ -138,7 +138,8 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(251,249,244,0.82
 .about-hero{padding:80px 48px 72px;max-width:1440px;margin:0 auto;border-bottom:0.5px solid var(--outline);display:grid;grid-template-columns:7fr 5fr;gap:80px;align-items:end}
 .about-eyebrow{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.28em;color:var(--primary);margin-bottom:20px;display:flex;align-items:center;gap:10px}
 .about-eyebrow::before{content:'';display:inline-block;width:24px;height:0.5px;background:var(--primary)}
-.about-hero h1{font-family:var(--serif);font-size:clamp(2.5rem,4.5vw,4.5rem);font-weight:400;line-height:1.1;letter-spacing:-0.02em;color:var(--text-dim);margin-bottom:28px}
+.about-hero h1{font-family:var(--serif);font-size:clamp(2.5rem,4.5vw,4.5rem);font-weight:400;line-height:1.1;letter-spacing:-0.02em;color:var(--text-dim);margin-bottom:28px;opacity:0;transform:translateY(22px);transition:opacity 0.7s ease 0.18s,transform 0.7s ease 0.18s}
+.about-hero h1.in{opacity:1;transform:translateY(0)}
 .about-hero h1 em{font-style:italic;color:var(--primary)}
 .about-intro{font-size:1rem;font-weight:300;font-style:italic;color:var(--tertiary);line-height:1.8;margin-bottom:24px;font-family:var(--serif)}
 .about-tags{display:flex;flex-wrap:wrap;gap:8px}
@@ -1149,53 +1150,12 @@ async function animateAbout() {
   if (aboutAnimated) return;
   aboutAnimated = true;
 
-  // ── 1. Hero h1: CJK char-by-char reveal ──────────────────────────
+  // ── 1. Eyebrow + h1: fade-up as blocks ──────────────────────────
+  const eyebrow = document.querySelector('.about-eyebrow');
+  if (eyebrow) requestAnimationFrame(() => requestAnimationFrame(() => eyebrow.classList.add('in')));
+
   const h1 = document.querySelector('.about-hero h1');
-  if (h1) {
-    const nodes = [...h1.childNodes];
-    h1.innerHTML = '';
-    let delay = 80; // start after eyebrow
-
-    for (const node of nodes) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const text = node.textContent;
-        if (!text.trim()) continue;
-        const font = getComputedStyle(h1).font;
-        segmentText(text, font).forEach(seg => {
-          if (!seg.text) return;
-          const span = document.createElement('span');
-          span.className = 'char-reveal';
-          span.textContent = seg.text;
-          span.style.transitionDelay = delay + 'ms';
-          h1.appendChild(span);
-          delay += 48;
-        });
-      } else if (node.nodeName === 'BR') {
-        h1.appendChild(document.createElement('br'));
-      } else if (node.nodeName === 'EM') {
-        // Split "AI" into individual em.char-reveal elements
-        const font = getComputedStyle(h1).font;
-        segmentText(node.textContent, font).forEach(seg => {
-          if (!seg.text) return;
-          const em = document.createElement('em');
-          em.className = 'char-reveal';
-          em.textContent = seg.text;
-          em.style.transitionDelay = delay + 'ms';
-          h1.appendChild(em);
-          delay += 48;
-        });
-      }
-    }
-
-    // Eyebrow fades in first
-    const eyebrow = document.querySelector('.about-eyebrow');
-    if (eyebrow) requestAnimationFrame(() => requestAnimationFrame(() => eyebrow.classList.add('in')));
-
-    // h1 chars cascade in — use setTimeout to ensure layout is complete
-    setTimeout(() =>
-      h1.querySelectorAll('.char-reveal').forEach(el => el.classList.add('in'))
-    , 50);
-  }
+  if (h1) setTimeout(() => h1.classList.add('in'), 120);
 
   // ── 2. Intro + tags: delayed after h1 ──────────────────────────
   const intro = document.querySelector('.about-intro');
