@@ -266,6 +266,62 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
 .expand-btn:hover{background:rgba(0,0,0,0.68)}
 @media(max-width:640px){.expand-btn{opacity:1}}
 
+/* ═══ ABOUT ANIMATIONS ═══ */
+
+/* Char-level reveal — powered by pretext CJK segmentation */
+.char-reveal{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(0.55em);
+  transition:opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+             transform 0.55s cubic-bezier(0.22,1,0.36,1);
+  will-change:opacity,transform;
+}
+.char-reveal.in{opacity:1;transform:translateY(0)}
+/* Preserve em (AI) italic + color when split into char spans */
+em.char-reveal,em .char-reveal{
+  font-style:italic;color:var(--primary);
+}
+/* Eyebrow line before h1 */
+.about-eyebrow{opacity:0;transition:opacity 0.6s ease}
+.about-eyebrow.in{opacity:1}
+
+/* Reveal-up: for scroll-triggered blocks */
+.reveal-up{
+  opacity:0;
+  transform:translateY(26px);
+  transition:opacity 0.65s ease,transform 0.65s ease;
+}
+.reveal-up.in{opacity:1;transform:translateY(0)}
+
+/* Quote slides in from right */
+.about-quote{
+  opacity:0;
+  transform:translateX(28px);
+  transition:opacity 0.8s ease,transform 0.8s ease;
+}
+.about-quote.in{opacity:1;transform:translateX(0)}
+
+/* About intro text */
+.about-intro{opacity:0;transform:translateY(16px);transition:opacity 0.5s ease,transform 0.5s ease}
+.about-intro.in{opacity:1;transform:translateY(0)}
+
+/* Tags pop in */
+.about-tags .tag{opacity:0;transform:translateY(10px) scale(0.96);transition:opacity 0.4s ease,transform 0.4s ease}
+.about-tags .tag.in{opacity:1;transform:translateY(0) scale(1)}
+
+/* Subtle pulse on cred numbers when they enter viewport */
+@keyframes credPulse{
+  0%{transform:scale(0.7);opacity:0}
+  60%{transform:scale(1.05)}
+  100%{transform:scale(1);opacity:1}
+}
+.cred-item.in .cred-n{animation:credPulse 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards}
+
+/* Section labels */
+.section-label{opacity:0;transform:translateX(-16px);transition:opacity 0.5s ease,transform 0.5s ease}
+.section-label.in{opacity:1;transform:translateX(0)}
+
 </style>
 </head>
 <body>
@@ -1009,6 +1065,7 @@ function showPage(name){
   document.getElementById('nav-'+name).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   document.querySelectorAll('video').forEach(v=>v.pause());
+  if(name==='about') setTimeout(()=>window._initAbout?.(), 60);
 }
 
 document.querySelectorAll('.filter').forEach(btn=>{
@@ -1079,6 +1136,134 @@ document.querySelectorAll('.card-media video').forEach(v => {
   v.addEventListener('ended', () => v.closest('.card')?.classList.remove('playing'));
 });
 
+</script>
+
+<!-- About page animations — pretext powers CJK-aware character segmentation -->
+<script type="module">
+// Graceful: if CDN fails, text stays visible (initial opacity handled via CSS class logic)
+let prepareWithSegments;
+try {
+  const mod = await import('https://esm.sh/@chenglou/pretext');
+  prepareWithSegments = mod.prepareWithSegments;
+} catch(e) {
+  // Fallback: naive split (works for most CJK/ASCII, may mis-split emoji combos)
+  prepareWithSegments = (text) => ({
+    segments: [...text].map(ch => ({ text: ch }))
+  });
+}
+
+function segmentText(text, font) {
+  try { return prepareWithSegments(text, font).segments; }
+  catch(e) { return [...text].map(ch => ({ text: ch })); }
+}
+
+let aboutAnimated = false;
+
+async function animateAbout() {
+  if (aboutAnimated) return;
+  aboutAnimated = true;
+
+  // ── 1. Hero h1: CJK char-by-char reveal ──────────────────────────
+  const h1 = document.querySelector('.about-hero h1');
+  if (h1) {
+    const nodes = [...h1.childNodes];
+    h1.innerHTML = '';
+    let delay = 80; // start after eyebrow
+
+    for (const node of nodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        if (!text.trim()) continue;
+        const font = getComputedStyle(h1).font;
+        segmentText(text, font).forEach(seg => {
+          if (!seg.text) return;
+          const span = document.createElement('span');
+          span.className = 'char-reveal';
+          span.textContent = seg.text;
+          span.style.transitionDelay = delay + 'ms';
+          h1.appendChild(span);
+          delay += 48;
+        });
+      } else if (node.nodeName === 'BR') {
+        h1.appendChild(document.createElement('br'));
+      } else if (node.nodeName === 'EM') {
+        // Split "AI" into individual em.char-reveal elements
+        const font = getComputedStyle(h1).font;
+        segmentText(node.textContent, font).forEach(seg => {
+          if (!seg.text) return;
+          const em = document.createElement('em');
+          em.className = 'char-reveal';
+          em.textContent = seg.text;
+          em.style.transitionDelay = delay + 'ms';
+          h1.appendChild(em);
+          delay += 48;
+        });
+      }
+    }
+
+    // Eyebrow fades in first
+    const eyebrow = document.querySelector('.about-eyebrow');
+    if (eyebrow) requestAnimationFrame(() => requestAnimationFrame(() => eyebrow.classList.add('in')));
+
+    // h1 chars cascade in
+    requestAnimationFrame(() => requestAnimationFrame(() =>
+      h1.querySelectorAll('.char-reveal').forEach(el => el.classList.add('in'))
+    ));
+  }
+
+  // ── 2. Intro + tags: delayed after h1 ──────────────────────────
+  const intro = document.querySelector('.about-intro');
+  if (intro) setTimeout(() => intro.classList.add('in'), 780);
+
+  document.querySelectorAll('.about-tags .tag').forEach((tag, i) =>
+    setTimeout(() => tag.classList.add('in'), 900 + i * 75)
+  );
+
+  // ── 3. Quote: slides in from right ──────────────────────────────
+  const quote = document.querySelector('.about-quote');
+  if (quote) setTimeout(() => quote.classList.add('in'), 500);
+
+  // ── 4. Scroll-triggered reveals for rest of page ────────────────
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('in');
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+  // Section labels
+  document.querySelectorAll('#page-about .section-label').forEach(el => {
+    el.classList.add('reveal-up');
+    io.observe(el);
+  });
+
+  // Credential cells — stagger within each row of 3
+  document.querySelectorAll('.cred-item').forEach((el, i) => {
+    el.classList.add('reveal-up');
+    el.style.transitionDelay = (i % 3) * 90 + 'ms';
+    io.observe(el);
+  });
+
+  // Capability cards
+  document.querySelectorAll('.cap-item').forEach((el, i) => {
+    el.classList.add('reveal-up');
+    el.style.transitionDelay = i * 90 + 'ms';
+    io.observe(el);
+  });
+
+  // Contact
+  const contactLeft = document.querySelector('.contact-left');
+  if (contactLeft) { contactLeft.classList.add('reveal-up'); io.observe(contactLeft); }
+
+  document.querySelectorAll('.contact-item').forEach((el, i) => {
+    el.classList.add('reveal-up');
+    el.style.transitionDelay = i * 55 + 'ms';
+    io.observe(el);
+  });
+}
+
+window._initAbout = animateAbout;
 </script>
 </body>
 </html>
