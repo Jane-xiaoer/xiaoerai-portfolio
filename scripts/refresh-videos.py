@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Refresh Feishu video URLs and write to api/videos.json.
+Refresh Feishu video + cover URLs and write to api/videos.json and api/covers.json.
 Calls lark-cli in batches of 5 (API limit per call).
 """
 
@@ -14,6 +14,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).parent
 REPO_DIR = SCRIPT_DIR.parent
 OUTPUT_FILE = REPO_DIR / "api" / "videos.json"
+COVERS_FILE = REPO_DIR / "api" / "covers.json"
 LOG_FILE = Path.home() / ".logs" / "refresh-videos.log"
 
 # All 46 video tokens from Feishu Bitable
@@ -25,7 +26,7 @@ ALL_TOKENS = [
     "BMXLbLqH1obvRTxsycicd20Sneh", "LCw3bLV73opArEx74eocbexon9b",
     "Xg6mbcSxpoDjAlxsadkcOC9rn8b", "SXUzbn5QSorwYSxYFa5cOqNrn4b",
     "WDSEbIhK2owK8hxwMcCc9ITenmb", "ESTyb8ZDooXq20xhr7Bc31lanff",
-    "Kc5Ybw24boj0ywxxf6ycIW7CnMb", "FwC2bmTfxoziBzxgm1AcGsAVnFh",
+    "Kc5Ybw24boj0ywxxf6ycIW7CnMb", "T1ivbgZ29o0mn0xr3KRceSwHn5f",
     "VfI9bCdAcoK5owxEp04chcacn3e", "PBOMbcO21o3LuCxVBfuctuSsnje",
     "XYXybsYSUouWH5xO8Yxc6lwTnIj", "IGa4br37boMyS2xBFmmc24WvnVb",
     "GQVibPzRfoPs0VxIee2cE7AZnch", "DRWAb5TsVoIt1vxIvvScUe0SnDd",
@@ -41,6 +42,33 @@ ALL_TOKENS = [
     "BFpPbzmB7omxsXxcjTBcG9wqnCg", "IWIzbezWJo9W6Ix2B5McV64znch",
     "FbjIbwnk0osonPxYNhOc5eQWnFf", "KyK9bTN1zoBtPexCZJOcx6tlnqh",
     "FArZbJbd8ow2EjxNq2jcbY8anrg", "OvoMbO0UaoPxJfxlBKLcWFspnHf",
+]
+
+# All 46 cover image tokens from Feishu Bitable
+ALL_COVER_TOKENS = [
+    "XIi5bHICko2l20xpad3cNUQ3nqg", "JzgAbijXEoQxBfxCDlgcwR6VnbK",
+    "XH6RbxYNNoobSFx4a1UcWQsznHd", "KxpwbdxzWobMf6xQEOtcNdwDnbo",
+    "EKFUbk03aoVllsxqtqRcqUApn6e", "McI5b7NkyoOx4dxm6XCcIYOhn9e",
+    "X7Yrb6I55oqBI7x7sAocL7oIncg", "WU7ObY9laowtG4xxBH5c3o1znOg",
+    "PzqWbWmtXo6HTsxHZaAc59IvnUb", "GVn3byufPox0i6xcAfbcGd6cnHf",
+    "BDRubrdnDoOWRsxYCVfcSQQtnnf", "VwjcbOjX8oeJ8UxaGZqccPHtnOc",
+    "IaDrbeps2o0VcIxgnaXcoUBYnfb", "JmlMbL4Gfo3Cy7xYwTbczcP5nmg",
+    "MvIYb4iGVoHLdqxZgdfcfR1VnwT", "ZjaKbBLnjo2MmfxxwIFcW1NwnBh",
+    "F0gtbyAFgo0w6gxflvVc19Wpn7c", "BASdb68ZuoaTFvxrlhGcqeLunfe",
+    "SBmMbEBOdoQB7OxRQ41cDtEDnue", "LmFvbWzrWoSDuNxThqVcS6Gonke",
+    "AZuZb8PQ3oYmgHxCSsNcgw0tn4e", "CwkkbR3kto8Kf5xpm2ucOMRQntb",
+    "QfsJbaVHlo14OIx1kSYcaQaZnOg", "PshUbMbNroDsUVxWRlycgFOmnhe",
+    "K4gIbjRnloUB61x23AMcPd5dnmi", "HA6NbtpwtooewSx5Xurc4fvEnPf",
+    "AORYbfqr4ohUWLxY31bcBv7DnJe", "TztBbWwPiotgqGxdHzmc6RInnte",
+    "EoDfbJ08do26NJxFSJwcFmWonQg", "T6U5bDNl2o06FIxZdEbc20iBnbf",
+    "SW3IbyWc8oo15Bxx5K4cDSR6nWe", "JWIjbJiMCopzh1x7vkxcFj8Yn2b",
+    "K9tDbmGQ6oE08txlCi3c1cmIn8f", "DwhDbrHnDorPQfxWJlNct8s3nJh",
+    "EwN8blijho8239xDGdrcPqBQnlg", "H9L4b3ibXo5VoQxiZ25chOKHnRg",
+    "Okpjbqg4UorUIHxl1oYcNlBMnrb", "QBqkb2IZOopj51x1cVyc2RONntf",
+    "UhpCb9jBgohZy1xs2CjcuwWwneb", "IG3SbpxaRofKRpxrONmcTqZen4g",
+    "WdnmbAs8goWVQZxdqMgcFc54nuh", "IetKblvxyoxu4ZxYHjncu8udnBs",
+    "XogCb3Z5coiJfRxmFKicteksnnb", "YV03bApAfoueaLxY7HIcVjHGnYe",
+    "QaqxbBT0yozFI2xQJihcbdUvnUr", "U5MbbD5YRorXkNxLKJoc0V6Unyg",
 ]
 
 BATCH_SIZE = 5
@@ -60,7 +88,7 @@ def fetch_batch(tokens):
     result = subprocess.run(
         ["lark-cli", "api", "GET",
          "/open-apis/drive/v1/medias/batch_get_tmp_download_url",
-         "--params", params],
+         "--params", params, "--as", "bot"],
         capture_output=True, text=True
     )
     if result.returncode != 0 or not result.stdout.strip():
@@ -72,40 +100,46 @@ def fetch_batch(tokens):
             for item in data["data"]["tmp_download_urls"]}
 
 
-def main():
-    log(f"Starting refresh for {len(ALL_TOKENS)} tokens in batches of {BATCH_SIZE}...")
-
+def refresh_all(token_list, label):
     url_map = {}
-    batches = [ALL_TOKENS[i:i+BATCH_SIZE] for i in range(0, len(ALL_TOKENS), BATCH_SIZE)]
-
+    batches = [token_list[i:i+BATCH_SIZE] for i in range(0, len(token_list), BATCH_SIZE)]
     for i, batch in enumerate(batches, 1):
         try:
             urls = fetch_batch(batch)
             url_map.update(urls)
-            log(f"Batch {i}/{len(batches)}: got {len(urls)} URLs")
+            log(f"[{label}] Batch {i}/{len(batches)}: got {len(urls)} URLs")
         except Exception as e:
-            log(f"ERROR batch {i}: {e}")
+            log(f"[{label}] ERROR batch {i}: {e}")
             sys.exit(1)
+    return url_map
 
+
+def main():
+    log(f"Starting refresh: {len(ALL_TOKENS)} videos + {len(ALL_COVER_TOKENS)} covers")
+
+    # Refresh video URLs
+    url_map = refresh_all(ALL_TOKENS, "video")
     url_map["_refreshed_at"] = datetime.now(timezone.utc).isoformat()
     url_map["_count"] = len(ALL_TOKENS)
-
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text(json.dumps(url_map, indent=2))
-    log(f"Written {len(ALL_TOKENS)} URLs to {OUTPUT_FILE}")
+    log(f"Written {len(ALL_TOKENS)} video URLs to {OUTPUT_FILE}")
+
+    # Refresh cover URLs
+    cover_map = refresh_all(ALL_COVER_TOKENS, "cover")
+    COVERS_FILE.write_text(json.dumps(cover_map, indent=2))
+    log(f"Written {len(ALL_COVER_TOKENS)} cover URLs to {COVERS_FILE}")
 
     # Git commit and push
     os.chdir(REPO_DIR)
-    status = subprocess.run(["git", "diff", "--cached", "--quiet", "--", "api/videos.json"],
-                            capture_output=True)
-    subprocess.run(["git", "add", "api/videos.json"], check=True)
+    subprocess.run(["git", "add", "api/videos.json", "api/covers.json"], check=True)
     diff = subprocess.run(["git", "diff", "--cached", "--quiet"], capture_output=True)
     if diff.returncode == 0:
         log("No changes to commit.")
         return
 
     ts_short = datetime.now().strftime("%Y-%m-%d %H:%M")
-    subprocess.run(["git", "commit", "-m", f"chore: refresh Feishu video URLs [{ts_short}]"],
+    subprocess.run(["git", "commit", "-m", f"chore: refresh Feishu URLs [{ts_short}]"],
                    check=True)
     subprocess.run(["git", "push", "origin", "main"], check=True)
     log("Pushed to GitHub.")
