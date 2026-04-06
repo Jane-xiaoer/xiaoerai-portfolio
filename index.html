@@ -230,22 +230,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   pointer-events:none;
 }
 
-/* Play icon — center, small and elegant */
-.play-btn{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:34px;height:34px;
-  background:rgba(255,255,255,0.85);
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  pointer-events:none;
-  transition:opacity 0.25s,transform 0.25s;
-  z-index:3;
-  box-shadow:0 2px 10px rgba(0,0,0,0.18);
-}
-.play-btn svg{width:11px;height:11px;fill:var(--primary);margin-left:2px}
-.card.playing .play-btn{opacity:0}
-.card-media:hover .play-btn{transform:translate(-50%,-50%) scale(1.08)}
+/* Play icon — hidden, click card naturally */
+.play-btn{display:none}
 
 /* Expand / fullscreen icon — small corner button */
 .expand-btn{
@@ -969,8 +955,8 @@ em.char-reveal,em .char-reveal{
   <div class="about-hero">
     <div>
       <div class="about-eyebrow">About · 关于创作者</div>
-      <h1>横跨艺术与<em>AI</em><br>的实战创作者</h1>
-      <p class="about-intro">"工具不是目的，成片才是答案。"</p>
+      <h1>横跨艺术与<em>AI</em><br>的商业实战者</h1>
+      <p class="about-intro">提出好问题，找到真答案</p>
       <div class="about-tags">
         <span class="tag">同济大学 MBA</span>
         <span class="tag">生成式艺术家</span>
@@ -1000,7 +986,7 @@ em.char-reveal,em .char-reveal{
     <div class="section-label">能力 · Capabilities</div>
     <div class="cap-grid">
       <div class="cap-item"><div class="cap-icon">01 · AI 视频制作</div><div class="cap-title">从脚本到成片的完整闭环</div><div class="cap-desc">即梦、Seedance、可灵、Sora 全流程实操。电商广告、品牌视频从创意到可商用成片，形成可复用 SOP。</div></div>
-      <div class="cap-item"><div class="cap-icon">02 · AI 出图</div><div class="cap-title">品牌级视觉素材生产</div><div class="cap-desc">提示词工程，产品图、分镜图、场景图定向生成，适配广告投放与品牌内容需求。Aesop 级审美锚点。</div></div>
+      <div class="cap-item"><div class="cap-icon">02 · AI 出图</div><div class="cap-title">品牌级视觉素材生产</div><div class="cap-desc">提示词工程，产品图、分镜图、场景图定向生成，适配广告投放与品牌内容需求。</div></div>
       <div class="cap-item"><div class="cap-icon">03 · 工作流设计</div><div class="cap-title">将 AI 工具链封装为可复用 SOP</div><div class="cap-desc">把复杂的多工具协作拆解为团队可执行的标准流程，降低复制成本，提升团队 AI 内容产出效率。</div></div>
       <div class="cap-item"><div class="cap-icon">04 · 企业培训</div><div class="cap-title">AIGC 实战工作坊</div><div class="cap-desc">服务品牌方、电商团队、广告公司。成果导向——学员当天产出一条可用的 15–30 秒 AI 广告视频。</div></div>
     </div>
@@ -1065,7 +1051,7 @@ function showPage(name){
   document.getElementById('nav-'+name).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   document.querySelectorAll('video').forEach(v=>v.pause());
-  if(name==='about') setTimeout(()=>window._initAbout?.(), 60);
+  if(name==='about') setTimeout(()=>window._initAbout?.(), 300);
 }
 
 document.querySelectorAll('.filter').forEach(btn=>{
@@ -1205,10 +1191,10 @@ async function animateAbout() {
     const eyebrow = document.querySelector('.about-eyebrow');
     if (eyebrow) requestAnimationFrame(() => requestAnimationFrame(() => eyebrow.classList.add('in')));
 
-    // h1 chars cascade in
-    requestAnimationFrame(() => requestAnimationFrame(() =>
+    // h1 chars cascade in — use setTimeout to ensure layout is complete
+    setTimeout(() =>
       h1.querySelectorAll('.char-reveal').forEach(el => el.classList.add('in'))
-    ));
+    , 50);
   }
 
   // ── 2. Intro + tags: delayed after h1 ──────────────────────────
