@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>小耳 AI视频 作品集</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"
+  }
+}
+</script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -1219,14 +1226,6 @@ window._initAbout = animateAbout;
 </script>
 
 <!-- THREE.JS TERRAIN HERO -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"
-  }
-}
-</script>
-
 <script type="module">
 import * as THREE from 'three';
 
@@ -1238,9 +1237,9 @@ renderer.setClearColor(0xFBF9F4, 1);
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xFBF9F4);
-scene.fog = new THREE.FogExp2(0xE8E0D2, 0.0008);
+scene.fog = new THREE.FogExp2(0xE8E0D2, 0.00035);
 
-const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 1, 12000);
+const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 1, 25000);
 camera.position.set(0, 80, 0);
 
 // ── Value noise + fBm ──────────────────────────────────
@@ -1273,20 +1272,23 @@ function smoothstep(t) { return t * t * (3 - 2 * t); }
 
 function terrainHeight(x, z) {
   const d = Math.max(0, Math.min(1, (4500 - z) / 6000));
+  // Background mountains — pure curves, no flat clamp
   let bgH = 0;
   bgH += Math.sin(x * 0.0016 + z * 0.0010 + 0.70) * 230;
   bgH += Math.sin(x * 0.0027 - z * 0.0014 + 2.10) * 140;
   bgH += Math.sin(x * 0.0048 + z * 0.0030 + 1.30) * 65;
   bgH += Math.sin(x * 0.0088 - z * 0.0058 + 0.40) * 30;
-  bgH = Math.max(bgH, -50);
+  bgH += fbm(x * 0.0008, z * 0.0008, 5) * 120 - 60;
 
-  let fgH = -200;
+  let fgH = -200 + fbm(x * 0.001, z * 0.001, 3) * 40;
   fgH += gauss(x, -1400, 380, 280);
   fgH += gauss(x, 50, 360, 250);
   fgH += gauss(x, 1600, 400, 270);
   fgH += Math.sin(z * 0.0015 + 1.2) * 15;
 
-  const valleyH = -80;
+  // Valley — wavy, no flat lines
+  const valleyH = -80 + fbm(x * 0.0012, z * 0.0012, 4) * 60 - 30
+                  + Math.sin(x * 0.003 + 1.7) * 25;
   let h;
   if (z > 2200) { h = fgH; }
   else if (z > 800) { const a = smoothstep((2200 - z) / 1400); h = fgH * (1 - a) + valleyH * a; }
@@ -1295,7 +1297,7 @@ function terrainHeight(x, z) {
   return h - 30;
 }
 
-const W = 4500, D = 9000, SW = 90, SD = 180;
+const W = 8000, D = 18000, SW = 250, SD = 500;
 const geo = new THREE.PlaneGeometry(W, D, SW, SD);
 geo.rotateX(-Math.PI / 2);
 
@@ -1305,12 +1307,16 @@ for (let i = 0; i < pos.count; i++) {
 }
 geo.computeVertexNormals();
 
-// Vertex colors
+// Vertex colors — warm near, cool grey far (aerial perspective)
 const colors = new Float32Array(pos.count * 3);
 const col = new THREE.Color();
+const grey = new THREE.Color();
 for (let i = 0; i < pos.count; i++) {
   const y = pos.getY(i);
+  const z = pos.getZ(i);
   const t = Math.max(0, Math.min(1, (y + 380) / 760));
+
+  // Base warm palette (near)
   if (t < 0.35) {
     const s = t / 0.35;
     col.setRGB(0.55 + s * 0.15, 0.38 + s * 0.14, 0.19 + s * 0.07);
@@ -1321,11 +1327,19 @@ for (let i = 0; i < pos.count; i++) {
     const s = (t - 0.68) / 0.32;
     col.setRGB(0.85 + s * 0.08, 0.67 + s * 0.13, 0.38 + s * 0.18);
   }
+
+  // Depth fade: z goes from +9000 (near) to -9000 (far)
+  // Blend toward cool grey as z decreases (farther away)
+  const depthT = Math.max(0, Math.min(1, (3000 - z) / 10000));
+  const greyLevel = 0.68 + depthT * 0.12;           // lighter grey for far
+  grey.setRGB(greyLevel, greyLevel - 0.02, greyLevel - 0.04);  // slightly cool tint
+  col.lerp(grey, depthT * 0.85);
+
   colors[i*3] = col.r; colors[i*3+1] = col.g; colors[i*3+2] = col.b;
 }
 geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
+const mat = new THREE.MeshPhongMaterial({ vertexColors: true, shininess: 8, flatShading: false });
 const terrain = new THREE.Mesh(geo, mat);
 terrain.position.set(0, -100, -1200);
 scene.add(terrain);
@@ -1354,15 +1368,30 @@ window.addEventListener('scroll', () => {
   document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
 });
 
-// Animate
+// Animate — aerial flyover through valley
 const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   const t = clock.getElapsedTime();
-  camera.position.z = -t * 16;
-  camera.position.x = Math.sin(t * 0.07) * 100;
-  camera.position.y = 80 + Math.sin(t * 0.1) * 10;
-  camera.lookAt(Math.sin(t * 0.05) * 50, Math.sin(t * 0.09) * 6, camera.position.z - 1200);
+
+  // Forward: steady aerial sweep
+  const zPos = -t * 150;
+  // Lateral: layered drift for organic path
+  const xPos = Math.sin(t * 0.1) * 450
+             + Math.sin(t * 0.27) * 160
+             + Math.sin(t * 0.58) * 50;
+  // Altitude: low sweeps with gentle rises
+  const yPos = 140 + Math.sin(t * 0.16) * 55
+                    + Math.sin(t * 0.38) * 25;
+
+  camera.position.set(xPos, yPos, zPos);
+
+  // Look-at: slightly ahead and offset, drifting gaze
+  const lookX = xPos + Math.sin(t * 0.11) * 300;
+  const lookY = Math.sin(t * 0.17) * 40;
+  const lookZ = zPos - 1500;
+  camera.lookAt(lookX, lookY, lookZ);
+
   sun.intensity = 2.3 + Math.sin(t * 0.25) * 0.3;
   renderer.render(scene, camera);
 }
