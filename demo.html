@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>小耳 AI视频 作品集 — Hero Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FBF9F4;--surface:#F5F3EE;
+  --primary:#96472D;--tertiary:#5F5E5E;
+  --text:#1B1C19;--text-dim:#464742;
+  --outline:rgba(95,94,94,0.15);
+  --serif:"Noto Serif",Georgia,serif;
+  --sans:"Manrope",system-ui,sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* THREE.JS 全屏 canvas */
+#terrain-canvas{
+  position:fixed;inset:0;width:100%;height:100%;z-index:0;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;width:100%;z-index:100;
+  background:rgba(251,249,244,0.0);
+  backdrop-filter:blur(0px);
+  border-bottom:0.5px solid rgba(95,94,94,0.0);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 48px;
+  transition:background 0.5s, backdrop-filter 0.5s, border-color 0.5s;
+}
+nav.scrolled{
+  background:rgba(251,249,244,0.88);
+  backdrop-filter:blur(20px);
+  border-color:var(--outline);
+}
+.nav-brand{font-family:var(--serif);font-size:1.25rem;font-style:italic;color:var(--text-dim)}
+.nav-brand em{color:var(--primary)}
+.nav-links{display:flex;gap:40px}
+.nav-links a{font-family:var(--serif);font-size:0.9rem;color:var(--tertiary);text-decoration:none;transition:color 0.3s;cursor:pointer}
+.nav-links a:hover{color:var(--primary)}
+
+/* HERO OVERLAY */
+#hero{
+  position:relative;z-index:10;
+  min-height:100vh;
+  display:flex;align-items:flex-end;
+  padding:0 48px 80px;
+  pointer-events:none;
+}
+.hero-inner{
+  max-width:1440px;width:100%;margin:0 auto;
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;
+}
+.hero-left{
+  opacity:0;transform:translateY(28px);
+  animation:fadeUp 1.2s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
+}
+.hero-eyebrow{
+  font-size:0.62rem;text-transform:uppercase;letter-spacing:0.28em;
+  color:var(--primary);margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-eyebrow::before{content:'';display:inline-block;width:24px;height:0.5px;background:var(--primary)}
+h1{
+  font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,5rem);
+  font-weight:400;line-height:1.1;letter-spacing:-0.02em;
+  color:var(--text-dim);margin-bottom:20px;
+}
+h1 em{font-style:italic;color:var(--primary)}
+.hero-cats{
+  font-size:0.68rem;letter-spacing:0.18em;
+  color:var(--tertiary);opacity:0.55;margin-bottom:22px;font-weight:400;
+}
+.hero-philosophy{
+  font-family:var(--serif);font-size:1.05rem;font-style:italic;
+  color:var(--tertiary);line-height:2;max-width:360px;
+}
+.hero-right{
+  text-align:right;
+  opacity:0;transform:translateY(28px);
+  animation:fadeUp 1.2s cubic-bezier(0.22,1,0.36,1) 0.8s forwards;
+}
+.hero-stat-n{
+  font-family:var(--serif);font-size:3.5rem;font-style:italic;
+  color:rgba(150,71,45,0.12);line-height:1;display:block;
+}
+.hero-stat-l{
+  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.25em;
+  color:var(--tertiary);opacity:0.6;
+}
+
+/* 底部遮罩：让地形和文字之间有过渡 */
+.hero-vignette{
+  position:fixed;bottom:0;left:0;right:0;height:55vh;
+  background:linear-gradient(to top, rgba(251,249,244,0.92) 0%, rgba(251,249,244,0.55) 40%, transparent 100%);
+  z-index:5;pointer-events:none;
+}
+/* 顶部轻遮罩 */
+.hero-vignette-top{
+  position:fixed;top:0;left:0;right:0;height:140px;
+  background:linear-gradient(to bottom, rgba(251,249,244,0.65) 0%, transparent 100%);
+  z-index:5;pointer-events:none;
+}
+
+/* 向下提示 */
+.scroll-hint{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  z-index:20;display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeUp 1s ease 1.8s forwards;
+}
+.scroll-hint span{font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--tertiary);opacity:0.5}
+.scroll-arrow{width:1px;height:36px;background:linear-gradient(to bottom,rgba(95,94,94,0.5),transparent);animation:scrollPulse 2s ease-in-out infinite}
+
+/* 下方内容区示意 */
+#content{
+  position:relative;z-index:10;
+  background:var(--bg);
+  padding:80px 48px;
+  min-height:50vh;
+}
+.content-placeholder{
+  max-width:1440px;margin:0 auto;
+  border-top:0.5px solid var(--outline);
+  padding-top:48px;
+  display:flex;align-items:center;justify-content:center;
+  min-height:240px;
+  color:var(--tertiary);font-family:var(--serif);font-style:italic;font-size:1rem;
+  opacity:0.4;
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scrollPulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
+
+@media(max-width:768px){
+  nav{padding:16px 20px}
+  #hero{padding:0 20px 60px}
+  .hero-right{display:none}
+}
+</style>
+</head>
+<body>
+
+<canvas id="terrain-canvas"></canvas>
+<div class="hero-vignette"></div>
+<div class="hero-vignette-top"></div>
+
+<nav id="mainNav">
+  <div class="nav-brand"><em>小耳</em> Studio 作品集</div>
+  <div class="nav-links">
+    <a href="#">作品</a>
+    <a href="#">关于</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">AI Creative Portfolio · 2024–2025</div>
+      <h1>小耳<br><em>AI视频</em> 作品集</h1>
+      <p class="hero-cats">广告片，故事片，创意动画，艺术视觉</p>
+      <p class="hero-philosophy">审美不是天赋，是立场。<br>你站在哪里看这个世界，<br>决定了你能创造出什么。</p>
+    </div>
+    <div class="hero-right">
+      <span class="hero-stat-n">46</span>
+      <span class="hero-stat-l">件作品</span>
+    </div>
+  </div>
+</section>
+
+<div class="scroll-hint">
+  <span>Scroll</span>
+  <div class="scroll-arrow"></div>
+</div>
+
+<section id="content">
+  <div class="content-placeholder">↑ Three.js 地形 Hero · 下方为原有作品集内容</div>
+</section>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('terrain-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+// 背景色和原 --bg 一致：#FBF9F4
+renderer.setClearColor(0xFBF9F4, 1);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xFBF9F4);
+
+// 雾：再稀一些，近处山要清晰
+scene.fog = new THREE.FogExp2(0xE8E0D2, 0.0008);
+scene.background = new THREE.Color(0xFBF9F4);
+const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 1, 12000);
+camera.position.set(0, 80, 0);
+
+// ── 值噪声 + fBm ────────────────────────────────────────
+// 哈希函数
+function hash(n) {
+  const s = Math.sin(n) * 43758.5453123;
+  return s - Math.floor(s);
+}
+function hash2(x, y) {
+  return hash(x + y * 127.1 + (x * y) * 311.7);
+}
+// 双线性插值值噪声
+function valueNoise(x, y) {
+  const ix = Math.floor(x), iy = Math.floor(y);
+  const fx = x - ix, fy = y - iy;
+  // 平滑插值
+  const ux = fx * fx * (3 - 2 * fx);
+  const uy = fy * fy * (3 - 2 * fy);
+  const a = hash2(ix,     iy    );
+  const b = hash2(ix + 1, iy    );
+  const c = hash2(ix,     iy + 1);
+  const d = hash2(ix + 1, iy + 1);
+  return a + (b - a) * ux + (c - a) * uy + (d - a + a - b - c + b + c - d) * ux * uy;
+  // 等价于双线性插值
+}
+function mix(a, b, t) { return a + (b - a) * t; }
+function bilinear(ix, iy, fx, fy) {
+  const a = hash2(ix,     iy    );
+  const b = hash2(ix + 1, iy    );
+  const c = hash2(ix,     iy + 1);
+  const d = hash2(ix + 1, iy + 1);
+  return mix(mix(a, b, fx), mix(c, d, fx), fy);
+}
+function smoothNoise(x, y) {
+  const ix = Math.floor(x), iy = Math.floor(y);
+  const fx = x - ix, fy = y - iy;
+  const ux = fx * fx * (3 - 2 * fx);
+  const uy = fy * fy * (3 - 2 * fy);
+  return bilinear(ix, iy, ux, uy);
+}
+
+// 分形布朗运动（fBm）：多层噪声叠加，每层频率翻倍、幅度减半
+function fbm(x, y, octaves = 7) {
+  let val = 0, amp = 1, freq = 1, max = 0;
+  for (let i = 0; i < octaves; i++) {
+    val += smoothNoise(x * freq, y * freq) * amp;
+    max += amp;
+    amp  *= 0.52;   // 幅度衰减（<0.5 更平坦，>0.5 细节更多）
+    freq *= 2.1;    // 频率增长（稍大于2让尺度不那么规则）
+  }
+  return val / max; // 归一化到 0~1
+}
+
+// 山脊感：对 fBm 取绝对值的反，制造尖锐山脊
+function ridgeNoise(x, y, octaves = 6) {
+  let val = 0, amp = 1, freq = 1, max = 0, prev = 1;
+  for (let i = 0; i < octaves; i++) {
+    let n = smoothNoise(x * freq, y * freq);
+    n = Math.abs(2 * n - 1);   // 0→锋利山脊
+    n = (1 - n) * (1 - n);     // 让山脊更尖
+    n *= prev;                 // 各层之间相关，让山脊连续
+    prev = n;
+    val += n * amp;
+    max += amp;
+    amp  *= 0.55;
+    freq *= 2.05;
+  }
+  return val / max;
+}
+
+// 高斯山包：以cx为中心、width为宽度、amp为高度
+function gauss(x, cx, width, amp) {
+  const dx = (x - cx) / width;
+  return amp * Math.exp(-dx * dx);
+}
+function smoothstep(t) { return t * t * (3 - 2 * t); }
+
+function terrainHeight(x, z) {
+  // 几何体顶点 z: +4500(近) → -4500(远)
+  // 近处区：z > 2000，峡谷：2000~0，远山：z < 0
+  const d = Math.max(0, Math.min(1, (4500 - z) / 6000)); // 0=近, 1=远
+
+  // 远处大山脉
+  let bgH = 0;
+  bgH += Math.sin(x * 0.0016 + z * 0.0010 + 0.70) * 230;
+  bgH += Math.sin(x * 0.0027 - z * 0.0014 + 2.10) * 140;
+  bgH += Math.sin(x * 0.0048 + z * 0.0030 + 1.30) * 65;
+  bgH += Math.sin(x * 0.0088 - z * 0.0058 + 0.40) * 30;
+  bgH = Math.max(bgH, -50);
+
+  // 近处：3个独立高斯山包，间距拉大，基线极低
+  let fgH = -200;  // 基线极低，山包之间是平坦谷底
+  fgH += gauss(x, -1400, 380, 280);  // 左山包，窄而高
+  fgH += gauss(x,    50, 360, 250);  // 中山包
+  fgH += gauss(x,  1600, 400, 270);  // 右山包
+  fgH += Math.sin(z * 0.0015 + 1.2) * 15;
+
+  // 峡谷过渡带
+  const valleyH = -80;
+
+  let h;
+  if (z > 2200) {
+    // 纯近景：高斯山包
+    h = fgH;
+  } else if (z > 800) {
+    // 近→峡谷
+    const a = smoothstep((2200 - z) / 1400);
+    h = fgH * (1 - a) + valleyH * a;
+  } else if (z > -600) {
+    // 峡谷→远山
+    const a = smoothstep((-z + 800) / 1400);
+    h = valleyH * (1 - a) + bgH * a;
+  } else {
+    // 纯远景：大山脉
+    h = bgH;
+  }
+
+  return h - 30;
+}
+
+const W = 4500, D = 9000, SW = 90, SD = 180;
+const geo = new THREE.PlaneGeometry(W, D, SW, SD);
+geo.rotateX(-Math.PI / 2);
+
+const pos = geo.attributes.position;
+for (let i = 0; i < pos.count; i++) {
+  const x = pos.getX(i);
+  const z = pos.getZ(i);
+  let y = terrainHeight(x, z);
+
+
+
+  pos.setY(i, y);
+}
+geo.computeVertexNormals();
+
+
+// 顶点色：低处深赭棕，中间橙褐，高处暖沙
+const colors = new Float32Array(pos.count * 3);
+const col = new THREE.Color();
+for (let i = 0; i < pos.count; i++) {
+  const y = pos.getY(i);
+  // 整体偏黄暖沙色，减少红褐，提亮
+  const t = Math.max(0, Math.min(1, (y + 380) / 760));
+  if (t < 0.35) {
+    // 谷底：暖黄褐 #8C6030 → #B5843A
+    const s = t / 0.35;
+    col.setRGB(0.55 + s * 0.15, 0.38 + s * 0.14, 0.19 + s * 0.07);
+  } else if (t < 0.68) {
+    // 山腰：#B5843A → #D4A855
+    const s = (t - 0.35) / 0.33;
+    col.setRGB(0.70 + s * 0.15, 0.52 + s * 0.15, 0.26 + s * 0.12);
+  } else {
+    // 山顶：#D4A855 → #E8CC88  亮黄沙色
+    const s = (t - 0.68) / 0.32;
+    col.setRGB(0.85 + s * 0.08, 0.67 + s * 0.13, 0.38 + s * 0.18);
+  }
+  colors[i*3]   = col.r;
+  colors[i*3+1] = col.g;
+  colors[i*3+2] = col.b;
+}
+geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+const mat = new THREE.MeshLambertMaterial({ vertexColors: true });
+const terrain = new THREE.Mesh(geo, mat);
+terrain.position.set(0, -100, -1200);
+scene.add(terrain);
+
+// ── 光照 ────────────────────────────────────────────────
+// 环境光：适中，不打爆颜色也不太暗
+const ambient = new THREE.AmbientLight(0xF5E8D8, 1.6);
+scene.add(ambient);
+
+// 主光：来自正上方偏右，均匀照亮，不让左侧偏暗
+const sun = new THREE.DirectionalLight(0xFFCFA0, 1.8);
+sun.position.set(200, 600, -200);
+scene.add(sun);
+
+// 补光：来自左侧填补阴影
+const fill = new THREE.DirectionalLight(0xFFE0C0, 1.0);
+fill.position.set(-400, 300, 200);
+scene.add(fill);
+
+// 天光：冷色调，增加立体感
+const sky = new THREE.DirectionalLight(0xC8D8E8, 0.4);
+sky.position.set(0, 400, 800);
+scene.add(sky);
+
+// ── 相机飞行 ─────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+const clock = new THREE.Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  // 缓慢前飞
+  camera.position.z = -t * 16;
+  camera.position.x = Math.sin(t * 0.07) * 100;
+  camera.position.y = 80 + Math.sin(t * 0.1) * 10;
+
+  camera.lookAt(
+    Math.sin(t * 0.05) * 50,
+    0 + Math.sin(t * 0.09) * 6,
+    camera.position.z - 1200
+  );
+
+  // 太阳光微变
+  sun.intensity = 2.3 + Math.sin(t * 0.25) * 0.3;
+
+  renderer.render(scene, camera);
+}
+
+animate();
+</script>
+
+</body>
+</html>

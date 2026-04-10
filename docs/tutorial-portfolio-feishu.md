@@ -6,11 +6,19 @@
 
 ---
 
+## 先看最终效果
+
+做完这个教程，你会得到这样一个网站：
+
+![网站首页](images/result-hero.png)
+
+![作品网格](images/result-grid.png)
+
+---
+
 ## 先说清楚我们要做什么
 
 你有一堆视频作品，想在网上展示给客户或者合作方看。
-
-最朴素的方案是：把视频传到某个平台，然后发一个链接。但这样不够专业——你需要一个**属于自己的作品集网站**，有自己的域名，有自己的排版风格。
 
 这篇教程要搭的系统是这样的：
 
@@ -36,9 +44,9 @@
 
 开始之前，注册好这几个账号：
 
-- **飞书**（lark.larksuite.com 或 feishu.cn）—— 存你的视频
+- **飞书**（feishu.cn）—— 存你的视频
 - **GitHub**（github.com）—— 存你的网页代码
-- **NameSilo**（namesilo.com）—— 买域名，最便宜的地方之一
+- **NameSilo**（namesilo.com）—— 买域名
 
 工具：
 - **Claude Code**（或任意 AI 助手）—— 帮你写 HTML 代码
@@ -54,108 +62,91 @@
 
 打开飞书，新建一个"多维表格"。
 
-`【截图：飞书首页，新建多维表格的入口】`
+**1.2 设计字段并整理内容**
 
-**1.2 设计字段**
-
-建议设置以下字段：
+建议设置以下字段，把每一个作品填进去：
 
 | 字段名 | 类型 | 说明 |
 |---|---|---|
-| 作品名称 | 文本 | 显示在网站上的标题 |
-| 分类 | 单选 | 广告 / 艺术片 / 创意动画 等 |
-| 视频文件 | 附件 | 上传视频本体 |
-| 时长 | 文本 | 例如：30秒 / 1分30秒 |
-| 使用工具 | 文本 | 例如：即梦、剪映 |
-| 排序序号 | 数字 | 控制展示顺序 |
+| 序号 | 数字 | 控制展示顺序 |
+| 内容 | 文本 | 显示在网站上的标题 |
+| 样片 | 附件 | 上传视频本体 |
+| 类型 | 单选 | 广告 / 艺术片 / 故事 / 创意动画 等 |
+| 时长 | 文本 | 例如：30秒 / 1分51秒 |
+| AI工具 | 文本 | 例如：即梦、剪映 |
 
-`【截图：飞书多维表格字段设置界面】`
+填好之后大概是这样的：
 
-**1.3 上传你的视频**
+![飞书多维表格](images/01-feishu-table.png)
 
-把每一个作品填进去，视频文件传到"附件"字段。上传完成后，鼠标悬停在附件上，可以看到一串字母数字组成的 ID，这就是视频的 **file_token**。
+**1.3 理解 file_token 的概念**
 
-`【截图：飞书多维表格里的附件字段，悬停显示 token】`
+视频上传到飞书的"附件"字段后，每个视频在飞书系统里有一个唯一的永久 ID，叫 **file_token**，类似这样：
 
-> **记住这个概念：**  
+```
+Al0Xbi5PioKbckxy6NscTgR0n2g
+```
+
+> **重要：**  
 > file_token 是你视频的"永久身份证"，不会变。  
-> 但视频的"播放链接"是临时的，24小时后失效。  
-> 我们后面用脚本解决这个问题。
+> 但视频的"播放链接（URL）"是临时的，24小时后失效。  
+> 我们后面用脚本自动解决这个问题，你不用担心。
 
 ---
 
-## 第二步：导出作品数据
+## 第二步：安装飞书命令行工具 lark-cli
 
-我们需要把飞书里的信息变成一个 JSON 文件（一种数据格式），再交给 AI 写网页。
+lark-cli 是飞书提供的命令行工具，装好之后，脚本就能自动去飞书拿数据，不需要你手动操作。
 
-**2.1 安装 lark-cli**
+**这一步直接丢给 Claude Code / Cursor / Windsurf 等 AI 编程工具来做。**
 
-打开终端（Mac 按 Command+空格，搜索"终端"），输入：
+把下面这段话发给你的 AI 工具：
 
-```bash
-npm install -g @larksuite/cli
-```
+> 帮我在这台 Mac 上安装飞书命令行工具 lark-cli，然后帮我登录飞书账号完成授权。需要的话先安装 Node.js。
 
-`【截图：终端窗口，安装命令】`
-
-**2.2 登录飞书**
-
-```bash
-lark-cli auth login
-```
-
-会弹出一个链接，用浏览器打开，用你的飞书账号授权。授权完成后，终端里会显示登录成功。
-
-`【截图：lark-cli 登录成功的终端截图】`
-
-**2.3 导出数据**
-
-找到你的多维表格的 app_token（在网址里），然后：
-
-```bash
-lark-cli bitable records list --app-token 你的表格ID > feishu_data.json
-```
-
-这会生成一个 `feishu_data.json` 文件，里面包含所有作品信息和视频的 file_token。
-
-`【截图：生成的 feishu_data.json 文件内容片段】`
+AI 会自动打开终端、执行安装命令、引导你完成飞书账号授权。你只需要在弹出的浏览器窗口里点"授权"就行。
 
 ---
 
 ## 第三步：用 AI 写 HTML 网页
 
-这一步你不需要懂代码。把数据交给 Claude Code（或者 ChatGPT），让 AI 帮你写。
+这一步你不需要懂代码。把数据交给 Claude Code，让 AI 帮你写。
 
-**3.1 告诉 AI 你要什么**
+**3.1 导出你的素材数据**
 
-打开 Claude Code，把以下内容发给它：
+把下面这段话发给你的 AI 工具，同时把你的飞书多维表格链接或 app_token 告诉它：
+
+> 用 lark-cli 把我飞书多维表格里的所有记录导出成 feishu_data.json 文件。表格地址是：[粘贴你的飞书表格链接]
+
+AI 会帮你执行命令，生成包含所有作品信息和 file_token 的数据文件。
+
+**3.2 告诉 AI 你要什么**
+
+把 feishu_data.json 文件和下面这段需求一起发给 AI：
 
 ```
 我有一个 AI 视频作品集，数据在附件的 feishu_data.json 里。
 帮我写一个单页 HTML 文件，要求：
 - Pinterest 瀑布流布局（4列，手机上变2列）
-- 每个作品显示：视频封面、标题、分类标签、时长
+- 每个作品显示：视频封面、标题、分类标签、时长、使用工具
 - 点击视频可以播放，同时只播一个
-- 顶部有导航和分类筛选
-- 风格：暖色调，类似 Aesop 品牌风格
-- 视频用 data-token 属性存 file_token，不用 src
+- 顶部有分类筛选按钮
+- 视频用 data-token 属性存 file_token，不直接放 src
+- 页面加载时 fetch /api/videos.json，把 URL 填入对应视频
+- 风格：暖色调，Aesop 品牌感，衬线字体
 ```
-
-`【截图：Claude Code 界面，输入提示词】`
 
 AI 会生成一个完整的 `index.html` 文件。
 
-**3.2 在本地预览**
+**3.3 在本地预览，调整到满意**
 
-双击 `index.html` 用浏览器打开，检查排版是否满意。如果不满意，告诉 AI 调整：
+双击 `index.html` 用浏览器打开，如果不满意，继续告诉 AI 调整：
 
-- "把卡片的圆角改大一点"
-- "背景色改成米白色"
-- "标题字体改成衬线字体"
+- "背景色改成更暖的米白"
+- "卡片圆角再大一点"
+- "分类标签用胶囊形状"
 
-一直调到你满意为止。
-
-`【截图：本地预览的效果图】`
+调到满意为止，这一步不着急。
 
 ---
 
@@ -163,49 +154,47 @@ AI 会生成一个完整的 `index.html` 文件。
 
 GitHub 是免费的代码托管平台。你的网页代码存在这里，GitHub Pages 可以直接把它变成网站。
 
-**4.1 创建仓库**
+**4.1 注册并创建仓库**
 
 登录 GitHub，点右上角的 `+`，选 `New repository`。
 
-- Repository name：填 `你的用户名.github.io` 或任意名称
-- 选 `Public`（必须是公开的，GitHub Pages 才能用）
+- Repository name：填任意名称，比如 `my-portfolio`
+- 选 `Public`（必须公开，GitHub Pages 才能用）
 - 点 `Create repository`
-
-`【截图：GitHub 创建仓库界面】`
 
 **4.2 上传文件**
 
-方法一（最简单）：直接拖文件到 GitHub 网页界面。
+这一步也可以直接丢给 AI 工具来做：
 
-把 `index.html` 拖进去，写一个提交说明（比如"初始版本"），点 `Commit changes`。
+> 帮我在 GitHub 上创建一个名为 my-portfolio 的公开仓库，把当前目录下的 index.html 和 CNAME 文件推送上去。
 
-`【截图：GitHub 上传文件界面】`
+AI 会帮你处理 git 初始化、关联仓库、提交、推送的全部操作。
+
+你也可以在 GitHub 网页上手动拖文件上传：在仓库页面把 `index.html` 拖进去，写提交说明，点 `Commit changes`。
+
+![GitHub 仓库](images/06-github-repo.png)
 
 ---
 
 ## 第五步：开启 GitHub Pages
 
-**5.1 进入设置**
+**5.1 进入 Pages 设置**
 
-在你的 GitHub 仓库页面，点上方的 `Settings` → 左侧菜单找 `Pages`。
+在仓库页面，点上方的 `Settings` → 左侧找 `Pages`。
 
-**5.2 选择来源**
+**5.2 选择来源并保存**
 
 - Source 选 `Deploy from a branch`
 - Branch 选 `main`，文件夹选 `/ (root)`
 - 点 `Save`
 
-`【截图：GitHub Pages 设置界面】`
+![GitHub Pages 设置](images/07-github-pages.png)
 
-等几分钟，GitHub 会显示你的网站地址，类似：
+等几分钟后，页面会显示：
 
-```
-https://你的用户名.github.io/仓库名
-```
+> **Your site is live at http://你的用户名.github.io/仓库名**
 
-打开这个地址，你的作品集就上线了。
-
-`【截图：GitHub Pages 给出的网站地址】`
+点进去就能看到你的作品集了。
 
 ---
 
@@ -215,101 +204,89 @@ https://你的用户名.github.io/仓库名
 
 **6.1 购买域名**
 
-去 NameSilo（namesilo.com）搜索你想要的域名，比如 `xiaoer.xyz`。
+去 NameSilo（namesilo.com）搜索你想要的域名。`.xyz` 后缀大约 ¥10/年，`.com` 大约 ¥60-80/年。
 
-`.xyz` 后缀大约 ¥10/年，`.com` 大约 ¥60-80/年。
+购买后，在域名管理页可以看到域名概览：
 
-`【截图：NameSilo 购买域名界面】`
+![NameSilo 域名管理](images/08-namesilo-domain.png)
 
 **6.2 添加 DNS 记录**
 
-在 NameSilo 的 DNS 管理界面，添加4条 A 记录，都指向 GitHub Pages 的 IP：
+点上方的 `DNS` 标签，进入 DNS 管理页。点右上角 `Add DNS Record`，添加以下记录：
 
-| 类型 | Host | Value |
+| 类型 | Host | Address/Value |
 |---|---|---|
 | A | @ | 185.199.108.153 |
 | A | @ | 185.199.109.153 |
 | A | @ | 185.199.110.153 |
 | A | @ | 185.199.111.153 |
+| CNAME | www | 你的GitHub用户名.github.io |
 
-再加一条 CNAME：
+添加完大概是这样的效果：
 
-| 类型 | Host | Value |
-|---|---|---|
-| CNAME | www | 你的用户名.github.io |
+![NameSilo DNS 设置](images/09-namesilo-dns.png)
 
-`【截图：NameSilo DNS 记录设置界面】`
+> NameSilo 自带的 DNS 服务叫 dnsowl，不需要修改 Nameserver，直接在这里加记录就好。
 
 **6.3 在 GitHub 填入域名**
 
-回到 GitHub Pages 设置，在 `Custom domain` 框里填你的域名（比如 `xiaoer.xyz`），点 Save。
+回到 GitHub Pages 设置页，在 `Custom domain` 框里填你的域名（比如 `xiaoerai.xyz`），点 Save。
 
-在仓库根目录创建一个名为 `CNAME` 的文件，内容只有一行，就是你的域名：
+在仓库根目录新建一个叫 `CNAME` 的文件（注意没有后缀名），内容只有一行，就是你的域名：
 
 ```
-xiaoer.xyz
+xiaoerai.xyz
 ```
 
-**6.4 等待 DNS 生效**
+**6.4 等待生效**
 
-DNS 生效需要 10 分钟到几小时不等。生效后，打开你的域名就能看到网站了。
+DNS 生效需要 10 分钟到几小时。生效后，打开你的域名就能看到网站了。
 
-`【截图：域名生效后打开网站的效果】`
+> GitHub Pages 会自动申请 HTTPS 证书，申请完成后域名前面会出现锁的图标，表示安全连接生效。
 
 ---
 
 ## 第七步：解决视频链接过期问题
 
-你会发现，上线之后24小时，视频就播不了了。这是因为飞书的视频播放链接24小时过期。
+上线之后你会发现，24小时后视频播不了了。这是飞书的安全机制——视频播放链接24小时过期。
 
-**原因**
+**解决思路**
 
-飞书出于安全考虑，视频不能直接对外播放，必须先申请一个"临时播放链接"（有效期24小时）。
+每20小时，让你的电脑自动去飞书换一批新链接，存成一个文件推到 GitHub。网页每次打开时读这个文件，拿到的永远是新链接。
 
-**解决方案**
+**7.1 让 AI 帮你搭好整套刷新机制**
 
-写一个脚本，每20小时自动去飞书换一批新链接，推到 GitHub，网页每次打开时读最新的链接。
+这一步把所有技术细节都交给 AI。把下面这段话发给你的 Claude Code（或 Cursor / Codex 等）：
 
-**7.1 创建刷新脚本**
+> 我的飞书视频链接24小时过期。帮我搭一套自动刷新机制：
+> 1. 写一个 Python 脚本，用 lark-cli 分批（每批5个）获取这些 file_token 的飞书临时下载 URL，把 token→URL 的映射存成 `api/videos.json`，然后自动 git commit 并 push 到 GitHub
+> 2. 设置 macOS launchd，让这个脚本每20小时自动运行一次
+> 3. 运行一次测试，确认能拿到 URL 并成功推送
+>
+> 我的 file_token 列表是：[把你的所有 token 粘贴进来]
 
-在你的项目里新建 `scripts/refresh-videos.py`，内容让 Claude Code 帮你生成：
+AI 会完成脚本编写、launchd 配置、测试运行的全部工作。你只需要看着它跑，最后确认推送成功就行。
 
-```
-帮我写一个 Python 脚本：
-- 从一个列表里读取所有 file_token
-- 调用 lark-cli 分批（每批5个）获取飞书临时下载 URL
-- 把 token → url 的映射写入 api/videos.json
-- 自动 git commit 并 push 到 GitHub
-```
+> **获取你的 file_token 列表的方法：**  
+> 告诉 AI："用 lark-cli 帮我列出飞书多维表格里所有视频附件的 file_token"，AI 会帮你提取。
 
-把你的46个 file_token 提供给 AI，它会生成完整的脚本。
+---
 
-`【截图：refresh-videos.py 脚本代码片段】`
+## 最终效果
 
-**7.2 修改 HTML**
+整个系统搭好之后，网站长这样：
 
-让 AI 帮你把 HTML 里视频的 `src=` 改成 `data-token=`，并加上启动时自动读取 JSON 的 JS 代码：
+**首页：**
 
-```
-把 index.html 里的 <video src="..."> 全部改成 <video data-token="token值">。
-在页面加载时，fetch /api/videos.json，用 JSON 里的 URL 填入对应的 video.src。
-```
+![网站首页效果](images/result-hero.png)
 
-**7.3 设置定时任务**
+**作品网格：**
 
-Mac 用户：
+![网站作品网格](images/result-grid.png)
 
-创建一个 `~/Library/LaunchAgents/你的域名.refresh-videos.plist` 文件，让 Claude Code 帮你写，内容是每72000秒（20小时）执行一次你的刷新脚本。
+**联系页：**
 
-然后在终端运行：
-
-```bash
-launchctl load ~/Library/LaunchAgents/你的域名.refresh-videos.plist
-```
-
-从此，你的 Mac 每20小时会自动醒来，用10秒钟换好新链接，然后继续睡觉。
-
-`【截图：终端运行 launchctl 命令后的输出】`
+![网站联系页](images/result-contact.png)
 
 ---
 
@@ -318,14 +295,14 @@ launchctl load ~/Library/LaunchAgents/你的域名.refresh-videos.plist
 **加新作品：**
 
 1. 在飞书多维表格新增一行，上传视频
-2. 找到新视频的 file_token
-3. 把 token 加到 `refresh-videos.py` 的列表里
-4. 在 `index.html` 里加一个新卡片（让 AI 帮你写）
+2. 让 lark-cli 或 Claude Code 帮你找到新视频的 file_token
+3. 把 token 加到 `scripts/refresh-videos.py` 的列表里
+4. 在 `index.html` 里加一个新卡片（告诉 AI，它帮你写）
 5. Push 到 GitHub，网站自动更新
 
 **改排版风格：**
 
-把想改的描述告诉 AI，让它帮你修改 `index.html`，改完再 Push。
+直接告诉 Claude Code 想改什么，改完 Push。
 
 ---
 
@@ -338,38 +315,36 @@ launchctl load ~/Library/LaunchAgents/你的域名.refresh-videos.plist
 | 网站服务器 | GitHub Pages | 免费 |
 | 域名 | NameSilo | ~¥10/年 |
 | 写代码 | Claude Code / AI | 免费或极低 |
-| 定时刷新链接 | 你自己的 Mac | 免费（不费电）|
+| 定时刷新链接 | 你的 Mac + Python 脚本 | 免费（10秒/次，不费电）|
 
 ---
 
 ## 常见问题
 
-**Q：网站上的视频能被别人下载吗？**  
-不容易。飞书的临时链接有一定的防盗限制，普通访客无法直接下载。
-
 **Q：Mac 关机了怎么办？**  
-关机期间不会刷新。开机后会在下一个20小时周期刷新。如果你的 Mac 经常关机超过24小时，可以考虑在脚本里改成"开机时也立刻跑一次"（`RunAtLoad` 改为 `true`）。
+关机期间不刷新。开机后在下一个20小时周期自动补。如果 Mac 经常关机超过24小时，可以让 AI 帮你把脚本改成"开机时也立刻跑一次"。
 
 **Q：以后换电脑了怎么办？**  
-在新电脑上重新安装 lark-cli，登录飞书账号，再把 launchd 的 plist 文件复制过去重新注册就好。代码本身存在 GitHub，不会丢。
+在新电脑上重新安装 lark-cli，登录飞书，把 launchd 配置文件复制过去重新注册。代码存在 GitHub，不会丢。
 
 **Q：能放图片作品吗？**  
-可以。飞书的图片也有 file_token，同样的机制。图片的临时链接有效期更长（通常72小时），甚至可以不刷新直接用。
+可以。飞书图片同样有 file_token，机制完全一样。图片链接有效期更长（通常72小时），可以适当减少刷新频率。
+
+**Q：视频能被别人下载吗？**  
+飞书的临时链接有防盗限制，普通访客无法直接下载。
 
 ---
 
 ## 总结
 
-这套方案的核心思路是：
+这套方案的核心思路是：**用现有工具的免费额度，组合出一个自己控制的系统。**
 
-**用现有工具的免费额度，组合出一个自己控制的系统。**
-
-- 飞书不只是聊天工具，它的多维表格可以当数据库用
-- GitHub 不只是程序员用的，它的 Pages 功能可以免费托管网站
-- AI 不只是聊天玩具，它可以直接帮你写代码
+- 飞书的多维表格可以当数据库用
+- GitHub 的 Pages 功能可以免费托管网站
+- AI 直接帮你写代码，不需要自己学编程
 
 你只需要负责内容本身，其他的交给工具和 AI。
 
 ---
 
-*如有问题，欢迎在评论区留言。*
+*有问题欢迎留言。*
