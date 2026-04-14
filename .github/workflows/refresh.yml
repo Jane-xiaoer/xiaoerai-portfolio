@@ -2,8 +2,10 @@ name: Auto Refresh Feishu Media
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
+  repository_dispatch:
+    types: [feishu-update]
 
 jobs:
   refresh-media:

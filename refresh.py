@@ -40,6 +40,19 @@ TITLE_FIELD_CANDIDATES = ("内容", "标题", "作品名称", "名称")
 CATEGORY_FIELD_CANDIDATES = ("类型", "分类", "标签")
 DURATION_FIELD_CANDIDATES = ("时长", "片长")
 TOOLS_FIELD_CANDIDATES = ("AI工具", "工具", "使用工具")
+ORIENTATION_FIELD_CANDIDATES = ("画幅", "方向", "比例", "横竖")
+
+ORIENTATION_MAP = {
+    "横幅": "horizontal", "横": "horizontal", "横版": "horizontal",
+    "landscape": "horizontal", "horizontal": "horizontal",
+    "竖幅": "vertical", "竖": "vertical", "竖版": "vertical",
+    "portrait": "vertical", "vertical": "vertical",
+}
+
+
+def normalize_orientation(value) -> str:
+    text = normalize_text(value) or ""
+    return ORIENTATION_MAP.get(text.strip(), "")
 
 BATCH_SIZE = 5
 
@@ -236,6 +249,7 @@ def build_output(records: list[dict[str, Any]], resolved_urls: dict[str, str]) -
         categories = normalize_categories(pick_first_present(fields, CATEGORY_FIELD_CANDIDATES))
         duration = normalize_text(pick_first_present(fields, DURATION_FIELD_CANDIDATES))
         tools = normalize_text(pick_first_present(fields, TOOLS_FIELD_CANDIDATES))
+        orientation = normalize_orientation(pick_first_present(fields, ORIENTATION_FIELD_CANDIDATES))
         order = normalize_order(fields.get("序号"))
 
         portfolio.append(
@@ -246,6 +260,7 @@ def build_output(records: list[dict[str, Any]], resolved_urls: dict[str, str]) -
                 "categories": categories,
                 "duration": duration,
                 "tools": tools,
+                "orientation": orientation,
                 "video_token": video_token,
                 "video_url": video_url,
                 "cover_token": cover_token or "",

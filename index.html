@@ -497,6 +497,8 @@ const CATEGORY_BADGES = {
   '未分类': 'WORK'
 };
 const LAYOUTS = ['layout-normal', 'layout-tall', 'layout-panoramic', 'layout-feature'];
+const H_LAYOUTS = ['layout-normal', 'layout-panoramic', 'layout-feature'];
+const V_LAYOUTS = ['layout-tall'];
 const grid = document.getElementById('grid');
 const filterWrap = document.getElementById('filter-wrap');
 
@@ -516,6 +518,8 @@ function badgeFor(category) {
 
 function layoutFor(item, index) {
   const seed = (item.video_token || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0) + index;
+  if (item.orientation === 'vertical') return V_LAYOUTS[seed % V_LAYOUTS.length];
+  if (item.orientation === 'horizontal') return H_LAYOUTS[seed % H_LAYOUTS.length];
   return LAYOUTS[seed % LAYOUTS.length];
 }
 
