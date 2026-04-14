@@ -29,10 +29,27 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(251,249,244,0.0)
 nav.scrolled{background:rgba(251,249,244,0.88);backdrop-filter:blur(20px);border-color:var(--outline)}
 .nav-brand{font-family:var(--serif);font-size:1.25rem;font-style:italic;color:var(--tertiary);cursor:pointer}
 .nav-brand em{color:var(--primary)}
+.nav-right{display:flex;align-items:center;gap:18px}
 .nav-links{display:flex;gap:40px}
 .nav-links a{font-family:var(--serif);font-size:0.9rem;color:var(--tertiary);text-decoration:none;transition:color 0.3s;cursor:pointer;background:none;border:none}
 .nav-links a.active{color:var(--primary);border-bottom:0.5px solid rgba(150,71,45,0.4);padding-bottom:2px}
 .nav-links a:hover{color:var(--primary)}
+.music-toggle{
+  width:36px;height:36px;border-radius:50%;
+  border:0.5px solid rgba(95,94,94,0.18);
+  background:rgba(251,249,244,0.68);
+  backdrop-filter:blur(10px);
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--primary);cursor:pointer;transition:transform 0.25s,background 0.25s,border-color 0.25s,color 0.25s;
+  padding:0;flex:0 0 auto;
+}
+.music-toggle:hover{transform:translateY(-1px);background:rgba(251,249,244,0.92);border-color:rgba(150,71,45,0.34)}
+.music-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.music-toggle.is-off{color:var(--tertiary)}
+.music-toggle.is-off .music-wave{opacity:0}
+.music-toggle.is-off .music-slash{opacity:1}
+.music-wave,.music-slash{transition:opacity 0.2s ease}
+.music-slash{opacity:0}
 
 /* PAGE SYSTEM */
 .page{opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity 0.45s,transform 0.45s;position:absolute;top:0;left:0;width:100%}
@@ -203,6 +220,9 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
 
 @media(max-width:900px){
   nav{padding:16px 20px}
+  .nav-right{gap:10px}
+  .nav-links{gap:18px}
+  .music-toggle{width:34px;height:34px}
   #hero{padding:0 20px 60px}
   .about-hero{padding:120px 20px 48px;grid-template-columns:1fr}
   .hero-right,.about-quote{display:none}
@@ -345,11 +365,23 @@ em.char-reveal,em .char-reveal{
 
 <nav id="mainNav">
   <div class="nav-brand" onclick="showPage('portfolio')"><em>小耳</em> Studio</div>
-  <div class="nav-links">
-    <a id="nav-portfolio" class="active" onclick="showPage('portfolio')">作品集</a>
-    <a id="nav-about" onclick="showPage('about')">关于</a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a id="nav-portfolio" class="active" onclick="showPage('portfolio')">作品集</a>
+      <a id="nav-about" onclick="showPage('about')">关于</a>
+    </div>
+    <button id="music-toggle" class="music-toggle" type="button" aria-label="关闭背景音乐" aria-pressed="true" title="背景音乐">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 9h4l5-4v14l-5-4H6z"></path>
+        <path class="music-wave" d="M18 9.5a4.5 4.5 0 0 1 0 5"></path>
+        <path class="music-wave" d="M19.8 7a8 8 0 0 1 0 10"></path>
+        <path class="music-slash" d="M5 5l14 14"></path>
+      </svg>
+    </button>
   </div>
 </nav>
+
+<audio id="bgm-audio" src="/assets/bgm.mp4" preload="auto" autoplay playsinline></audio>
 
 <section id="hero">
   <div class="hero-inner">
@@ -1085,11 +1117,100 @@ document.querySelectorAll('.filter').forEach(btn=>{
 const lightbox = document.getElementById('lightbox');
 const lbVideo = document.getElementById('lightbox-video');
 const lbTitle = document.getElementById('lightbox-title');
+const bgmAudio = document.getElementById('bgm-audio');
+const musicToggle = document.getElementById('music-toggle');
+const MUSIC_PREF_KEY = 'xiaoer-bgm-enabled';
+const BGM_UNLOCK_EVENTS = ['pointerdown', 'touchstart', 'keydown'];
+
+let bgmEnabled = localStorage.getItem(MUSIC_PREF_KEY) !== 'false';
+let bgmSuspendedByVideo = false;
+
+bgmAudio.volume = 0.72;
+bgmAudio.loop = false;
+bgmAudio.load();
+
+function updateMusicToggle() {
+  musicToggle.classList.toggle('is-off', !bgmEnabled);
+  musicToggle.setAttribute('aria-pressed', String(bgmEnabled));
+  musicToggle.setAttribute('aria-label', bgmEnabled ? '关闭背景音乐' : '打开背景音乐');
+  musicToggle.title = bgmEnabled ? '关闭背景音乐' : '打开背景音乐';
+}
+
+function removeBgmUnlockListeners() {
+  BGM_UNLOCK_EVENTS.forEach(eventName => {
+    window.removeEventListener(eventName, handleBgmUnlock);
+  });
+}
+
+function addBgmUnlockListeners() {
+  BGM_UNLOCK_EVENTS.forEach(eventName => {
+    window.addEventListener(eventName, handleBgmUnlock, { passive: true });
+  });
+}
+
+async function tryPlayBgm() {
+  if (!bgmEnabled || bgmSuspendedByVideo || bgmAudio.ended) return;
+  try {
+    await bgmAudio.play();
+    removeBgmUnlockListeners();
+  } catch (err) {
+    console.warn('Background music autoplay was blocked:', err);
+  }
+}
+
+function handleBgmUnlock() {
+  if (!bgmEnabled || bgmSuspendedByVideo || bgmAudio.ended) return;
+  tryPlayBgm();
+}
+
+function syncBgmWithVideos() {
+  const videosPlaying = [...document.querySelectorAll('.card-media video'), lbVideo]
+    .some(video => video && !video.paused && !video.ended && video.currentTime > 0);
+
+  if (videosPlaying) {
+    if (!bgmAudio.paused) {
+      bgmAudio.pause();
+      bgmSuspendedByVideo = true;
+    }
+    return;
+  }
+
+  if (bgmSuspendedByVideo) {
+    bgmSuspendedByVideo = false;
+    tryPlayBgm();
+  }
+}
+
+function setBgmEnabled(nextEnabled) {
+  bgmEnabled = nextEnabled;
+  localStorage.setItem(MUSIC_PREF_KEY, String(bgmEnabled));
+  updateMusicToggle();
+  if (!bgmEnabled) {
+    bgmSuspendedByVideo = false;
+    addBgmUnlockListeners();
+    bgmAudio.pause();
+    bgmAudio.currentTime = 0;
+    return;
+  }
+  addBgmUnlockListeners();
+  tryPlayBgm();
+}
+
+musicToggle.addEventListener('click', () => setBgmEnabled(!bgmEnabled));
+updateMusicToggle();
+addBgmUnlockListeners();
+tryPlayBgm();
+window.addEventListener('load', tryPlayBgm);
+bgmAudio.addEventListener('canplay', tryPlayBgm);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') tryPlayBgm();
+});
 
 function openLightbox(src, title) {
   lbVideo.src = src;
   lbTitle.textContent = title || '';
   lbVideo.play();
+  syncBgmWithVideos();
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1098,6 +1219,7 @@ function closeLightbox() {
   lbVideo.src = '';
   lightbox.classList.remove('open');
   document.body.style.overflow = '';
+  syncBgmWithVideos();
 }
 document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
 lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
@@ -1115,6 +1237,7 @@ document.querySelectorAll('.card-media').forEach(media => {
     });
     if (video.paused) { video.play(); card.classList.add('playing'); }
     else { video.pause(); card.classList.remove('playing'); }
+    syncBgmWithVideos();
   });
 });
 
@@ -1133,7 +1256,15 @@ document.querySelectorAll('.expand-btn').forEach(btn => {
 
 // Remove playing class when video ends
 document.querySelectorAll('.card-media video').forEach(v => {
-  v.addEventListener('ended', () => v.closest('.card')?.classList.remove('playing'));
+  ['play', 'pause', 'ended'].forEach(eventName => {
+    v.addEventListener(eventName, () => {
+      if (eventName === 'ended') v.closest('.card')?.classList.remove('playing');
+      syncBgmWithVideos();
+    });
+  });
+});
+['play', 'pause', 'ended'].forEach(eventName => {
+  lbVideo.addEventListener(eventName, syncBgmWithVideos);
 });
 
 </script>
@@ -1223,6 +1354,164 @@ async function animateAbout() {
 }
 
 window._initAbout = animateAbout;
+</script>
+
+<!-- ✏️ PENCIL CURSOR + TEXT SPRING EFFECT (About section) -->
+<script>
+(function () {
+  // ── Pencil DOM cursor ─────────────────────────────────────────
+  const pencil = document.createElement('div');
+  pencil.id = 'pencil-cursor';
+  pencil.innerHTML = `
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Eraser top -->
+      <rect x="14" y="1" width="8" height="5" rx="1.5" fill="#f4a0a0"/>
+      <rect x="13.5" y="5.5" width="9" height="1.5" fill="#c47070"/>
+      <!-- Body -->
+      <rect x="14" y="7" width="8" height="20" fill="#f5e06a"/>
+      <!-- Wood tip -->
+      <polygon points="14,27 22,27 18,34" fill="#e8c87a"/>
+      <!-- Graphite tip -->
+      <polygon points="16,29 20,29 18,34" fill="#444"/>
+      <!-- Highlight stripe -->
+      <rect x="19" y="7" width="2" height="20" fill="rgba(255,255,255,0.25)"/>
+    </svg>`;
+  pencil.style.cssText = `
+    position: fixed; pointer-events: none; z-index: 9999;
+    width: 36px; height: 36px;
+    transform-origin: 50% 94%;
+    opacity: 0; transition: opacity 0.25s;
+    will-change: transform;`;
+  document.body.appendChild(pencil);
+
+  // ── State ─────────────────────────────────────────────────────
+  let px = -999, py = -999;        // pencil position (lerped)
+  let mx = -999, my = -999;        // raw mouse
+  let prevMx = -999, prevMy = -999;
+  let pencilAngle = -Math.PI / 4;  // start tilted
+  let chars = [];                   // spring char objects
+  let rafId = null;
+  let active = false;
+
+  // ── Split blockquote into spring spans ────────────────────────
+  function splitBlockquote() {
+    const bq = document.querySelector('#page-about blockquote');
+    if (!bq || bq.dataset.split) return;
+    bq.dataset.split = '1';
+
+    const nodes = [...bq.childNodes];
+    bq.innerHTML = '';
+    chars = [];
+
+    nodes.forEach(node => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        [...node.textContent].forEach(ch => {
+          const sp = document.createElement('span');
+          sp.textContent = ch;
+          sp.style.cssText = 'display:inline-block; will-change:transform;';
+          bq.appendChild(sp);
+          chars.push({ el: sp, vx: 0, vy: 0, ox: 0, oy: 0 });
+        });
+      } else if (node.nodeName === 'BR') {
+        bq.appendChild(document.createElement('br'));
+      } else {
+        bq.appendChild(node.cloneNode(true));
+      }
+    });
+  }
+
+  // ── Spring physics tick ───────────────────────────────────────
+  function tick() {
+    if (!active) { rafId = null; return; }
+
+    // Lerp pencil toward mouse
+    px += (mx - px) * 0.12;
+    py += (my - py) * 0.12;
+
+    // Smooth angle toward movement direction
+    if (prevMx > -900) {
+      const dmx = mx - prevMx, dmy = my - prevMy;
+      if (Math.hypot(dmx, dmy) > 1.5) {
+        let target = Math.atan2(dmy, dmx) - Math.PI / 4; // pencil tip offset
+        let da = target - pencilAngle;
+        while (da >  Math.PI) da -= 2 * Math.PI;
+        while (da < -Math.PI) da += 2 * Math.PI;
+        pencilAngle += da * 0.12;
+      }
+    }
+    prevMx = mx; prevMy = my;
+
+    // Position pencil (tip at cursor hot-spot)
+    pencil.style.transform =
+      `translate(${(px - 18).toFixed(1)}px, ${(py - 34).toFixed(1)}px) rotate(${pencilAngle.toFixed(2)}rad)`;
+
+    // Push characters
+    const RADIUS = 55, PUSH = 16;
+    chars.forEach(c => {
+      const r   = c.el.getBoundingClientRect();
+      const cx  = r.left + r.width  / 2;
+      const cy  = r.top  + r.height / 2;
+      const dx  = cx - px, dy = cy - py;
+      const d   = Math.hypot(dx, dy);
+
+      if (d < RADIUS && d > 0.1) {
+        const f = (1 - d / RADIUS) * PUSH;
+        c.vx += (dx / d) * f;
+        c.vy += (dy / d) * f;
+      }
+
+      // Spring return
+      c.vx += -c.ox * 0.10;
+      c.vy += -c.oy * 0.10;
+      c.vx *= 0.74;
+      c.vy *= 0.74;
+      c.ox += c.vx;
+      c.oy += c.vy;
+
+      if (Math.abs(c.ox) > 0.05 || Math.abs(c.oy) > 0.05) {
+        c.el.style.transform = `translate(${c.ox.toFixed(2)}px,${c.oy.toFixed(2)}px)`;
+      }
+    });
+
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // ── Activate on About page mouse enter ───────────────────────
+  function activate() {
+    if (active) return;
+    active = true;
+    splitBlockquote();
+    pencil.style.opacity = '1';
+    document.querySelector('#page-about').style.cursor = 'none';
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  }
+
+  function deactivate() {
+    active = false;
+    pencil.style.opacity = '0';
+    const pg = document.querySelector('#page-about');
+    if (pg) pg.style.cursor = '';
+    mx = my = px = py = -999;
+  }
+
+  // Mouse tracking — only when About page is visible
+  document.addEventListener('mousemove', e => {
+    const aboutPage = document.querySelector('#page-about');
+    if (!aboutPage) return;
+    const r = aboutPage.getBoundingClientRect();
+    const inside = e.clientY >= r.top && e.clientY <= r.bottom
+                && e.clientX >= r.left && e.clientX <= r.right
+                && getComputedStyle(aboutPage).display !== 'none';
+    if (inside) {
+      mx = e.clientX; my = e.clientY;
+      activate();
+    } else {
+      deactivate();
+    }
+  });
+
+  document.addEventListener('mouseleave', deactivate);
+})();
 </script>
 
 <!-- THREE.JS TERRAIN HERO -->
