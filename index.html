@@ -35,22 +35,6 @@ nav.scrolled{background:rgba(251,249,244,0.88);backdrop-filter:blur(20px);border
 .nav-links a{font-family:var(--serif);font-size:0.9rem;color:var(--tertiary);text-decoration:none;transition:color 0.3s;cursor:pointer;background:none;border:none}
 .nav-links a.active{color:var(--primary);border-bottom:0.5px solid rgba(150,71,45,0.4);padding-bottom:2px}
 .nav-links a:hover{color:var(--primary)}
-.music-toggle{
-  width:36px;height:36px;border-radius:50%;
-  border:0.5px solid rgba(95,94,94,0.18);
-  background:rgba(251,249,244,0.68);
-  backdrop-filter:blur(10px);
-  display:inline-flex;align-items:center;justify-content:center;
-  color:var(--primary);cursor:pointer;transition:transform 0.25s,background 0.25s,border-color 0.25s,color 0.25s;
-  padding:0;flex:0 0 auto;
-}
-.music-toggle:hover{transform:translateY(-1px);background:rgba(251,249,244,0.92);border-color:rgba(150,71,45,0.34)}
-.music-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.music-toggle.is-off{color:var(--tertiary)}
-.music-toggle.is-off .music-wave{opacity:0}
-.music-toggle.is-off .music-slash{opacity:1}
-.music-wave,.music-slash{transition:opacity 0.2s ease}
-.music-slash{opacity:0}
 
 /* PAGE SYSTEM */
 .page{opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity 0.45s,transform 0.45s;position:absolute;top:0;left:0;width:100%}
@@ -223,7 +207,6 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
   nav{padding:16px 20px}
   .nav-right{gap:10px}
   .nav-links{gap:18px}
-  .music-toggle{width:34px;height:34px}
   #hero{padding:0 20px 60px}
   .about-hero{padding:120px 20px 48px;grid-template-columns:1fr}
   .hero-right,.about-quote{display:none}
@@ -280,6 +263,32 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
 
 /* Play icon — hidden, click card naturally */
 .play-btn{display:none}
+
+/* Loader — shown when card-media.loading（点开后等首帧时的反馈） */
+.card-loader{
+  position:absolute;top:50%;left:50%;
+  width:34px;height:34px;margin:-17px 0 0 -17px;
+  border:3px solid rgba(255,255,255,0.28);
+  border-top-color:#fff;border-radius:50%;
+  opacity:0;pointer-events:none;
+  animation:_xspin 0.8s linear infinite;z-index:3;
+  transition:opacity 0.2s;
+}
+.card-media.loading .card-loader{opacity:1}
+.card-media.loading::after{opacity:1;background:rgba(0,0,0,0.42)}
+@keyframes _xspin{to{transform:rotate(360deg)}}
+
+/* Lightbox loader */
+#lightbox-inner{position:relative}
+#lightbox-inner.loading::before{
+  content:'';position:absolute;
+  top:50%;left:50%;
+  width:48px;height:48px;margin:-24px 0 0 -24px;
+  border:3px solid rgba(255,255,255,0.25);
+  border-top-color:#fff;border-radius:50%;
+  animation:_xspin 0.8s linear infinite;
+  z-index:1;
+}
 
 /* Expand / fullscreen icon — small corner button */
 .expand-btn{
@@ -371,18 +380,8 @@ em.char-reveal,em .char-reveal{
       <a id="nav-portfolio" class="active" onclick="showPage('portfolio')">作品集</a>
       <a id="nav-about" onclick="showPage('about')">关于</a>
     </div>
-    <button id="music-toggle" class="music-toggle" type="button" aria-label="关闭背景音乐" aria-pressed="true" title="背景音乐">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M6 9h4l5-4v14l-5-4H6z"></path>
-        <path class="music-wave" d="M18 9.5a4.5 4.5 0 0 1 0 5"></path>
-        <path class="music-wave" d="M19.8 7a8 8 0 0 1 0 10"></path>
-        <path class="music-slash" d="M5 5l14 14"></path>
-      </svg>
-    </button>
   </div>
 </nav>
-
-<audio id="bgm-audio" src="/assets/bgm.mp4" preload="auto" autoplay playsinline></audio>
 
 <section id="hero">
   <div class="hero-inner">
@@ -548,7 +547,8 @@ function renderCards(items, urlMap, coverMap) {
     return `
   <div class="card ${layout}" data-cat="${escapeHtml(category)}">
     <div class="card-media">
-      <video data-token="${escapeHtml(item.video_token)}" data-cover-token="${escapeHtml(item.cover_token || '')}" src="${escapeHtml(videoUrl)}" ${coverUrl ? `poster="${escapeHtml(coverUrl)}"` : ''} preload="none" playsinline></video>
+      <video data-token="${escapeHtml(item.video_token)}" data-cover-token="${escapeHtml(item.cover_token || '')}" src="${escapeHtml(videoUrl)}" ${coverUrl ? `data-poster="${escapeHtml(coverUrl)}"` : ''} preload="none" playsinline></video>
+      <div class="card-loader" aria-hidden="true"></div>
       <div class="play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       <button class="expand-btn" aria-label="全屏播放"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
       <span class="cat-badge">${escapeHtml(badgeFor(category))}</span>
@@ -578,16 +578,27 @@ function bindPortfolioInteractions() {
   });
 
   document.querySelectorAll('.card-media').forEach(media => {
+    // Hover 预拉一档 —— 鼠标停在卡上时升级 preload，提前 buffer
+    media.addEventListener('pointerenter', () => {
+      const v = media.querySelector('video');
+      if (v && v.src && v.preload !== 'auto') v.preload = 'auto';
+    }, { passive: true });
+
     media.addEventListener('click', e => {
       if (e.target.closest('.expand-btn')) return;
       const card = media.closest('.card');
       const video = media.querySelector('video');
       if (!video || !video.src) return;
       document.querySelectorAll('.card.playing').forEach(c => {
-        if (c !== card) { c.querySelector('video')?.pause(); c.classList.remove('playing'); }
+        if (c !== card) { c.querySelector('video')?.pause(); c.classList.remove('playing'); c.querySelector('.card-media')?.classList.remove('loading'); }
       });
-      if (video.paused) { video.play(); card.classList.add('playing'); }
-      else { video.pause(); card.classList.remove('playing'); }
+      if (video.paused) {
+        // readyState < 3 = HAVE_FUTURE_DATA 不足，显示 loading
+        if (video.readyState < 3) media.classList.add('loading');
+        video.play().catch(() => media.classList.remove('loading'));
+        card.classList.add('playing');
+      }
+      else { video.pause(); card.classList.remove('playing'); media.classList.remove('loading'); }
       syncBgmWithVideos();
     });
   });
@@ -611,7 +622,52 @@ function bindPortfolioInteractions() {
         syncBgmWithVideos();
       });
     });
+    // Loading 反馈: buffering 时显示 spinner, 可播放即隐
+    const media = v.closest('.card-media');
+    v.addEventListener('waiting', () => media.classList.add('loading'));
+    v.addEventListener('playing', () => media.classList.remove('loading'));
+    v.addEventListener('canplay', () => media.classList.remove('loading'));
+    v.addEventListener('error', () => media.classList.remove('loading'));
   });
+
+  // 视区内: 加载封面 (data-poster → poster) + 升 preload=metadata
+  // 视区外: 暂停 + 不降 preload, 避免重复抢飞书 IP
+  // Fallback: 没 IO 就直接全部加载封面 (保底, 不至于封面永不出)
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.card-media video').forEach(v => {
+      if (v.dataset.poster) v.poster = v.dataset.poster;
+    });
+  } else {
+    const vIO = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const v = e.target;
+        if (e.isIntersecting) {
+          // 1) 封面懒加载: 进视区才把 data-poster 真正赋给 poster (省 ~100MB 初始下载)
+          if (!v.poster && v.dataset.poster) v.poster = v.dataset.poster;
+          // 2) 视频 metadata 懒加载: 升级 preload 让首帧 + 时长开始预拉
+          if (v.preload === 'none' && v.src) v.preload = 'metadata';
+        } else {
+          if (!v.paused) v.pause();
+          v.closest('.card')?.classList.remove('playing');
+          v.closest('.card-media')?.classList.remove('loading');
+          // 不重置 preload — 一旦升级过, 浏览器自己管缓存
+        }
+      });
+    }, { rootMargin: '400px 0px', threshold: 0.01 });
+    document.querySelectorAll('.card-media video').forEach(v => vIO.observe(v));
+
+    // 保底: 1s 后, 视区内的视频如果 poster 还没设, 手动设一次
+    // (某些 webview 例如 WeChat 内置浏览器的 IO 行为可能延迟)
+    setTimeout(() => {
+      document.querySelectorAll('.card-media video').forEach(v => {
+        if (v.poster || !v.dataset.poster) return;
+        const r = v.getBoundingClientRect();
+        if (r.top < window.innerHeight + 400 && r.bottom > -400) {
+          v.poster = v.dataset.poster;
+        }
+      });
+    }, 1000);
+  }
 }
 
 // Load fresh video URLs + cover images from api/
@@ -651,99 +707,20 @@ function showPage(name){
 const lightbox = document.getElementById('lightbox');
 const lbVideo = document.getElementById('lightbox-video');
 const lbTitle = document.getElementById('lightbox-title');
-const bgmAudio = document.getElementById('bgm-audio');
-const musicToggle = document.getElementById('music-toggle');
-const MUSIC_PREF_KEY = 'xiaoer-bgm-enabled';
-const BGM_UNLOCK_EVENTS = ['pointerdown', 'touchstart', 'keydown'];
+// BGM removed — was competing with video bandwidth on Feishu's per-IP throttle
+function syncBgmWithVideos() {}
 
-let bgmEnabled = localStorage.getItem(MUSIC_PREF_KEY) !== 'false';
-let bgmSuspendedByVideo = false;
-
-bgmAudio.volume = 0.72;
-bgmAudio.loop = false;
-bgmAudio.load();
-
-function updateMusicToggle() {
-  musicToggle.classList.toggle('is-off', !bgmEnabled);
-  musicToggle.setAttribute('aria-pressed', String(bgmEnabled));
-  musicToggle.setAttribute('aria-label', bgmEnabled ? '关闭背景音乐' : '打开背景音乐');
-  musicToggle.title = bgmEnabled ? '关闭背景音乐' : '打开背景音乐';
-}
-
-function removeBgmUnlockListeners() {
-  BGM_UNLOCK_EVENTS.forEach(eventName => {
-    window.removeEventListener(eventName, handleBgmUnlock);
-  });
-}
-
-function addBgmUnlockListeners() {
-  BGM_UNLOCK_EVENTS.forEach(eventName => {
-    window.addEventListener(eventName, handleBgmUnlock, { passive: true });
-  });
-}
-
-async function tryPlayBgm() {
-  if (!bgmEnabled || bgmSuspendedByVideo || bgmAudio.ended) return;
-  try {
-    await bgmAudio.play();
-    removeBgmUnlockListeners();
-  } catch (err) {
-    console.warn('Background music autoplay was blocked:', err);
-  }
-}
-
-function handleBgmUnlock() {
-  if (!bgmEnabled || bgmSuspendedByVideo || bgmAudio.ended) return;
-  tryPlayBgm();
-}
-
-function syncBgmWithVideos() {
-  const videosPlaying = [...document.querySelectorAll('.card-media video'), lbVideo]
-    .some(video => video && !video.paused && !video.ended && video.currentTime > 0);
-
-  if (videosPlaying) {
-    if (!bgmAudio.paused) {
-      bgmAudio.pause();
-      bgmSuspendedByVideo = true;
-    }
-    return;
-  }
-
-  if (bgmSuspendedByVideo) {
-    bgmSuspendedByVideo = false;
-    tryPlayBgm();
-  }
-}
-
-function setBgmEnabled(nextEnabled) {
-  bgmEnabled = nextEnabled;
-  localStorage.setItem(MUSIC_PREF_KEY, String(bgmEnabled));
-  updateMusicToggle();
-  if (!bgmEnabled) {
-    bgmSuspendedByVideo = false;
-    addBgmUnlockListeners();
-    bgmAudio.pause();
-    bgmAudio.currentTime = 0;
-    return;
-  }
-  addBgmUnlockListeners();
-  tryPlayBgm();
-}
-
-musicToggle.addEventListener('click', () => setBgmEnabled(!bgmEnabled));
-updateMusicToggle();
-addBgmUnlockListeners();
-tryPlayBgm();
-window.addEventListener('load', tryPlayBgm);
-bgmAudio.addEventListener('canplay', tryPlayBgm);
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') tryPlayBgm();
-});
+const lbInner = document.getElementById('lightbox-inner');
 
 function openLightbox(src, title) {
   lbVideo.src = src;
   lbTitle.textContent = title || '';
-  lbVideo.play();
+  lbInner.classList.add('loading');
+  const clearLoading = () => lbInner.classList.remove('loading');
+  lbVideo.addEventListener('canplay', clearLoading, { once: true });
+  lbVideo.addEventListener('playing', clearLoading, { once: true });
+  lbVideo.addEventListener('error', clearLoading, { once: true });
+  lbVideo.play().catch(() => {/* 自动播放被拦截没事, 用户点 controls 即可 */});
   syncBgmWithVideos();
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -751,6 +728,7 @@ function openLightbox(src, title) {
 function closeLightbox() {
   lbVideo.pause();
   lbVideo.src = '';
+  lbInner.classList.remove('loading');
   lightbox.classList.remove('open');
   document.body.style.overflow = '';
   syncBgmWithVideos();
