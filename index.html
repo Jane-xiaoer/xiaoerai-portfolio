@@ -380,6 +380,17 @@ em.char-reveal,em .char-reveal{
 <div class="hero-vignette"></div>
 <div class="hero-vignette-top"></div>
 
+<style>
+  #mainNav .nav-right{display:flex;align-items:center;gap:6px}
+  .lang-toggle{background:none;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;
+    padding:4px 4px;margin-left:12px;font-family:inherit;font-size:.76rem;letter-spacing:.05em;
+    color:#5F5E5E;opacity:.7;transition:opacity .25s}
+  .lang-toggle:hover{opacity:1}
+  .lang-toggle .lx{opacity:.35}
+  .lang-toggle .lz,.lang-toggle .le{transition:color .25s,opacity .25s;opacity:.45}
+  html[data-lang="zh"] .lang-toggle .lz,
+  html[data-lang="en"] .lang-toggle .le{color:#96472D;opacity:1;font-weight:700}
+</style>
 <nav id="mainNav">
   <div class="nav-left">
     <a class="nav-home" href="https://xiaoerai.xyz" aria-label="回奇物录 主站">← 回奇物录 <span class="nav-home-en">· Xiaoer's Desk</span></a>
@@ -387,9 +398,10 @@ em.char-reveal,em .char-reveal{
   </div>
   <div class="nav-right">
     <div class="nav-links">
-      <a id="nav-portfolio" class="active" onclick="showPage('portfolio')">作品集</a>
-      <a id="nav-about" onclick="showPage('about')">关于</a>
+      <a id="nav-portfolio" class="active" onclick="showPage('portfolio')" data-en="Works">作品集</a>
+      <a id="nav-about" onclick="showPage('about')" data-en="About">关于</a>
     </div>
+    <button id="langBtn" class="lang-toggle" onclick="toggleLang()" aria-label="切换语言 / Switch language" title="中 / EN"><span class="lz">中</span><span class="lx">/</span><span class="le">EN</span></button>
   </div>
 </nav>
 
@@ -397,13 +409,13 @@ em.char-reveal,em .char-reveal{
   <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-eyebrow">AI Creative Portfolio · 2024–2025</div>
-      <h1>小耳<br><em>AI视频</em> 作品集</h1>
-      <p class="hero-cats">广告片，故事片，创意动画，艺术视觉</p>
-      <p class="hero-philosophy">审美不是天赋，是立场。<br>你站在哪里看这个世界，<br>决定了你能创造出什么。</p>
+      <h1 data-en="Xiaoer<br><em>AI Video</em> Portfolio">小耳<br><em>AI视频</em> 作品集</h1>
+      <p class="hero-cats" data-en="Ads · Stories · Creative Animation · Art Visuals">广告片，故事片，创意动画，艺术视觉</p>
+      <p class="hero-philosophy" data-en="Taste isn't a gift — it's a stance.<br>Where you choose to stand to see the world<br>decides what you can create.">审美不是天赋，是立场。<br>你站在哪里看这个世界，<br>决定了你能创造出什么。</p>
     </div>
     <div class="hero-right">
       <span class="hero-stat-n">46</span>
-      <span class="hero-stat-l">件作品</span>
+      <span class="hero-stat-l" data-en="works">件作品</span>
     </div>
   </div>
 </section>
@@ -419,7 +431,7 @@ em.char-reveal,em .char-reveal{
   <div class="grid" id="grid"></div>
   <footer>
     <span class="footer-brand">小耳 Studio · AI Video Works</span>
-    <span class="footer-note">视频链接有效期约 24 小时 · 由飞书多维表格导出</span>
+    <span class="footer-note" data-en="Video links expire in ~24h · exported from Feishu Bitable">视频链接有效期约 24 小时 · 由飞书多维表格导出</span>
   </footer>
 </div>
 
@@ -428,56 +440,56 @@ em.char-reveal,em .char-reveal{
 <div class="about-page">
   <div class="about-hero">
     <div>
-      <div class="about-eyebrow">About · 关于创作者</div>
-      <h1>横跨艺术与<em>AI</em><br>的商业实战者</h1>
-      <p class="about-intro">提出好问题，找到真答案</p>
+      <div class="about-eyebrow" data-en="About · The Creator">About · 关于创作者</div>
+      <h1 data-en="A commercial practitioner<br>bridging <em>art & AI</em>">横跨艺术与<em>AI</em><br>的商业实战者</h1>
+      <p class="about-intro" data-en="Ask good questions, find real answers">提出好问题，找到真答案</p>
       <div class="about-tags">
-        <span class="tag">同济大学 MBA</span>
-        <span class="tag">生成式艺术家</span>
-        <span class="tag">前懒坝美术馆艺术总监</span>
-        <span class="tag">国家艺术基金项目成员</span>
-        <span class="tag">企业 AIGC 培训师</span>
-        <span class="tag">AI 视频创作者</span>
+        <span class="tag" data-en="Tongji MBA">同济大学 MBA</span>
+        <span class="tag" data-en="Generative Artist">生成式艺术家</span>
+        <span class="tag" data-en="Ex-Art Director, Lanba Art Museum">前懒坝美术馆艺术总监</span>
+        <span class="tag" data-en="National Art Fund Project Member">国家艺术基金项目成员</span>
+        <span class="tag" data-en="Enterprise AIGC Trainer">企业 AIGC 培训师</span>
+        <span class="tag" data-en="AI Video Creator">AI 视频创作者</span>
       </div>
     </div>
     <div class="about-quote">
-      <blockquote>AI 提高了作品表达的上限，<br>这个世界正加速告别平庸。<br>因此，品牌真正需要的，<br>不是更多内容，<br>而是更高质量的审美、<br>更精准的价值观，<br>以及更深的情感连接。</blockquote>
+      <blockquote data-en="AI has raised the ceiling of expression;<br>the world is leaving mediocrity behind, fast.<br>So what brands truly need<br>is not more content,<br>but higher-quality taste,<br>sharper values,<br>and deeper emotional connection.">AI 提高了作品表达的上限，<br>这个世界正加速告别平庸。<br>因此，品牌真正需要的，<br>不是更多内容，<br>而是更高质量的审美、<br>更精准的价值观，<br>以及更深的情感连接。</blockquote>
       <cite>— 小耳 Xiaoer</cite>
     </div>
   </div>
   <div class="credentials">
     <div class="section-label">履历 · Credentials</div>
     <div class="cred-grid">
-      <div class="cred-item"><div class="cred-n">MBA</div><div class="cred-title">同济大学工商管理硕士</div><div class="cred-sub">2022 – 2024</div></div>
-      <div class="cred-item"><div class="cred-n">6000+</div><div class="cred-title">微信公众号粉丝</div><div class="cred-sub">AI 艺术创作方向</div></div>
-      <div class="cred-item"><div class="cred-n">5000+</div><div class="cred-title">X / Twitter 粉丝</div><div class="cred-sub">AI 创作 · 出海内容</div></div>
-      <div class="cred-item"><div class="cred-n">Art</div><div class="cred-title">前懒坝美术馆艺术总监</div><div class="cred-sub">武隆懒坝国际大地艺术节 总负责</div></div>
-      <div class="cred-item"><div class="cred-n">46</div><div class="cred-title">AI 视频作品</div><div class="cred-sub">广告 · 故事 · 艺术 · 创意动画</div></div>
-      <div class="cred-item"><div class="cred-n">500+</div><div class="cred-title">GitHub Stars</div><div class="cred-sub">AI 工具开源项目</div></div>
+      <div class="cred-item"><div class="cred-n">MBA</div><div class="cred-title" data-en="Tongji University MBA">同济大学工商管理硕士</div><div class="cred-sub">2022 – 2024</div></div>
+      <div class="cred-item"><div class="cred-n">6000+</div><div class="cred-title" data-en="WeChat Followers">微信公众号粉丝</div><div class="cred-sub" data-en="AI art creation">AI 艺术创作方向</div></div>
+      <div class="cred-item"><div class="cred-n">5000+</div><div class="cred-title" data-en="X / Twitter Followers">X / Twitter 粉丝</div><div class="cred-sub" data-en="AI creation · global content">AI 创作 · 出海内容</div></div>
+      <div class="cred-item"><div class="cred-n">Art</div><div class="cred-title" data-en="Ex-Art Director, Lanba Art Museum">前懒坝美术馆艺术总监</div><div class="cred-sub" data-en="Lead, Wulong Lanba Intl. Land Art Festival">武隆懒坝国际大地艺术节 总负责</div></div>
+      <div class="cred-item"><div class="cred-n">46</div><div class="cred-title" data-en="AI Video Works">AI 视频作品</div><div class="cred-sub" data-en="Ads · Stories · Art · Animation">广告 · 故事 · 艺术 · 创意动画</div></div>
+      <div class="cred-item"><div class="cred-n">500+</div><div class="cred-title">GitHub Stars</div><div class="cred-sub" data-en="Open-source AI tools">AI 工具开源项目</div></div>
     </div>
   </div>
   <div class="capabilities">
     <div class="section-label">能力 · Capabilities</div>
     <div class="cap-grid">
-      <div class="cap-item"><div class="cap-icon">01 · AI 视频制作</div><div class="cap-title">从脚本到成片的完整闭环</div><div class="cap-desc">即梦、Seedance、可灵、Sora 全流程实操。电商广告、品牌视频从创意到可商用成片，形成可复用 SOP。</div></div>
-      <div class="cap-item"><div class="cap-icon">02 · AI 出图</div><div class="cap-title">品牌级视觉素材生产</div><div class="cap-desc">提示词工程，产品图、分镜图、场景图定向生成，适配广告投放与品牌内容需求。</div></div>
-      <div class="cap-item"><div class="cap-icon">03 · 工作流设计</div><div class="cap-title">将 AI 工具链封装为可复用 SOP</div><div class="cap-desc">把复杂的多工具协作拆解为团队可执行的标准流程，降低复制成本，提升团队 AI 内容产出效率。</div></div>
-      <div class="cap-item"><div class="cap-icon">04 · 企业培训</div><div class="cap-title">AIGC 实战工作坊</div><div class="cap-desc">服务品牌方、电商团队、广告公司。成果导向——学员当天产出一条可用的 15–30 秒 AI 广告视频。</div></div>
+      <div class="cap-item"><div class="cap-icon" data-en="01 · AI Video">01 · AI 视频制作</div><div class="cap-title" data-en="A full loop from script to finished film">从脚本到成片的完整闭环</div><div class="cap-desc" data-en="Hands-on across Jimeng, Seedance, Kling and Sora — taking e-commerce ads and brand videos from concept to commercial-ready cuts, distilled into reusable SOPs.">即梦、Seedance、可灵、Sora 全流程实操。电商广告、品牌视频从创意到可商用成片，形成可复用 SOP。</div></div>
+      <div class="cap-item"><div class="cap-icon" data-en="02 · AI Imaging">02 · AI 出图</div><div class="cap-title" data-en="Brand-grade visual asset production">品牌级视觉素材生产</div><div class="cap-desc" data-en="Prompt engineering for targeted product shots, storyboards and scene images, tuned for ad campaigns and brand content.">提示词工程，产品图、分镜图、场景图定向生成，适配广告投放与品牌内容需求。</div></div>
+      <div class="cap-item"><div class="cap-icon" data-en="03 · Workflow Design">03 · 工作流设计</div><div class="cap-title" data-en="Packaging AI tool-chains into reusable SOPs">将 AI 工具链封装为可复用 SOP</div><div class="cap-desc" data-en="Breaking complex multi-tool collaboration into standard, team-executable processes — cutting replication cost and boosting AI content output.">把复杂的多工具协作拆解为团队可执行的标准流程，降低复制成本，提升团队 AI 内容产出效率。</div></div>
+      <div class="cap-item"><div class="cap-icon" data-en="04 · Enterprise Training">04 · 企业培训</div><div class="cap-title" data-en="Hands-on AIGC workshops">AIGC 实战工作坊</div><div class="cap-desc" data-en="For brands, e-commerce teams and agencies. Outcome-driven — trainees ship a usable 15–30s AI ad video the same day.">服务品牌方、电商团队、广告公司。成果导向——学员当天产出一条可用的 15–30 秒 AI 广告视频。</div></div>
     </div>
   </div>
   <div class="contact-section">
     <div class="contact-left">
-      <h2>合作<br>与联系</h2>
-      <p>欢迎商业合作、品牌定制、培训邀约。<br>微信备注来意，邮件随时可达。</p>
+      <h2 data-en="Work<br>with me">合作<br>与联系</h2>
+      <p data-en="Open to commercial collaboration, brand custom work and training invites.<br>Note your intent on WeChat, or reach me by email anytime.">欢迎商业合作、品牌定制、培训邀约。<br>微信备注来意，邮件随时可达。</p>
     </div>
     <div class="contact-grid">
-      <a class="contact-item" href="https://xiaoer-art.com" target="_blank"><div class="contact-platform">个人网站</div><div class="contact-value">xiaoer-art.com</div></a>
-      <div class="contact-item"><div class="contact-platform">微信</div><div class="contact-value">xiaoer-zhan</div><div class="contact-note">请备注来意</div></div>
-      <a class="contact-item" href="mailto:1075152691@qq.com"><div class="contact-platform">邮箱</div><div class="contact-value">1075152691@qq.com</div></a>
+      <a class="contact-item" href="https://xiaoer-art.com" target="_blank"><div class="contact-platform" data-en="Website">个人网站</div><div class="contact-value">xiaoer-art.com</div></a>
+      <div class="contact-item"><div class="contact-platform">微信 <span style="opacity:.6">WeChat</span></div><div class="contact-value">xiaoer-zhan</div><div class="contact-note" data-en="note your intent">请备注来意</div></div>
+      <a class="contact-item" href="mailto:1075152691@qq.com"><div class="contact-platform" data-en="Email">邮箱</div><div class="contact-value">1075152691@qq.com</div></a>
       <a class="contact-item" href="https://x.com/xiaoerzhan" target="_blank"><div class="contact-platform">X · Twitter</div><div class="contact-value">@xiaoerzhan</div></a>
-      <div class="contact-item"><div class="contact-platform">微信公众号</div><div class="contact-value">Ears</div></div>
-      <div class="contact-item"><div class="contact-platform">视频号</div><div class="contact-value">小耳Art</div></div>
-      <div class="contact-item" style="grid-column:1/-1"><div class="contact-platform">小红书</div><div class="contact-value">621994608</div></div>
+      <div class="contact-item"><div class="contact-platform" data-en="WeChat Official">微信公众号</div><div class="contact-value">Ears</div></div>
+      <div class="contact-item"><div class="contact-platform" data-en="WeChat Channels">视频号</div><div class="contact-value">小耳Art</div></div>
+      <div class="contact-item" style="grid-column:1/-1"><div class="contact-platform" data-en="RED · Xiaohongshu">小红书</div><div class="contact-value">621994608</div></div>
     </div>
   </div>
   <footer>
@@ -512,6 +524,33 @@ const V_LAYOUTS = ['layout-tall'];
 const grid = document.getElementById('grid');
 const filterWrap = document.getElementById('filter-wrap');
 
+// ── 中/EN 切换 —— 静态文案用 data-en 存英文,中文留作默认(SEO);作品标题作为原名保留 ──
+function applyI18n(){
+  const l = document.documentElement.getAttribute('data-lang') || 'zh';
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    if(el.dataset.zh === undefined) el.dataset.zh = el.innerHTML; // 首次记住中文
+    el.innerHTML = (l === 'en') ? el.dataset.en : el.dataset.zh;
+  });
+  document.documentElement.setAttribute('lang', l === 'en' ? 'en' : 'zh-CN');
+  if(document.getElementById('filter-wrap') && filterWrap.children.length) relabelFilters();
+}
+function setLang(l){
+  document.documentElement.setAttribute('data-lang', l);
+  try{ localStorage.setItem('xe-video-lang', l); }catch(e){}
+  applyI18n();
+}
+function toggleLang(){
+  const cur = document.documentElement.getAttribute('data-lang') || 'zh';
+  setLang(cur === 'en' ? 'zh' : 'en');
+}
+// 尽早设好语言属性(切换按钮高亮 + 静态文案),等 DOM 就绪再 apply
+(function(){
+  let saved='zh'; try{ saved = localStorage.getItem('xe-video-lang') || 'zh'; }catch(e){}
+  document.documentElement.setAttribute('data-lang', saved);
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', applyI18n);
+  else applyI18n();
+})();
+
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, ch => (
     {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]
@@ -534,17 +573,31 @@ function layoutFor(item, index) {
 }
 
 function renderFilters(stats, total) {
+  const l = document.documentElement.getAttribute('data-lang') || 'zh';
+  const allLabel = l === 'en' ? 'All' : '全部';
   const buttons = [
-    `<button class="filter active" data-filter="all">全部 <span>(${total})</span></button>`
+    `<button class="filter active" data-filter="all">${allLabel} <span>(${total})</span></button>`
   ];
   for (const category of CATEGORY_ORDER) {
     const count = stats[category];
     if (!count) continue;
+    const disp = l === 'en' ? (CATEGORY_BADGES[category] || category) : category;
     buttons.push(
-      `<button class="filter" data-filter="${escapeHtml(category)}">${escapeHtml(category)} <span>(${count})</span></button>`
+      `<button class="filter" data-filter="${escapeHtml(category)}">${escapeHtml(disp)} <span>(${count})</span></button>`
     );
   }
   filterWrap.innerHTML = buttons.join('\n');
+}
+// 语言切换时,原地更新筛选按钮文字(保留 active 状态与计数)
+function relabelFilters() {
+  const l = document.documentElement.getAttribute('data-lang') || 'zh';
+  filterWrap.querySelectorAll('.filter').forEach(btn => {
+    const f = btn.dataset.filter;
+    const cnt = btn.querySelector('span') ? btn.querySelector('span').outerHTML : '';
+    const label = f === 'all' ? (l === 'en' ? 'All' : '全部')
+                              : (l === 'en' ? (CATEGORY_BADGES[f] || f) : f);
+    btn.innerHTML = `${label} ${cnt}`;
+  });
 }
 
 function renderCards(items, urlMap, coverMap) {
