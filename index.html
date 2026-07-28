@@ -461,11 +461,11 @@ em.char-reveal,em .char-reveal{
     <div class="section-label">履历 · Credentials</div>
     <div class="cred-grid">
       <div class="cred-item"><div class="cred-n">MBA</div><div class="cred-title" data-en="Tongji University MBA">同济大学工商管理硕士</div><div class="cred-sub">2022 – 2024</div></div>
-      <div class="cred-item"><div class="cred-n">5900+</div><div class="cred-title" data-en="WeChat Followers">微信公众号粉丝</div><div class="cred-sub" data-en="AI art creation">AI 艺术创作方向</div></div>
-      <div class="cred-item"><div class="cred-n">6700+</div><div class="cred-title" data-en="X / Twitter Followers">X / Twitter 粉丝</div><div class="cred-sub" data-en="AI creation · global content">AI 创作 · 出海内容</div></div>
+      <div class="cred-item"><div class="cred-n" data-stat="wechat">5900+</div><div class="cred-title" data-en="WeChat Followers">微信公众号粉丝</div><div class="cred-sub" data-en="AI art creation">AI 艺术创作方向</div></div>
+      <div class="cred-item"><div class="cred-n" data-stat="x">6700+</div><div class="cred-title" data-en="X / Twitter Followers">X / Twitter 粉丝</div><div class="cred-sub" data-en="AI creation · global content">AI 创作 · 出海内容</div></div>
       <div class="cred-item"><div class="cred-n">Art</div><div class="cred-title" data-en="Ex-Art Director, Lanba Art Museum">前懒坝美术馆艺术总监</div><div class="cred-sub" data-en="Lead, Wulong Lanba Intl. Land Art Festival">武隆懒坝国际大地艺术节 总负责</div></div>
-      <div class="cred-item"><div class="cred-n">46</div><div class="cred-title" data-en="AI Video Works">AI 视频作品</div><div class="cred-sub" data-en="Ads · Stories · Art · Animation">广告 · 故事 · 艺术 · 创意动画</div></div>
-      <div class="cred-item"><div class="cred-n">2500+</div><div class="cred-title">GitHub Stars</div><div class="cred-sub" data-en="Open-source AI tools">AI 工具开源项目</div></div>
+      <div class="cred-item"><div class="cred-n" data-stat="videos">46</div><div class="cred-title" data-en="AI Video Works">AI 视频作品</div><div class="cred-sub" data-en="Ads · Stories · Art · Animation">广告 · 故事 · 艺术 · 创意动画</div></div>
+      <div class="cred-item"><div class="cred-n" data-stat="githubStars">2500+</div><div class="cred-title">GitHub Stars</div><div class="cred-sub" data-en="Open-source AI tools">AI 工具开源项目</div></div>
     </div>
   </div>
   <div class="capabilities">
@@ -749,11 +749,28 @@ function bindPortfolioInteractions() {
     renderFilters(portfolio._stats || {}, portfolio._count || items.length);
     renderCards(items, urlMap, coverMap);
     bindPortfolioInteractions();
+    const cnt = String(portfolio._count || items.length);
     const heroCount = document.querySelector('.hero-stat-n');
-    if (heroCount) heroCount.textContent = String(portfolio._count || items.length);
+    if (heroCount) heroCount.textContent = cnt;
+    document.querySelectorAll('[data-stat="videos"]').forEach(el => { el.textContent = cnt; });
   } catch(e) {
     console.warn('Could not load media URLs:', e);
   }
+})();
+
+// ── 履历数字实时同步：微信/X 粉丝(Notion 总表) + GitHub stars(实时聚合)。失败则保留写死的兜底值 ──
+(async function(){
+  const roundPlus = n => (Math.floor(Number(n) / 100) * 100) + '+';
+  try {
+    const r = await fetch('https://tools.xiaoerai.xyz/api/stats', { cache: 'no-store' });
+    if (!r.ok) return;
+    const s = await r.json();
+    if (!s || s.ok === false) return;
+    for (const k of ['wechat', 'x', 'githubStars']) {
+      if (s[k] == null) continue;
+      document.querySelectorAll(`[data-stat="${k}"]`).forEach(el => { el.textContent = roundPlus(s[k]); });
+    }
+  } catch(e) { /* 保留写死兜底值 */ }
 })();
 
 function showPage(name){
