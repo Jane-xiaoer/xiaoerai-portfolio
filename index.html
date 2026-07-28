@@ -35,6 +35,11 @@ nav.scrolled{background:rgba(251,249,244,0.88);backdrop-filter:blur(20px);border
 .nav-links a{font-family:var(--serif);font-size:0.9rem;color:var(--tertiary);text-decoration:none;transition:color 0.3s;cursor:pointer;background:none;border:none}
 .nav-links a.active{color:var(--primary);border-bottom:0.5px solid rgba(150,71,45,0.4);padding-bottom:2px}
 .nav-links a:hover{color:var(--primary)}
+/* back to main site — quiet breadcrumb, left of brand */
+.nav-left{display:flex;align-items:center;gap:16px}
+.nav-home{font-family:var(--serif);font-size:0.8rem;color:var(--tertiary);opacity:0.6;text-decoration:none;transition:color 0.3s,opacity 0.3s;white-space:nowrap}
+.nav-home:hover{color:var(--primary);opacity:1}
+.nav-home-en{font-style:italic;opacity:0.7}
 
 /* PAGE SYSTEM */
 .page{opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity 0.45s,transform 0.45s;position:absolute;top:0;left:0;width:100%}
@@ -205,6 +210,8 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
 
 @media(max-width:900px){
   nav{padding:16px 20px}
+  .nav-left{gap:10px}
+  .nav-home-en{display:none}
   .nav-right{gap:10px}
   .nav-links{gap:18px}
   #hero{padding:0 20px 60px}
@@ -374,7 +381,10 @@ em.char-reveal,em .char-reveal{
 <div class="hero-vignette-top"></div>
 
 <nav id="mainNav">
-  <div class="nav-brand" onclick="showPage('portfolio')"><em>小耳</em> Studio</div>
+  <div class="nav-left">
+    <a class="nav-home" href="https://xiaoerai.xyz" aria-label="回奇物录 主站">← 回奇物录 <span class="nav-home-en">· Xiaoer's Desk</span></a>
+    <div class="nav-brand" onclick="showPage('portfolio')"><em>小耳</em> Studio</div>
+  </div>
   <div class="nav-right">
     <div class="nav-links">
       <a id="nav-portfolio" class="active" onclick="showPage('portfolio')">作品集</a>
