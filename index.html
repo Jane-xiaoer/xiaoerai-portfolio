@@ -229,6 +229,20 @@ footer{background:var(--bg);border-top:0.5px solid var(--outline);padding:32px 4
 @media(max-width:560px){
   .grid{columns:2;column-gap:6px;padding:8px 10px 28px}
   .card{margin-bottom:6px;border-radius:10px}
+  /* 顶栏在 390px 上会挤到「小耳 Studio」断行 —— 压紧间距和字号,让它保持一行 */
+  nav{padding:14px 14px}
+  .nav-left{gap:8px}
+  .nav-right{gap:12px}
+  .nav-links{gap:14px}
+  .nav-brand{font-size:1.02rem}
+  .nav-home{font-size:0.7rem}
+  /* 竖线滚动提示在小屏会压到 hero 正文上,收掉 */
+  .scroll-hint{display:none}
+}
+/* 触屏:26×26 的全屏按钮手指按不准。用伪元素把热区撑到 42px —— 视觉一个像素不动 */
+@media(hover:none),(max-width:700px){
+  .expand-btn::after{content:"";position:absolute;left:50%;top:50%;
+    width:42px;height:42px;transform:translate(-50%,-50%)}
 }
 
 /* ═══ LIGHTBOX ═══ */
